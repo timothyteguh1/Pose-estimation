@@ -77,17 +77,9 @@ def landmark_xyz(row, name):
 
 
 def landmark_point(row, name, use_z=False):
-    """2D (x,y) secara default -- PERSIS kode asli Ko et al. (`calculateAngle`
-    di Streamlit.py/Afterprocessing.ipynb cuma pakai index [0],[1], BUKTI
-    dicek langsung: `right_knee = [landmarks[...].x, landmarks[...].y]`, z
-    TIDAK PERNAH dipakai di rumus sudut manapun di seluruh repo mereka,
-    walau z TETAP disimpan di data mentah -- pola yang SAMA kita ikuti:
-    132 kolom koordinat (termasuk z) tetap ada sbg fitur pendukung, angle
-    tetap 2D). `use_z=True` HANYA untuk eksperimen pembanding (lihat
-    build_dataset.py --use-z) -- proposal Eq.1 sendiri tidak menspesifikasi
-    dimensi ("tiga titik persendian" generik), jadi 3D bukan pelanggaran
-    metodologi, TAPI juga BUKAN default -- default TETAP 2D (konsisten Ko
-    et al & histori sistem ini)."""
+    """2D (x,y) default -- persis Ko et al (z tersimpan tapi tidak dipakai
+    di rumus sudut). use_z=True cuma utk eksperimen pembanding
+    (build_dataset.py --use-z)."""
     return landmark_xyz(row, name) if use_z else landmark_xy(row, name)
 
 
@@ -96,19 +88,12 @@ def landmark_visibility(row, name):
 
 
 def compute_joint_angles(row, visibility_threshold=VISIBILITY_THRESHOLD, use_z=False):
-    """Compute all 11 joint angles (degrees) from one landmark row (dict-like).
+    """Compute all 11 joint angles (degrees) from one landmark row.
 
-    Filter visibility PER-TITIK (bab 6.2.1 proposal: "hanya titik persendian
-    dengan nilai visibility di atas ambang tertentu... yang digunakan" --
-    "titik persendian" jamak/individual, BUKAN per-frame all-or-nothing).
-    Ko et al. (paper, Eq.2) juga notasinya per-poin: {pi | vi>=0.6}.
-
-    Tiap angle di-cek SENDIRI-SENDIRI dari 3 titik triple-nya sendiri -- kalau
-    ada 1 SAJA dari 3 titik itu di bawah ambang, angle itu jadi NaN, TAPI
-    angle LAIN yang titiknya lengkap tetap dihitung normal. Penting utk
-    kamera 1 sisi (45 derajat) yang wajar nutup 1 sisi tubuh (mis. tangan
-    belakang badan di bench press) -- occlusion 1 titik dulu TIDAK BOLEH
-    membuang seluruh 11 angle di frame itu (lihat diskusi proyek)."""
+    Filter visibility per-titik (bab 6.2.1 proposal), bukan per-frame
+    all-or-nothing: tiap angle dicek dari 3 titik triple-nya sendiri, 1
+    titik di bawah ambang cuma bikin angle itu NaN, angle lain tetap
+    dihitung. Penting utk kamera 1 sisi yg wajar nutup 1 sisi tubuh."""
     angles = {}
     for angle_name, (a_name, b_name, c_name) in JOINT_ANGLE_TRIPLES.items():
         triple_ok = all(landmark_visibility(row, n) >= visibility_threshold
@@ -133,18 +118,12 @@ def compute_joint_angles(row, visibility_threshold=VISIBILITY_THRESHOLD, use_z=F
 
 
 def compute_frame_angles(row, visibility_threshold=VISIBILITY_THRESHOLD, use_z=False):
-    """Hitung 11 joint angle (per-titik, lihat compute_joint_angles) + tandai
-    apakah frame ini "usable" secara LONGGAR -- artinya orangnya masih
-    terdeteksi & SETIDAKNYA 1 dari 11 angle bisa dihitung (bukan lagi
-    "SEMUA 15 titik harus visible").
+    """Hitung 11 joint angle + tandai frame "usable" secara longgar: orang
+    masih terdeteksi & setidaknya 1 dari 11 angle bisa dihitung.
 
-    Returns (angles: dict[str, float] -- BISA berisi NaN per-angle, punya_data: bool).
-    "punya_data=False" cuma kalau BENAR-BENAR semua angle NaN (orang
-    hilang total dari frame). Window yang MASIH mengandung NaN di salah
-    satu angle-nya dibuang belakangan di level WINDOW (build_windows_from_runs
-    di sliding_window.py) -- bukan di level frame -- supaya run tetap utuh
-    (tidak terpecah gara-gara occlusion sesaat 1 titik), tapi tidak ada NaN
-    yang lolos sampai ke classifier (RF tidak terima NaN)."""
+    Returns (angles dict, bisa berisi NaN per-angle; punya_data bool, False
+    cuma kalau semua angle NaN). Window yg masih ada NaN dibuang di level
+    WINDOW (sliding_window.py), bukan di level frame -- run tetap utuh."""
     angles = compute_joint_angles(row, visibility_threshold, use_z)
     has_data = not all(np.isnan(v) for v in angles.values())
     return angles, bool(has_data)

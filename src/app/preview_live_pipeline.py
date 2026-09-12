@@ -111,21 +111,14 @@ def main():
         if result["predicted_class"] is not None:
             last_pred = result["predicted_class"]
 
-        # Skeleton digambar dulu di display_frame (crop hasil YOLO+padding,
-        # kalau ada bbox) -- BUKAN langsung di `frame` utuh. Koordinat landmark
-        # dari MediaPipe itu relatif ke gambar yg DIPROSES (crop), jadi kalau
-        # dipaksa gambar ke `frame` (beda ukuran/rasio) hasilnya salah total
-        # (skeleton "lari" ke luar badan).
+        # Skeleton digambar di display_frame (crop, bukan frame utuh) --
+        # koordinat landmark MediaPipe relatif ke gambar yg diproses.
         display = result["display_frame"]
         color = PRED_COLOR if result["bbox"] else NO_PRED_COLOR
         n_points = draw_skeleton(display, result["row"], color=color)
 
-        # BARU SETELAH digambar, tempel `display` balik ke frame UTUH di
-        # posisi crop_box asalnya -- jadi window yg ditampilkan tetap
-        # berukuran TETAP (= ukuran video asli), tidak lompat-lompat ukuran
-        # tiap frame kayak kalau nampilin `display` mentah2. Kotak YOLO
-        # (hijau, ketat) dan kotak setelah padding (oranye) digambar juga
-        # sbg referensi visual, sama seperti preview_detection.py.
+        # Tempel balik ke frame utuh di posisi crop_box asalnya -- window
+        # yg ditampilkan tetap berukuran tetap (ukuran video asli).
         canvas = frame.copy()
         if result["crop_box"] is not None:
             x1, y1, x2, y2 = result["crop_box"]

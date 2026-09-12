@@ -1,14 +1,8 @@
-# Dependency LANGSUNG yang dipakai app.py & src/ (versi PERSIS sesuai venv yg
-# sudah divalidasi -- lihat `pip freeze` kalau perlu daftar lengkap termasuk
-# dependency transitif). File ini dipakai baik utk install manual (`pip
-# install -r requirements.txt`) MAUPUN di dalam Dockerfile.
-#
-# CATATAN (2026-09-11): file ini sebelumnya berhenti di "Tahap 1" (cuma
-# ekstraksi pose) dan menandai ultralytics/streamlit sbg "belum dipakai" --
-# itu SUDAH TIDAK BENAR, app.py (mode web lengkap) sudah pakai semuanya.
-# Diperbarui supaya mencerminkan kondisi sebenarnya.
+# Dependency langsung yang dipakai app.py & src/ (versi persis sesuai venv
+# yang sudah divalidasi -- lihat `pip freeze` utk daftar lengkap termasuk
+# dependency transitif).
 
-# --- Ekstraksi pose, fitur, training (Tahap 1-2) ---
+# --- Ekstraksi pose, fitur, training ---
 mediapipe==0.10.14
 opencv-python==4.11.0.86
 pandas==2.0.3
@@ -18,9 +12,7 @@ scikit-learn==1.3.0
 
 # --- Deteksi objek (YOLOv11) ---
 ultralytics==8.4.138
-# torch/torchvision versi CPU-only (SESUAI environment yg divalidasi -- lihat
-# diskusi proyek soal GPU: belum dipasang, YOLO jalan CPU). Kalau install
-# manual (bukan lewat Dockerfile), jalankan:
+# torch/torchvision versi CPU-only. Install manual (bukan lewat Dockerfile):
 #   pip install torch==2.14.0 torchvision==0.29.0 --index-url https://download.pytorch.org/whl/cpu
 torch==2.14.0
 torchvision==0.29.0
@@ -30,13 +22,9 @@ streamlit==1.63.0
 streamlit-webrtc==0.77.0
 av==17.1.0
 
-# protobuf DIPAKSA ke versi ini (BUKAN dibiarkan bebas) -- mediapipe minta
-# <5, streamlit minta >=5.26.1, dua rentang itu TIDAK BERPOTONGAN sama sekali.
-# 4.25.9 ini PERSIS versi yg TERBUKTI JALAN di venv (dicek `pip freeze`,
-# streamlit 1.63.0 + mediapipe 0.10.14 + protobuf 4.25.9 sudah dipakai
-# SEPANJANG sesi ini tanpa masalah) -- resolver pip default (di Docker)
-# menolak kombinasi ini krn dicek SEKALIGUS dalam 1x install; di venv tidak
-# ketahuan krn paket masuk bertahap dari waktu ke waktu. Dipasang eksplisit
-# + --use-deprecated=legacy-resolver (lihat Dockerfile) spy pip tidak
-# memaksakan upgrade protobuf demi memuaskan syarat streamlit yg lebih baru.
+# protobuf dipaksa ke versi ini -- mediapipe minta <5, streamlit minta
+# >=5.26.1, dua rentang itu tidak berpotongan. 4.25.9 terbukti jalan
+# (dicek `pip freeze`); pip resolver default menolak kombinasi ini kalau
+# dicek sekaligus, jadi dipasang eksplisit + --use-deprecated=legacy-resolver
+# (lihat Dockerfile).
 protobuf==4.25.9

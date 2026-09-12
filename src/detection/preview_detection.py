@@ -45,8 +45,7 @@ def main():
     parser.add_argument("--speed", type=float, default=1.0)
     parser.add_argument("--padding", type=float, default=0.0,
                          help="padding_ratio yg dipakai live_pipeline.py -- digambar sbg kotak "
-                              "oranye TAMBAHAN di luar kotak YOLO hijau, biar keliatan seberapa "
-                              "besar area yg BENERAN diproses MediaPipe (mode crop 'm' jg ikut pakai ini).")
+                              "oranye di luar kotak YOLO hijau (mode crop 'm' jg ikut pakai ini).")
     args = parser.parse_args()
 
     video_path = Path(args.video_path)

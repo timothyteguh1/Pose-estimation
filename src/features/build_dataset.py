@@ -1,73 +1,30 @@
 """Tahap 2: preprocessing penuh -- landmark berlabel -> dataset siap training.
 
-Urutan (bab 8.3.1 proposal, per-exercise karena kita pakai 3 model terpisah
-ala Ko et al., bukan 1 model gabungan -- lihat diskusi di project_context.md):
-    1. Hitung 11 joint angle per frame (Eq.1)                    [src/features/joint_angles.py]
-    2. Filter visibility >= 0.6                                  [src/features/sliding_window.py]
-    3. GLOBAL lintas semua video 1 exercise: run (1 segmen 1 fase = 1
-       repetisi) dikumpulkan per class (concentric/eccentric x postur),
-       lalu dialokasikan UTUH ke train ATAU test pakai algoritma "largest
-       deficit first" (largest-processing-time-first bin balancing) supaya
-       presisi ke 70:30 DAN tiap kelas tetap terwakili di kedua sisi.
-       Window TIDAK PERNAH nyebrang batas run (lihat build_windows_from_runs),
-       jadi alokasi run utuh otomatis aman dari leakage, TANPA perlu
-       memotong run sama sekali. Riwayat kenapa sampai ke sini (4 percobaan):
-         a) split acak per baris window -> BOCOR (window bertetangga overlap
-            ~93%, bisa kepisah train/test)
-         b) split per video utuh -> terlalu kasar (cuma 3 video/postur,
-            jauh dari 70:30, 1 video test tidak representatif)
-         c) potong kronologis (1x global per video ATAU per-run) -> segmen
-            eccentric pendek, begitu dipotong jadi 2 bagian, KEDUA bagian
-            sering < swl -> kelas itu 0 sampel total di 1/2 sisi
-         d) alokasi run utuh TAPI per-video sendiri2 -> tiap video cuma
-            9-18 run per kelas (kasar), overshoot jauh dari 70:30 (pernah
-            dapat 52:48)
-       (d) diperbaiki jadi GLOBAL (gabung run dari semua video per kelas
-       dulu, baru dialokasikan) -- jauh lebih presisi karena jumlah run per
-       kelas jadi puluhan-ratusan, bukan cuma belasan.
-       e) [refinement lanjutan, bukan iterasi baru] ditemukan: kadang 1
-       repetisi FISIK yang sama terpecah jadi 2 run gara-gara visibility
-       jatuh sesaat di tengah gerakan (occlusion singkat, mis. tangan
-       lewat posisi ke-blok) -- filter visibility Eq. ini SENGAJA "discard,
-       bukan interpolasi", sama persis Ko et al. (dikonfirmasi baca ulang
-       paper mereka: "data with visibility values vi<=0.6 were discarded"),
-       jadi run tetap benar terpecah, TIDAK diperbaiki nilainya. Yang
-       diperbaiki cuma ALOKASI-nya: tanpa penanganan, 2 pecahan rep yang
-       sama bisa kejatah sisi BEDA (1 train, 1 test) -- bukan window-level
-       leakage (frame tidak overlap), tapi kebocoran lebih halus (model
-       dites pakai potongan repetisi fisik yang sama dgn yang dipakai
-       training). group_fragmented_runs() gabung run kelas-sama-gap-pendek
-       jadi 1 unit alokasi SEBELUM masuk allocate_runs_balanced(), supaya
-       pecahan begini selalu dialokasikan ke sisi yang SAMA.
-    3.5. Normalisasi Min-Max (Eq.5) ANGLE SAJA (11 kolom) di level FRAME, fit
-       HANYA dari frame yang masuk alokasi train (langkah 3), transform ke
-       SEMUA frame -- SEBELUM windowing, literal sesuai urutan bab 8.3.1
-       ("normalisasi... berikutnya disusun ke dalam bentuk segmen... sliding
-       window"). Coordinate SENGAJA TIDAK dinormalisasi -- bab 6.2.4 &
-       Ko et al. (paper, "DATA NORMALIZATION") eksplisit cuma bicara joint
-       angle; MediaPipe coordinate dianggap sudah cukup konsisten skalanya
-       ([-1,1] native MediaPipe). Riwayat: sempat coba normalisasi
-       angle+coordinate (143 kolom) supaya "konsisten", dikoreksi balik ke
-       angle-saja setelah dicek ulang 3 sumber sepakat cuma angle.
-       [src/features/window_scaler.py]
-    4. Sliding window (Eq.2 & 3) -- dibangun terpisah utk sisi train & test
-       dari tiap video, dari angle yang SUDAH ternormalisasi (flatten) +
-       coordinate mentah (rata-rata, tanpa normalisasi apa pun)
-                                                                    [src/features/sliding_window.py]
-    5. Gabung semua video 1 exercise jadi 1 dataset train + 1 dataset test,
-       simpan langsung (mencegah data leakage; ini juga beda dari kode Ko
-       yang fit scaler ke seluruh data sebelum split, DAN beda dari kode Ko
-       yang normalisasi di tahap training bukan preprocessing)
+Urutan (bab 8.3.1 proposal, per-exercise -- 3 model terpisah ala Ko et al.):
+    1. Hitung 11 joint angle per frame (Eq.1)                    [joint_angles.py]
+    2. Filter visibility >= 0.6                                  [sliding_window.py]
+    3. GLOBAL lintas semua video 1 exercise: run (1 segmen 1 fase) dikumpulkan
+       per class, dialokasikan UTUH ke train ATAU test pakai "largest deficit
+       first" supaya presisi ke 70:30 dan tiap kelas terwakili di kedua sisi.
+       Window tidak pernah nyebrang batas run, jadi alokasi run utuh otomatis
+       aman dari leakage. group_fragmented_runs() menggabung run kelas-sama
+       yang cuma terpecah gap pendek (occlusion sesaat) supaya pecahan dari
+       1 repetisi fisik yang sama selalu dialokasikan ke sisi yang sama.
+    3.5. Normalisasi Min-Max (Eq.5) angle saja (11 kolom) di level frame, fit
+       hanya dari frame train, transform ke semua frame -- sebelum windowing
+       (bab 8.3.1). Coordinate sengaja tidak dinormalisasi (lihat
+       window_scaler.py).                                       [window_scaler.py]
+    4. Sliding window (Eq.2 & 3), dibangun terpisah utk train & test dari
+       angle yang sudah ternormalisasi + coordinate mentah.     [sliding_window.py]
+    5. Gabung semua video 1 exercise jadi 1 dataset train + 1 dataset test.
 
-Video yang belum 100% dilabel manual (masih ada sisa 'auto') di-SKIP dengan
-warning -- data belum direview manusia tidak boleh ikut jadi training/testing.
+Video yang belum 100% dilabel manual (masih ada sisa 'auto') di-skip dengan
+warning.
 
-Output (folder dinamai per exercise spy gampang dilacak, bab 8.2 proposal):
-    data/windowed_features/{exercise}/{video_stem}_windowed.csv   <- per video (train+test
-                                                                       digabung, ada kolom 'split'
-                                                                       buat traceability), belum dinormalisasi
-    data/windowed_features/splits/{exercise}_train.csv            <- ~70%, SUDAH dinormalisasi
-    data/windowed_features/splits/{exercise}_test.csv             <- ~30%, SUDAH dinormalisasi
+Output (per exercise, bab 8.2 proposal):
+    data/windowed_features/{exercise}/{video_stem}_windowed.csv   <- per video, belum dinormalisasi
+    data/windowed_features/splits/{exercise}_train.csv            <- ~70%, sudah dinormalisasi
+    data/windowed_features/splits/{exercise}_test.csv             <- ~30%, sudah dinormalisasi
 
 Usage:
     python src/features/build_dataset.py squat
@@ -107,12 +64,8 @@ META_COLUMNS = [
 
 
 def find_labeled_videos(exercise):
-    """Cari semua CSV di extracted_landmarks/{exercise} yang SUDAH 100% manual.
-    rglob (REKURSIF, bukan glob) -- CSV boleh ditaruh nested per-partisipan/
-    per-kelas (mis. extracted_landmarks/deadlift/p2/armsspread/...csv) buat
-    kerapian, tetap ketemu. Ini MURNI cara mencari file di disk, TIDAK
-    mengubah data/fitur/logika apa pun -- rglob adalah superset dari glob
-    (semua yg dulu ketemu via glob tetap ketemu, plus yg di subfolder)."""
+    """Cari semua CSV di extracted_landmarks/{exercise} yang sudah 100%
+    manual. rglob (rekursif) -- CSV boleh nested per-partisipan/per-kelas."""
     exercise_dir = EXTRACTED_DIR / exercise
     if not exercise_dir.exists():
         return [], []
@@ -190,21 +143,13 @@ def allocate_runs_balanced(items, test_fraction, rng):
 
 
 def group_fragmented_runs(df, runs, max_gap_frames):
-    """Gabungkan run BERURUTAN kelas SAMA yang dipisah gap PENDEK (<=max_gap_frames)
-    jadi 1 grup -- dianggap 1 repetisi fisik yang sama yang kebetulan terpecah
-    gara-gara visibility jatuh sesaat di tengah gerakan (mis. tangan sempat lewat
-    posisi ke-occlude), BUKAN 2 repetisi independen.
+    """Gabungkan run berurutan kelas sama yang dipisah gap pendek
+    (<=max_gap_frames) jadi 1 grup -- dianggap 1 repetisi fisik yang sama
+    yang kebetulan terpecah gara-gara occlusion sesaat, bukan 2 repetisi
+    independen. Tanpa ini, allocate_runs_balanced() bisa taruh 2 pecahan
+    dari 1 rep yang sama ke train DAN test sekaligus.
 
-    Tanpa ini, allocate_runs_balanced() bisa taruh 2 pecahan dari 1 rep yang sama
-    ke sisi train DAN test sekaligus -- bukan window-level leakage (frame-nya tetap
-    tidak overlap), tapi bentuk kebocoran lebih halus: model dites pakai potongan
-    dari repetisi fisik yang SAMA dgn yang dipakai training, bukan repetisi yang
-    benar-benar independen. Grouping ini TIDAK mengubah 1 pun nilai fitur -- cuma
-    memastikan pecahan begini selalu dialokasikan ke sisi yang SAMA (train bareng,
-    atau test bareng).
-
-    Returns list of list-of-run (tiap grup = list berisi 1 atau lebih run tuple).
-    """
+    Returns list of list-of-run."""
     if not runs:
         return []
     groups = [[runs[0]]]
@@ -243,34 +188,21 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("exercise", choices=["squat", "benchpress", "deadlift"])
     parser.add_argument("--window-sec", type=float, default=1.0,
-                         help="t di Eq.2 (durasi window, detik). Default 1.0s -- BELUM final, "
-                              "proposal minta dicoba beberapa nilai lewat eksperimen.")
+                         help="t di Eq.2 (durasi window, detik).")
     parser.add_argument("--stride", type=int, default=1,
-                         help="pergeseran antar window (frame). Default 1 sesuai Eq.3 apa adanya.")
+                         help="pergeseran antar window (frame), Eq.3 default 1.")
     parser.add_argument("--visibility-threshold", type=float, default=0.6)
     parser.add_argument("--max-fragment-gap", type=int, default=5,
-                         help="run kelas sama, berurutan, dipisah gap <= sekian frame "
-                              "dianggap 1 repetisi yang terpecah (visibility jatuh sesaat) "
-                              "-- digabung jadi 1 unit alokasi train/test, tidak pernah kepisah")
+                         help="run kelas sama berurutan dgn gap <= sekian frame dianggap "
+                              "1 repetisi terpecah, digabung jadi 1 unit alokasi train/test")
     parser.add_argument("--test-size", type=float, default=0.3)
     parser.add_argument("--random-state", type=int, default=42)
     parser.add_argument("--use-z", action="store_true",
-                         help="EKSPERIMEN PEMBANDING SAJA (default OFF/2D, sama Ko et al -- "
-                              "dicek langsung ke seluruh kode mereka, z tidak pernah dipakai "
-                              "di rumus sudut manapun). --use-z pakai (x,y,z) utk hitung 11 "
-                              "angle -- Eq.1 tetap sama persis, cuma dimensi vektornya beda, "
-                              "BUKAN rumus baru. Output ditulis ke file BERTANDA '_3d' (tidak "
-                              "menimpa hasil 2D produksi) supaya bisa dibandingkan.")
+                         help="eksperimen pembanding saja (default 2D, sama Ko et al) -- "
+                              "pakai (x,y,z) utk hitung 11 angle. Output ke file '_3d'.")
     parser.add_argument("--coord-mode", choices=["flatten", "mean"], default="mean",
-                         help="'mean' = PRODUKSI (default) -- koordinat dirata-rata 1 angka/window "
-                              "(132 kolom, 33 landmark x/y/z/v UTUH, tidak ada yg dibuang -- "
-                              "match persis 'joint coordinate' Ko et al., 33 landmark). 'flatten' "
-                              "= EKSPERIMEN PEMBANDING SAJA (sempat jadi produksi, DIKEMBALIKAN ke "
-                              "'mean' setelah ditemukan flatten bikin RF didominasi koordinat mentah "
-                              "(93.9% squat, 95.6% deadlift dari feature_importances_), bertentangan "
-                              "dgn aturan keras #2 'joint angle fitur utama, koordinat pendukung' -- "
-                              "lihat diskusi proyek). Output 'flatten' ditulis ke file BERTANDA "
-                              "'_flatten' (tidak menimpa produksi 'mean').")
+                         help="'mean' = produksi (default), koordinat dirata-rata 1 angka/window. "
+                              "'flatten' = eksperimen pembanding saja, output ke file '_flatten'.")
     args = parser.parse_args()
     tag = args.exercise
     if args.use_z:
@@ -324,15 +256,10 @@ def main():
             target = per_video_train_runs[vi] if assignment[(vi, group)] == "train" else per_video_test_runs[vi]
             target.extend(group)  # semua run dalam 1 grup ikut ke sisi yang sama
 
-    # --- 2.5 Normalisasi ANGLE (11 kolom, Eq.5) di level FRAME, SEBELUM
-    # windowing (bab 8.3.1: "normalisasi... berikutnya disusun ke dalam
-    # bentuk segmen... sliding window"). Coordinate SENGAJA TIDAK
-    # dinormalisasi -- bab 6.2.4 & Ko et al. (paper, "DATA NORMALIZATION")
-    # eksplisit cuma bicara joint angle; MediaPipe coordinate dianggap sudah
-    # cukup konsisten skalanya ([-1,1] native). Lihat window_scaler.py utk
-    # kutipan lengkap & alasan. Fit HANYA dari frame yang masuk alokasi TRAIN,
-    # transform SEMUA frame (train+test) di semua video, in-place, SEBELUM
-    # build_windows_from_runs() flatten nilainya jadi kolom _f0.._fN.
+    # Normalisasi angle (11 kolom, Eq.5) di level frame, sebelum windowing
+    # (bab 8.3.1) -- fit hanya dari frame train, transform semua frame
+    # (train+test), in-place, sebelum build_windows_from_runs() flatten jadi
+    # kolom _f0.._fN. Coordinate sengaja tidak dinormalisasi (window_scaler.py).
     scaler = WindowFeatureScaler()
     train_frame_chunks = []
     for vi, v in enumerate(videos):
@@ -376,12 +303,9 @@ def main():
         print("Tidak ada window yang dihasilkan sama sekali.")
         return
 
-    # GUARD: swl (window_len_frames) dihitung per video dari fps video itu
-    # sendiri (round(fps * window_sec)). Kalau ada video dengan fps beda
-    # (mis. direkam HP lain di 25fps/60fps), swl-nya beda -> nama kolom
-    # angle (_f0.._fN) beda struktur antar video -> pd.concat diam-diam
-    # ngisi NaN di kolom yang tidak match, BUKAN error. Wajib dicek eksplisit
-    # di sini spy ketahuan jelas, bukan nyusup jadi data rusak.
+    # Guard: swl dihitung per video dari fps video itu sendiri -- kalau ada
+    # video fps beda, swl-nya beda, struktur kolom _f0.._fN antar video jadi
+    # tidak match (pd.concat diam-diam isi NaN, bukan error). Wajib dicek eksplisit.
     all_lens = {int(w["window_len_frames"].iloc[0]) for w in (train_parts + test_parts)}
     if len(all_lens) > 1:
         print(f"\n[error] video-video ini punya window_len_frames (swl) BEDA: {sorted(all_lens)} "
@@ -415,13 +339,9 @@ def main():
     else:
         print("\n[ok] semua kelas train ada juga di test.")
 
-    # SEMUA fitur (angle+coordinate) SUDAH dinormalisasi di langkah 2.5, di
-    # level FRAME, SEBELUM window ini dibangun -- tidak ada normalisasi
-    # susulan di sini lagi (window cuma menyusun ulang nilai yg sudah [0,1]).
-    # configure_columns() TETAP dipanggil -- bukan buat normalisasi train/test
-    # (sudah beres), tapi supaya scaler yang DISIMPAN nanti tahu struktur
-    # kolom window, dibutuhkan predict_video.py buat normalisasi video BARU
-    # (window MENTAH total) lewat transform() nanti.
+    # Fitur sudah dinormalisasi di level frame (langkah 2.5) -- configure_columns()
+    # di sini bukan buat normalisasi train/test, tapi supaya scaler yang
+    # disimpan tahu struktur kolom window, dibutuhkan predict_video.py.
     train_df = train_df.copy()
     test_df = test_df.copy()
     scaler.configure_columns(feat_cols)
@@ -435,30 +355,18 @@ def main():
     print(f"\n[ok] disimpan: {train_path}")
     print(f"[ok] disimpan: {test_path}")
 
-    # Simpan scaler (Eq.5, sudah di-fit di atas) + config kolom fitur --
-    # dibutuhkan nanti kalau mau prediksi ke video BARU di luar dataset ini
-    # (lihat diskusi src/app/): angka mentah video baru harus dikonversi
-    # pakai skala persis yang sama dgn training, scaler ini yang nyimpen itu.
-    # TIDAK mengubah cara training/metodologi kita -- cuma nyimpen artefak
-    # yang sudah ada di proses ini, sebelumnya kelupaan disimpan.
+    # Simpan scaler (Eq.5) + config kolom fitur -- dibutuhkan predict_video.py
+    # utk normalisasi video baru dgn skala persis sama dgn training.
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     scaler_path = MODELS_DIR / f"{tag}_scaler.pkl"
     with open(scaler_path, "wb") as f:
         pickle.dump(scaler, f)
-    # Rasio lebar:tinggi video RAW training (bukan CSV landmark) -- dibaca dari
-    # video pertama yg dipakai (asumsi 1 exercise = 1 setup kamera/device yg
-    # konsisten, sesuai protokol rekaman kita). Disimpan PER-EXERCISE di sini
-    # (bukan angka tetap global di kode) -- dipakai live_pipeline.py utk
-    # match_frame_aspect di expand_bbox() (lihat yolo_detector.py), supaya
-    # kalau squat/deadlift ternyata direkam dgn device/orientasi beda dari
-    # benchpress, angka target rasio-nya ikut benar per-exercise, bukan
-    # ketinggalan pakai angka benchpress.
+    # Rasio lebar:tinggi video raw training, disimpan per-exercise (dipakai
+    # live_pipeline.py utk match_frame_aspect di expand_bbox()) -- exercise
+    # beda bisa direkam dgn device/orientasi beda.
     import cv2
     from src.extraction.label_phase import find_source_video
     from src.io_utils import open_video_capture
-    # find_source_video() (BUKAN path flat manual) -- cari rekursif, video
-    # boleh nested per-partisipan/per-kelas (lihat diskusi proyek soal
-    # rapikan folder data), sama seperti dipakai label_phase.py/preview_*.py.
     raw_video_path = find_source_video(args.exercise, f"{ready[0].stem}.mp4")
     training_aspect_ratio = None
     if raw_video_path is not None:

@@ -1,26 +1,19 @@
-"""Tahap 2/2 validasi rep-counting: sweep parameter (prominence/distance/
-countdown_sec) dari sinyal yang SUDAH di-cache (cache_rep_signal.py) --
-TIDAK re-run YOLO/MediaPipe (sinyal mentahnya tidak berubah, cuma cara
-MENGHITUNG repetisi darinya yang diuji beda-beda).
+"""Sweep parameter rep-counting (prominence/distance/countdown_sec) dari
+sinyal yang sudah di-cache (cache_rep_signal.py) -- tidak re-run
+YOLO/MediaPipe, cuma cara menghitung repetisi dari sinyal yang sama.
 
-Metodologi SAMA PERSIS histori tuning rep-counting proyek ini (lihat
-REP_COUNTING_PARAMS di src/app/rep_counter.py): video dibagi TUNING (cari
-parameter) vs HELD-OUT (dikunci, tidak disentuh proses pencarian) -- supaya
-MAE yang dilaporkan tidak "menghafal" video tuning. Ground truth jumlah
-repetisi dihitung dari label manual (kolom 'phase' di extracted_landmarks
-CSV, HANYA video 100% manual) -- jumlah transisi concentric->eccentric
-(definisi "1 rep = 1 puncak terkonfirmasi", sama seperti OnlineRepCounter &
-estimate_rep_count()).
+Video dibagi tuning (cari parameter) vs held-out (dikunci) -- supaya MAE
+yang dilaporkan tidak "menghafal" video tuning (lihat REP_COUNTING_PARAMS
+di rep_counter.py utk histori). Ground truth = jumlah transisi
+concentric->eccentric dari label manual (1 rep = 1 puncak terkonfirmasi,
+sama seperti OnlineRepCounter).
 
-2 metrik MAE dilaporkan (bab 8.4 proposal + diskusi proyek soal Hsu et al.):
-  - MAE standar (resmi, dipakai proposal): (1/n) sum |pred-GT|
-  - MAE ala Hsu et al. ("MAE of the count", pembanding saja): (1/n) sum |pred-GT|/GT
+2 metrik MAE (bab 8.4 proposal): standar (1/n)*sum|pred-GT|, dan ala Hsu et
+al. "MAE of the count" (1/n)*sum(|pred-GT|/GT), pembanding saja.
 
-countdown_sec DIIKUTSERTAKAN sbg parameter yg di-tuning (bukan cuma
-prominence/distance seperti histori sebelumnya) -- ditemukan lewat
-pengujian nyata bahwa countdown_sec FIXED tidak selalu cocok dgn durasi
-ancang-ancang ASLI tiap video (lihat diskusi proyek), jadi bagian dari
-akar masalah MAE yang perlu divalidasi ulang, bukan cuma prominence/distance.
+countdown_sec ikut jadi parameter yg di-tuning (bukan cuma
+prominence/distance) -- countdown fixed tidak selalu cocok dgn durasi
+ancang-ancang asli tiap video.
 
 Usage:
     python src/training/cache_rep_signal.py squat data/raw_videos/squat/p2

@@ -1,15 +1,11 @@
-"""Tahap 1/2 validasi rep-counting: cache sinyal MENTAH (primary angle + 11
-joint angle per frame) dari jalur PRODUKSI ASLI (YOLO+crop+padding+MediaPipe,
-PERSIS LivePosturePipeline) -- supaya tahap 2 (tune_rep_counting.py) bisa
-sweep parameter (prominence/distance/countdown_sec) berkali-kali TANPA perlu
-re-run YOLO/MediaPipe tiap kali (parameter itu TIDAK memengaruhi sinyal
-mentahnya sama sekali, cuma memengaruhi cara MENGHITUNG dari sinyal yang
-sama).
+"""Cache sinyal mentah (primary angle + 11 joint angle per frame) dari jalur
+produksi asli (YOLO+crop+MediaPipe, persis LivePosturePipeline) -- supaya
+tune_rep_counting.py bisa sweep parameter (prominence/distance/countdown_sec)
+berkali-kali tanpa re-run YOLO/MediaPipe tiap kali (parameter itu tidak
+memengaruhi sinyal mentahnya, cuma cara menghitung dari sinyal yang sama).
 
-countdown_sec dipaksa 0 saat caching (BUKAN mengubah countdown produksi --
-cuma supaya SEMUA frame ikut tercatat, jadi macam-macam nilai countdown_sec
-bisa disimulasikan ulang nanti di tune_rep_counting.py tanpa run ulang
-YOLO/MediaPipe).
+countdown_sec dipaksa 0 saat caching supaya semua frame ikut tercatat, jadi
+berbagai nilai countdown_sec bisa disimulasikan ulang nanti tanpa run ulang.
 
 Usage:
     python src/training/cache_rep_signal.py squat data/raw_videos/squat/p2

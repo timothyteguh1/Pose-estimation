@@ -1,40 +1,21 @@
 """Tahap 3: training & testing Random Forest (bab 6.1.3 & 8.3.2 proposal).
 
-Model = Random Forest SAJA. Proposal eksplisit cuma sebut 1 model ("Model
-yang digunakan penelitian proyek ini adalah Random Forest", bab 8.3.2) --
-TIDAK ada perbandingan dengan LR/Ridge/GB seperti Ko et al. Itu pola Ko,
-proposal kita sengaja mempersempit ke RF doang, jadi TIDAK diikuti di sini.
-
-1 exercise = 1 model terpisah (squat_rf.pkl, dst -- keputusan 3-model-terpisah
-kita, lihat project_context.md), sama seperti training/testing juga cuma RF,
-tidak ada model lain.
+Model = Random Forest saja -- proposal eksplisit cuma sebut 1 model (beda
+dari Ko et al. yang bandingkan LR/Ridge/GB). 1 exercise = 1 model terpisah
+(squat_rf.pkl, dst).
 
 Alur:
     1. Load data/windowed_features/splits/{exercise}_train.csv + _test.csv
-       (sudah di-window + dinormalisasi Min-Max oleh build_dataset.py)
-    2. Kolom fitur diambil DINAMIS dari header CSV (bukan hardcode jumlah
-       kolom) -- supaya tetap jalan walau window_sec/jumlah fitur berubah
-       nanti, atau exercise lain punya kolom beda
-    3. RandomForestClassifier(class_weight='balanced') -- 'balanced' karena
-       kelas kita timpang (concentric jauh lebih banyak dari eccentric,
-       lihat diskusi sebelumnya)
-    4. Evaluasi ke test set (data SUDAH ternormalisasi dari build_dataset.py,
-       proses training/evaluasi TIDAK berubah sama sekali): accuracy,
-       precision, recall, F1 (weighted, F1 jadi indikator utama sesuai bab
-       8.4), classification report per kelas, confusion matrix
-    5. Simpan MODEL FINAL sebagai 1 file (`{exercise}_rf.pkl`): scaler (hasil
-       build_dataset.py) + classifier yang baru dilatih DIGABUNG jadi 1
-       sklearn Pipeline, gaya Ko et al (`make_pipeline(scaler, classifier)`,
-       1 pkl per exercise = 3 pkl total nanti) -- TAPI proses normalisasinya
-       TETAP di tahap preprocessing terpisah (bab 8.3.1), cuma DIBUNDEL pas
-       disimpan di akhir. `{exercise}_scaler.pkl` yang berdiri sendiri
-       dihapus setelah ini (sudah nempel di dalam pkl model, jadi redundan).
-       Angka evaluasi tidak berubah -- pipeline final SETARA (bukan re-fit)
-       dengan scaler+classifier yang sama persis dipakai evaluasi di atas.
-
-Reusable utk exercise lain: tinggal jalankan `train_model.py benchpress` dst
-begitu data benchpress/deadlift sudah ada -- tidak ada yang hardcode "squat"
-di kode ini.
+       (sudah di-window + dinormalisasi oleh build_dataset.py)
+    2. Kolom fitur diambil dinamis dari header CSV
+    3. RandomForestClassifier(class_weight='balanced') -- kelas kita timpang
+       (concentric jauh lebih banyak dari eccentric)
+    4. Evaluasi ke test set: accuracy, precision, recall, F1 (weighted,
+       indikator utama sesuai bab 8.4), classification report, confusion matrix
+    5. Simpan model final sebagai 1 file ({exercise}_rf.pkl): scaler (hasil
+       build_dataset.py) + classifier digabung jadi 1 sklearn Pipeline, gaya
+       Ko et al -- angka evaluasi tidak berubah (pipeline final setara,
+       bukan re-fit).
 
 Usage:
     python src/training/train_model.py squat
@@ -153,12 +134,9 @@ def main():
 
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Gabungkan scaler (hasil build_dataset.py) + classifier yang baru
-    # dilatih jadi 1 Pipeline -- gaya Ko et al (make_pipeline), 1 pkl per
-    # exercise. Scaler-nya SAMA PERSIS yang dipakai normalisasi train/test di
-    # atas (bukan di-fit ulang) -- jadi pipeline final ini SETARA, bukan
-    # model baru. Video baru nanti tinggal pipeline.predict(fitur_mentah),
-    # tidak perlu scaler.transform() manual terpisah lagi.
+    # Gabungkan scaler (build_dataset.py) + classifier baru jadi 1 Pipeline,
+    # gaya Ko et al -- scaler-nya sama persis (tidak di-fit ulang), pipeline
+    # final ini setara, bukan model baru.
     scaler_path = MODELS_DIR / f"{args.exercise}_scaler.pkl"
     if not scaler_path.exists():
         print(f"[error] {scaler_path} tidak ada -- jalankan dulu build_dataset.py {args.exercise}.")

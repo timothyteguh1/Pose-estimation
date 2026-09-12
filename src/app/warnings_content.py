@@ -1,20 +1,11 @@
-"""Teks + audio peringatan kesalahan postur -- bab 8.3.3 proposal
-("Teks dan suara peringatan apabila terjadi kesalahan postur"), gaya sama
-seperti Ko et al. (st.error() + audio pre-recorded per jenis kesalahan,
-lihat Streamlit.py mereka) -- BUKAN TTS live (lebih berat), audio di-generate
-SEKALI (lihat scripts/generate_warning_audio.py, pakai gTTS) lalu file .mp3
-hasilnya disimpan di assets/audio/ dan diputar ulang oleh app.py.
+"""Teks + audio peringatan kesalahan postur -- bab 8.3.3 proposal, gaya sama
+seperti Ko et al. (st.error() + audio pre-recorded, bukan TTS live). Audio
+digenerate sekali (scripts/generate_warning_audio.py, gTTS), disimpan di
+assets/audio/, diputar ulang oleh app.py.
 
-Kelas "correct" (apapun exercise/fase-nya) TIDAK punya pesan/audio -- artinya
-postur sudah benar, tidak perlu peringatan.
-
-9 kombinasi (3 exercise x 3 postur) -- fase concentric/eccentric TIDAK
-dibedakan pesannya (kesalahan postur yang sama, cuma beda fase gerakan).
-Nama kelas postur di sini PERSIS sama dengan project_context.md /
-filename_parser.py (bukan istilah lain) -- termasuk "flatback" (bab 8.2,
-diganti dari "back arch" hasil konsultasi PT Derich Fitness Gym, BUKAN
-kesalahan penulisan -- lihat diskusi proyek).
-"""
+Kelas "correct" tidak punya pesan/audio. 9 kombinasi (3 exercise x 3 postur)
+-- fase concentric/eccentric tidak dibedakan pesannya. Nama kelas postur
+persis sama dengan filename_parser.py."""
 from pathlib import Path
 
 AUDIO_DIR = Path(__file__).resolve().parent.parent.parent / "assets" / "audio"

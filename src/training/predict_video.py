@@ -1,21 +1,14 @@
 """Live-inference cek cepat: apakah model ({exercise}_rf.pkl) bisa jalan ke
-VIDEO APAPUN (belum pernah lewat pipeline label kita sama sekali)?
+video apapun (belum pernah lewat pipeline label kita)?
 
-LINGKUP MINIMAL -- ini BUKAN aplikasi src/app/ final. Cuma nunjukkin
-skeleton + prediksi kelas per window, TERUS-MENERUS sepanjang video. TIDAK
-ADA repetition counting, feedback teks/suara, atau ringkasan sesi -- itu
-menyusul belakangan (tahap implementasi terpisah, bab 8.3.3 proposal).
+Lingkup minimal -- bukan aplikasi src/app/ final. Cuma nunjukkin skeleton +
+prediksi kelas per window, terus-menerus sepanjang video. Tidak ada
+repetition counting/feedback/ringkasan sesi (itu di app.py).
 
-Generik/universal per exercise (argumen `exercise`, TIDAK ada yang hardcode
-"squat") -- begitu benchpress_rf.pkl / deadlift_rf.pkl ada, command yang sama
-tinggal ganti argumen exercise-nya.
-
-Alur: MediaPipe (frame demi frame, sama seperti extract_landmarks.py) ->
-hitung fitur (angle flatten + coordinate mean, SAMA PERSIS strukturnya dgn
-training) -> window kontinu nonstop (bukan bolong2 kayak preview_prediction.py
-yg cuma nunjukin test set) -> pipeline.predict() (scaler+RF, 1 pkl gabungan,
-lihat train_model.py) -> overlay. Tidak ada ground truth (video baru belum
-dilabeli), jadi warnanya netral, bukan hijau/merah benar-salah.
+Alur: MediaPipe per frame -> hitung fitur (sama strukturnya dgn training) ->
+window kontinu nonstop (beda dari preview_prediction.py yg cuma test set) ->
+pipeline.predict() (scaler+RF 1 pkl) -> overlay. Tidak ada ground truth,
+jadi warnanya netral.
 
 Usage:
     python src/training/predict_video.py squat "C:\\path\\video.mp4"
@@ -53,11 +46,9 @@ NO_WINDOW_COLOR = (140, 140, 140)  # abu -- belum ada window (awal/akhir video /
 
 
 def load_artifacts(exercise):
-    """{exercise}_rf.pkl sekarang Pipeline(scaler, rf) -- lihat train_model.py.
-    Tool ini mulai dari video BARU (fitur mentah, belum ternormalisasi), jadi
-    PAS pakai pipeline penuh (`pipeline.predict()` otomatis scaling dulu di
-    dalam) -- beda dari preview_prediction.py yg kerja dari data yang sudah
-    ternormalisasi (butuh classifier mentah doang, bukan pipeline penuh)."""
+    """{exercise}_rf.pkl = Pipeline(scaler, rf) -- pakai pipeline penuh
+    (pipeline.predict() otomatis scaling dulu), beda dari
+    preview_prediction.py yg kerja dari data yang sudah ternormalisasi."""
     model_path = MODELS_DIR / f"{exercise}_rf.pkl"
     config_path = MODELS_DIR / f"{exercise}_feature_config.json"
     for p in (model_path, config_path):

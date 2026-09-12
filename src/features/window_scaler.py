@@ -1,50 +1,18 @@
 """Scaler khusus fitur ANGLE (165 kolom: 11 angle x swl posisi frame, hasil
-flatten). Kolom coordinate (132, rata-rata per window) SENGAJA TIDAK
-disentuh sama sekali -- lihat penjelasan di bawah kenapa.
+flatten). Kolom coordinate (132, rata-rata per window) sengaja tidak
+disentuh -- proposal (bab 6.2.4/8.3.1) dan Ko et al. cuma bicara normalisasi
+joint angle; coordinate MediaPipe sudah native [-1,1], tidak perlu
+diseragamkan lagi.
 
-KENAPA CUMA ANGLE (bukan angle+coordinate)
--------------------------------------------------------------
-Sempat coba normalisasi keduanya (angle+coordinate, 143 kolom) supaya
-"konsisten", tapi setelah dicek ulang ke 3 sumber -- SEMUANYA cuma bicara
-angle, TIDAK ADA yang bilang coordinate perlu dinormalisasi:
-  - Bab 6.2.4 proposal, eksplisit: "Data JOINT ANGLE yang dihasilkan dari
-    proses ekstraksi memiliki rentang nilai yang berbeda-beda, sehingga
-    perlu adanya normalisasi data" -- cuma sebut joint angle.
-  - Bab 8.3.1, dibaca DALAM KONTEKS (bukan berdiri sendiri): "...diolah
-    menjadi fitur berupa JOINT ANGLE... Setelah FITUR sudah diperoleh...
-    normalisasi data... untuk menyamakan rentang nilai FITUR." Kata "fitur"
-    di sini merujuk balik ke "fitur berupa joint angle" yg baru disebut --
-    bab 8.3.1 TIDAK PERNAH menyebut "coordinate" sbg entitas terpisah dalam
-    narasinya sendiri (itu murni konsep bab 6.2.1 yang kita gabung sendiri).
-  - Ko et al. (paper, bagian "DATA NORMALIZATION"), eksplisit: "the Pose
-    Estimation module of MediaPipe provides all joint position vectors as
-    normalized values in the range of [-1, 1]... this study used Min-Max
-    scaling to normalize the extracted ANGLE data" -- coordinate dianggap
-    SUDAH cukup konsisten skalanya (native MediaPipe [-1,1]), yang perlu
-    diseragamkan cuma angle (rentangnya beda-beda tiap sendi, 0-180 derajat).
+Urutan (bab 8.3.1: normalisasi angle dulu, baru windowing): build_dataset.py
+panggil fit_frame()+transform_frame() di level FRAME (fit hanya dari frame
+train, diterapkan ke train+test) SEBELUM build_windows_from_runs() flatten
+jadi kolom _f0.._fN. Untuk inferensi (predict_video.py): transform() cuma
+menyentuh kolom angle_fN (broadcast per base-angle), coord_mean_* dibiarkan.
 
-Jadi coordinate TETAP jadi fitur pendukung (rata-rata mentah per window,
-33 landmark x x/y/z/v = 132 kolom -- "selengkap kolom mentah Ko et al.",
-lihat sliding_window.py), TAPI TIDAK di-Min-Max -- persis Ko et al.
-
-URUTAN (literal, bab 8.3.1: normalisasi ANGLE dulu, baru windowing)
--------------------------------------------------------------
-build_dataset.py: fit_frame()+transform_frame() dipanggil di level FRAME
-(11 kolom ANGLE_COLUMNS SAJA), fit HANYA dari frame yang masuk alokasi
-TRAIN, diterapkan ke SEMUA frame (train+test) -- SEBELUM
-build_windows_from_runs() flatten nilainya jadi kolom _f0.._fN. Kolom
-coordinate tetap dihitung rata-rata mentah per window seperti biasa, tanpa
-langkah normalisasi apa pun.
-
-Untuk INFERENSI ke video BARU (predict_video.py): transform() cuma
-menyentuh kolom angle_fN (broadcast per base-angle), kolom coord_mean_*
-dibiarkan apa adanya.
-
-CATATAN: karena classifier akhir adalah Random Forest yang invariant
-terhadap transformasi monoton per kolom, keputusan normalisasi/tidak pada
-coordinate TIDAK mengubah hasil evaluasi (accuracy/F1) -- perbaikan ini
-murni supaya proses match literal ke 3 sumber di atas.
-"""
+Catatan: RF invariant thd transformasi monoton per kolom, jadi keputusan
+normalisasi coordinate ini tidak mengubah hasil evaluasi -- ini murni
+supaya proses match literal proposal."""
 import re
 
 import numpy as np

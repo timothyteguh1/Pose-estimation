@@ -1,20 +1,16 @@
 """Live-preview prediksi model RF di atas video asli (read-only, baca saja).
 
-Ambil 1 video dari TEST SET (`data/windowed_features/splits/{exercise}_test.csv`),
-buka video mentahnya, mainkan, overlay skeleton + PREDIKSI MODEL vs GROUND
-TRUTH (label asli) per frame -- pakai fitur yang SAMA PERSIS dgn yang dipakai
-pas evaluasi (`train_model.py`), jadi ini reproduksi visual dari angka
-evaluasi, bukan hitungan baru.
+Ambil 1 video dari test set (`data/windowed_features/splits/{exercise}_test.csv`),
+buka video mentahnya, mainkan, overlay skeleton + prediksi model vs ground
+truth per frame -- fitur sama persis dgn yang dipakai evaluasi
+(train_model.py), reproduksi visual dari angka evaluasi.
 
-PENTING: video ini "bolong-bolong" -- cuma bagian yang windownya kebetulan
-dialokasikan ke TEST yang ada overlay prediksi. Bagian yang windownya masuk
-TRAIN (mayoritas frame di video yang sama) ditandai "bukan bagian test",
-bukan tidak ada datanya.
+Video ini "bolong-bolong" -- cuma bagian yang windownya masuk test yang ada
+overlay prediksi, bagian yang masuk train ditandai "bukan bagian test".
 
-Mode `--test-only`: skip semua bagian train (abu-abu) sama sekali -- video
-cuma diputar per SEGMEN test (kelompok frame test yang berurutan). Sebelum
-tiap segmen mulai, muncul kartu jeda (nama video + prediksi vs ground truth)
-supaya jelas ini video/segmen mana dan tebakan modelnya apa, lanjut dgn SPACE.
+Mode `--test-only`: skip bagian train sama sekali, putar per segmen test
+saja, tiap segmen didahului kartu jeda (nama video + prediksi vs ground
+truth), lanjut dgn SPACE.
 
 Usage:
     python src/training/preview_prediction.py squat                     # video test pertama yg ketemu
@@ -58,13 +54,11 @@ NOT_TESTED_COLOR = (140, 140, 140)  # abu: frame ini bukan bagian window test
 
 
 def load_model(exercise):
-    """Load {exercise}_rf.pkl. File ini sekarang Pipeline(scaler, rf) --
-    lihat train_model.py. Tool ini kerja dari squat_test.csv yang SUDAH
-    ternormalisasi (build_dataset.py), jadi kita ambil cuma step 'rf'-nya
-    (classifier mentah), BUKAN pipeline.predict() penuh -- kalau dipakai
-    penuh, data yang sudah ternormalisasi bakal di-scale 2x (salah).
-    Untuk prediksi ke video BARU (belum ternormalisasi) pakai pipeline penuh
-    -- lihat predict_video.py."""
+    """Load {exercise}_rf.pkl (Pipeline(scaler, rf), lihat train_model.py).
+    Tool ini kerja dari data yang sudah ternormalisasi (build_dataset.py),
+    jadi ambil cuma step 'rf' (classifier mentah) -- pipeline penuh bakal
+    scale data 2x (salah). Video baru (belum ternormalisasi): pakai
+    pipeline penuh, lihat predict_video.py."""
     path = MODELS_DIR / f"{exercise}_rf.pkl"
     if not path.exists():
         raise FileNotFoundError(f"{path} tidak ada -- jalankan dulu: python src/training/train_model.py {exercise}")

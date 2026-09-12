@@ -1,78 +1,37 @@
-"""Sliding window (Eq. 2 & 3, proposal bab 6.2.2) -- BAGIAN YANG TIDAK ADA di
-kode Ko et al., dibangun dari nol sesuai proposal.
+"""Sliding window (Eq. 2 & 3, proposal bab 6.2.2) -- dibangun dari nol, tidak
+ada di kode Ko et al.
 
 Eq. 2: swl = fps x t              (panjang window, dalam frame)
 Eq. 3: swm = Frames - swl + 1     (jumlah window dari 1 video, stride=1)
 
 1 baris CSV extracted_landmarks = 1 frame. 1 baris output di sini = 1 window
-(beberapa frame digabung jadi 1 sampel temporal), sesuai proposal bab 6.2.2:
-"setiap sliding window ... dapat direpresentasikan satu rangkaian gerakan".
+(beberapa frame digabung jadi 1 sampel temporal).
 
-Aturan window (supaya tidak mencampur hal yang tidak boleh tercampur):
-- Window TIDAK BOLEH melompati frame 'excluded' (ancang-ancang/noise)
-- Window TIDAK BOLEH melompati frame yang BENAR-BENAR tidak ada data sama
-  sekali (semua 11 angle NaN, orang hilang total dari frame) -- frame
-  begini dianggap "usable=False". Filter visibility (< 0.6, Eq. bab 8.3.1)
-  sendiri dilakukan PER-TITIK di joint_angles.py (bab 6.2.1: "hanya titik
-  persendian dengan visibility di atas ambang... yang digunakan" -- per
-  titik individual, BUKAN per-frame all-or-nothing) -- 1 angle bisa NaN
-  (titiknya occluded) sementara 10 angle lain di frame yang SAMA tetap
-  valid; frame itu TETAP dianggap usable/tidak memutus run, supaya
-  occlusion 1 titik sesaat (wajar di kamera 1 sisi 45 derajat, mis. tangan
-  belakang badan di bench press) tidak memecah run jadi berkeping-keping.
-  Window yang KEBETULAN masih membawa NaN (occlusion jatuh persis di
-  window itu) dibuang belakangan di build_windows_from_runs() -- RF tidak
-  boleh terima NaN, dan "discard bukan interpolasi" (sama seperti Ko et al.).
-- Window TIDAK BOLEH mencampur 2 fase berbeda (concentric+eccentric dalam 1
-  window) -- window harus "murni" 1 kelas (class) supaya label tidak ambigu
-Ketiga aturan di atas otomatis memecah 1 video jadi beberapa "run" frame
-berurutan yang valid, lalu window dibangun stride=1 di dalam tiap run.
+Aturan window: tidak boleh melompati frame 'excluded', tidak boleh melompati
+frame yang benar-benar tanpa data (semua 11 angle NaN -- filter visibility
+sendiri per-titik di joint_angles.py, jadi occlusion 1 titik saja tidak
+memutus run), dan tidak boleh mencampur 2 fase berbeda dalam 1 window.
+Ketiga aturan ini memecah 1 video jadi beberapa "run" valid, window
+dibangun stride=1 di dalam tiap run.
 
-Fitur per window (bab 6.2.1: joint angle = fitur UTAMA, joint coordinate =
-fitur PENDUKUNG):
-- Fitur utama: 11 joint angle DI-FLATTEN per frame dalam window (bukan
-  dirata-ratakan) -- supaya urutan/pola temporal gerakan tetap terekam
-  (proposal: "satu sampel dapat merepresentasikan urutan gerakan secara
-  utuh").
-- Fitur pendukung: koordinat (x, y, z, visibility) SEMUA 33 landmark
-  MediaPipe UTUH (tidak ada yg dibuang -- match persis "33 landmark" Ko et
-  al.), DIRATA-RATAKAN 1 angka per window (coord_mean_*, 33x4=132 kolom
-  tetap, TIDAK ikut membengkak walau window_sec dinaikkan).
-  RIWAYAT (penting, jangan diulang): sempat dicoba DI-FLATTEN per frame juga
-  (spt angle, 33x4xswl kolom) supaya "window dibawa utuh" konsisten dgn
-  angle -- SEMPAT jadi produksi. TAPI setelah dicek feature_importances_ RF
-  hasil training, flatten bikin fitur koordinat (1980 kolom, 12x lebih
-  banyak dari 165 kolom angle) MENDOMINASI keputusan model (93.9% squat,
-  95.6% deadlift, 81.6% benchpress dari total importance) -- kebalikan
-  TOTAL dari aturan keras #2 ("joint angle fitur UTAMA, koordinat
-  PENDUKUNG"), walau kode-nya sendiri secara teknis tetap menyertakan
-  angle. DIKEMBALIKAN ke "mean" (versi awal sistem ini) setelah temuan ini
-  -- dgn coordinate dirata-rata (bukan di-flatten), porsi kolom angle jadi
-  jauh lebih seimbang thd coordinate, mengembalikan angle ke posisi
-  dominan/utama sesuai proposal. Perbandingan F1 kedua mode didokumentasikan
-  di evaluasi model (bab IV) sbg salah satu perbandingan yg wajib ada utk
-  jalur Proyek. (Catatan: pembagian "angle=utama, coordinate=pendukung" ini
-  murni desain proposal kita -- Raza tidak pakai angle sama sekali, Ko tidak
-  bedakan utama/pendukung eksplisit walau paper mereka combine keduanya.)
-- `use_z` (default False): angle dihitung dari titik 2D (x,y) SAJA secara
-  default -- PERSIS kode asli Ko et al. (dicek langsung ke seluruh repo
-  mereka: `calculateAngle` di Streamlit.py/Streamlit_NoneYolo.py/
-  Afterprocessing.ipynb/Main.ipynb SEMUA cuma pakai index [0],[1], z TIDAK
-  PERNAH dipakai di rumus sudut manapun walau z tetap disimpan di data
-  mentah mereka). `use_z=True` HANYA opsi eksperimen pembanding (proposal
-  Eq.1 sendiri tidak menspesifikasi dimensi) -- BUKAN default, BUKAN
-  metode baru di luar Eq.1 (dot-product/norm berlaku sama utk vektor 2D
-  maupun 3D).
+Fitur per window (bab 6.2.1: joint angle = fitur utama, coordinate =
+pendukung):
+- Fitur utama: 11 joint angle di-flatten per frame dalam window (bukan
+  dirata-ratakan), supaya pola temporal gerakan tetap terekam.
+- Fitur pendukung: koordinat (x,y,z,v) semua 33 landmark MediaPipe,
+  dirata-ratakan 1 angka per window (coord_mean_*, 132 kolom tetap). Sempat
+  dicoba di-flatten juga (spt angle) -- feature_importances_ RF menunjukkan
+  itu bikin koordinat mendominasi keputusan model, bertentangan dgn aturan
+  "angle = fitur utama" -- dikembalikan ke mean. Perbandingan F1 kedua
+  mode didokumentasikan di evaluasi model (bab IV).
+- use_z (default False): angle dihitung dari titik 2D saja, persis Ko et
+  al -- use_z=True cuma opsi eksperimen pembanding.
 
-Split train/test (dipakai build_dataset.py): run (1 segmen 1 fase) dialokasikan
-UTUH ke train ATAU test (lihat process_video di build_dataset.py), BUKAN acak
-per baris window, dan BUKAN dipotong (baik global maupun per-run -- sudah
-dicoba, gagal: segmen eccentric pendek, dipotong jadi 2 bagian keduanya sering
-< swl). Karena window tidak pernah dibangun melintasi batas run, alokasi run
-utuh otomatis aman dari leakage tanpa perlu memotong apa pun. Proposal &
-referensi (Ko, Raza, Hsu) tidak eksplisit atur ini -- keputusan teknis kita
-sendiri. (split_runs_by_frame_fraction() di bawah masih ada sbg utility, tapi
-TIDAK dipakai build_dataset.py lagi -- disimpan siapa tahu berguna nanti.)
+Split train/test (build_dataset.py): run dialokasikan utuh ke train ATAU
+test (bukan acak per baris window, bukan dipotong) -- karena window tidak
+pernah dibangun melintasi batas run, alokasi run utuh otomatis aman dari
+leakage. (split_runs_by_frame_fraction() masih ada sbg utility, tapi tidak
+dipakai build_dataset.py lagi.)
 """
 import numpy as np
 import pandas as pd
@@ -176,20 +135,14 @@ def split_runs_by_frame_fraction(runs, front_fraction):
 
 
 def build_windows_from_runs(df, feat_df, runs, window_sec, stride=1, split_label=None, coord_mode="mean"):
-    """Bangun window (Eq.2 & 3) dari daftar run yang SUDAH ditentukan
+    """Bangun window (Eq.2 & 3) dari daftar run yang sudah ditentukan
     (biasanya hasil find_valid_runs() atau split_runs_by_frame_fraction()).
 
-    split_label: opsional, string ('train'/'test') ditulis ke kolom 'split'
-    tiap window -- buat traceability di file per-video (lihat build_dataset.py).
+    split_label: opsional, ditulis ke kolom 'split' tiap window
+    (traceability di file per-video, lihat build_dataset.py).
 
-    coord_mode: "mean" (default, PRODUKSI) -- koordinat dirata-rata 1 angka
-    per window (33x4 kolom, 33 landmark UTUH tidak dibuang -- "joint
-    coordinate pendukung" ala aturan keras #2, match 33 landmark Ko et al.).
-    "flatten" (EKSPERIMEN PEMBANDING SAJA, lihat build_dataset.py
-    --coord-mode) -- koordinat di-flatten per frame (33x4xswl kolom) --
-    SEMPAT jadi produksi, DIKEMBALIKAN ke 'mean' setelah feature_importances_
-    RF menunjukkan flatten bikin koordinat mendominasi (93.9% squat) di atas
-    joint angle, bertentangan dgn aturan keras #2 (lihat diskusi proyek).
+    coord_mode: "mean" (default, produksi) atau "flatten" (eksperimen
+    pembanding, lihat build_dataset.py --coord-mode dan docstring modul).
 
     Returns DataFrame (1 baris = 1 window) atau None kalau tidak ada window
     yang bisa dibangun (semua run < swl).
@@ -228,15 +181,9 @@ def build_windows_from_runs(df, feat_df, runs, window_sec, stride=1, split_label
                         for f in range(swl):
                             coord_block[f"coord_{col}_f{f}"] = window_feat[col].iloc[f]
 
-            # Angle dicek per-titik (bab 6.2.1/Ko et al.) -- occlusion 1 titik sesaat
-            # TIDAK memutus run (lihat find_valid_runs/'usable' longgar), TAPI window
-            # yang KEBETULAN masih mengandung NaN (titik itu jatuh pas di dalam window
-            # ini) dibuang DI SINI -- RF tidak boleh terima NaN, dan kita "discard,
-            # bukan interpolasi" (sama seperti Ko et al.), jadi bukan ditambal, dibuang.
-            # Coord_block ikut dicek juga sekarang (dulu cukup angle_block saja, karena
-            # coordinate cuma dirata-rata -- rata-rata dari sebagian NaN tetap valid via
-            # nanmean; sekarang coordinate di-flatten mentah, jadi NaN per-frame bisa
-            # lolos utuh kalau tidak dicek eksplisit).
+            # Occlusion 1 titik sesaat tidak memutus run (usable longgar),
+            # tapi window yg kebetulan masih mengandung NaN dibuang di sini
+            # -- RF tidak boleh terima NaN, discard bukan interpolasi.
             if any(v != v for v in angle_block.values()) or any(v != v for v in coord_block.values()):
                 n_dropped_nan += 1
                 continue

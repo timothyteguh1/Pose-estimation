@@ -9,22 +9,14 @@ import cv2
 def open_video_capture(source):
     """cv2.VideoCapture(source) + CAP_PROP_ORIENTATION_AUTO=1.
 
-    Sebagian video HP nyimpen frame MENTAH dalam orientasi sensor asli
-    (landscape) + tag metadata rotasi (mis. 90 derajat) yg baru diterapkan
-    pas DITAMPILKAN di pemutar video normal -- cv2.VideoCapture.read() BAWAAN
-    TIDAK menerapkan rotasi itu (cuma baca tag-nya doang), jadi frame yg
-    dikembalikan tetap MENYAMPING (landscape) walau videonya keliatan portrait
-    kalau diputar normal. Ditemukan langsung dari 2 video baru (benchpress,
-    direkam 5 Sept) yg punya CAP_PROP_ORIENTATION_META=90, beda
-    dari video lama yg videonya sudah portrait dari sensornya (metadata=0,
-    tidak perlu apa-apa). CAP_PROP_ORIENTATION_AUTO=1 bikin OpenCV menerapkan
-    rotasi itu sendiri sebelum frame dikembalikan -- diverifikasi langsung:
-    tanpa ini frame.shape=(1080,1920,3) [landscape, SALAH utk video yg
-    metadatanya bilang portrait], dengan ini frame.shape=(1920,1080,3)
-    [portrait, BENAR]. Pakai fungsi ini di SEMUA tempat yg buka file video
-    (bukan live webcam -- kamera live umumnya tidak punya metadata rotasi
-    begini, tapi properti ini aman di-set juga, no-op kalau tidak relevan).
-    """
+    Sebagian video HP nyimpen frame mentah dalam orientasi sensor asli
+    (landscape) + tag metadata rotasi -- cv2.VideoCapture.read() bawaan
+    tidak menerapkan rotasi itu (cuma baca tag-nya), jadi frame yg
+    dikembalikan tetap landscape walau videonya portrait kalau diputar
+    normal. CAP_PROP_ORIENTATION_AUTO=1 bikin OpenCV menerapkan rotasi
+    sendiri sebelum frame dikembalikan. Pakai fungsi ini di semua tempat
+    yg buka file video (aman jadi no-op utk live webcam tanpa metadata
+    rotasi)."""
     cap = cv2.VideoCapture(source)
     cap.set(cv2.CAP_PROP_ORIENTATION_AUTO, 1)
     return cap

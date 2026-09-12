@@ -3,19 +3,14 @@ saja -- beda dari label_phase.py yang bisa ubah label). Untuk sanity-check:
 apakah landmark CSV nempel benar ke badan di video asli, dan apakah pola
 naik-turun fase auto-detect masuk akal.
 
-Default: PNG plot + LIVE VIEW (window video langsung mainkan skeleton+fase di
-atas video mentah asli, tanpa nunggu render ke file dulu). Skeleton digambar
-ULANG DARI KOORDINAT CSV (tidak menjalankan ulang MediaPipe -- cepat).
+Default: PNG plot + live view (skeleton digambar ulang dari koordinat CSV,
+tanpa menjalankan ulang MediaPipe).
 
-KALAU build_dataset.py SUDAH pernah dijalankan utk video ini, preview ini
-OTOMATIS deteksi file `{video}_windowed.csv`-nya (data/windowed_features/)
-dan tambahkan 1 lapis info lagi: frame mana yang akhirnya MASUK window
-(dipakai training/testing) vs yang TERBUANG walau bukan excluded manual --
-yaitu korban filter visibility (Eq. bab 8.3.1, frame usable<0.6) atau run
-yang kependekan buat window_sec yang dipakai. Ini jawaban visual buat
-pertanyaan "yang kepotong karena visibility itu kelihatannya kayak apa?".
-Kalau file windowed belum ada, preview jalan seperti biasa (cuma phase),
-tidak ada perubahan perilaku.
+Kalau build_dataset.py sudah pernah dijalankan utk video ini, preview ini
+otomatis deteksi file `{video}_windowed.csv`-nya dan tambahkan info frame
+mana yang akhirnya masuk window vs yang terbuang (korban filter visibility
+atau run kependekan). Kalau file windowed belum ada, preview jalan seperti
+biasa.
 
 Usage:
     python src/extraction/preview_phase.py data/extracted_landmarks/squat/squat_correct_p1_left45_take01.csv
@@ -53,10 +48,8 @@ PHASE_COLORS_PLT = {"concentric": "#4caf50", "eccentric": "#e53935", "excluded":
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WINDOWED_DIR = REPO_ROOT / "data" / "windowed_features"
-# frame yang BUKAN excluded manual tapi tetap tidak pernah masuk window
-# manapun -- korban filter visibility (bab 8.3.1) atau run kependekan buat
-# window_sec yang dipakai. Ini beda dari abu-abu (excluded) -- oranye
-# menandakan "harusnya bisa jadi data, tapi kebuang oleh kualitas deteksi".
+# Frame yang bukan excluded manual tapi tetap tidak pernah masuk window --
+# korban filter visibility atau run kependekan (beda dari abu-abu=excluded).
 DROPPED_COLOR_BGR = (0, 140, 255)
 
 
@@ -257,8 +250,7 @@ def main():
                          help="matikan overlay hasil preprocessing (frame yang kebuang "
                               "dari window walau bukan excluded manual)")
     parser.add_argument("--only-in-window", action="store_true",
-                         help="SKIP TOTAL frame yang tidak masuk window manapun (excluded "
-                              "manual maupun kebuang visibility/run-kependekan) -- video cuma "
+                         help="skip total frame yang tidak masuk window manapun -- video cuma "
                               "muter bagian yang benar-benar dipakai training/testing. "
                               "Butuh build_dataset.py sudah pernah dijalankan utk video ini.")
     args = parser.parse_args()

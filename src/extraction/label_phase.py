@@ -1,43 +1,28 @@
 """Tahap 1b: label fase konsentrik/eksentrik per frame.
 
-Auto-detect jalan dulu sebagai DRAFT (deteksi titik balik pada sudut sendi
+Auto-detect jalan dulu sebagai draft (deteksi titik balik pada sudut sendi
 utama per exercise: squat -> knee_angle, benchpress -> elbow_angle,
-deadlift -> hip_angle). Fase ditentukan per SEGMEN antar titik balik
-(scipy.find_peaks dgn prominence+distance minimum), BUKAN diff per-frame,
-supaya tidak bolak-balik karena noise kecil di sekitar titik balik.
+deadlift -> hip_angle, via scipy.find_peaks dgn prominence+distance minimum,
+per segmen antar titik balik -- bukan diff per-frame, supaya tidak
+bolak-balik karena noise kecil). Lalu kamu review/koreksi manual lewat
+playback + keypress (ala Ko et al.) -- override manual selalu menang atas
+hasil auto.
 
-Lalu kamu review/koreksi manual lewat playback + keypress (ala Ko et al.).
-Override manual SELALU menang atas hasil auto. Kalau mau 100% manual, tinggal
-pencet u/d terus dari awal sampai akhir.
+Resume: CSV yang sudah pernah dilabeli, frame manual-nya otomatis dimuat
+balik jadi override awal -- bebas quit & lanjut sesi lain waktu.
 
-RESUME: kalau CSV sudah pernah dilabeli sebelumnya (ada kolom phase +
-label_source), frame yang sebelumnya ditandai 'manual' otomatis dimuat balik
-jadi override awal -- jadi bebas quit kapan saja dan lanjut sesi lain waktu,
-koreksi manual TIDAK akan hilang selama tidak kamu timpa ulang sendiri.
+Quit ('q'/ESC): frame yang belum kamu putuskan manual (u/d/e) otomatis
+ditandai EXCLUDED, supaya cuma frame yang benar-benar dilabeli manual yang
+jadi kelas nyata -- video langsung lolos syarat "0 sisa auto", dan bisa
+di-resume kapan saja utk melabel ulang bagian itu.
 
-QUIT ('q'/ESC): frame yang SAMPAI SAAT QUIT belum pernah kamu putuskan manual
-(u/d/e) otomatis ditandai EXCLUDED -- supaya cuma frame yang benar-benar kamu
-labeli manual yang bisa jadi kelas konsentrik/eksentrik nyata, sisanya default
-dibuang, TIDAK pernah ikut training. Ini juga langsung membuat video lolos
-syarat "0 sisa auto" di build_dataset.py tanpa kamu harus habiskan SELURUH
-video sampai frame terakhir -- kalau nanti mau melabel ulang bagian yang
-ke-default-exclude itu, tinggal resume & override manual (u/d/e) seperti biasa,
-override lama (termasuk yang di-default-exclude) selalu bisa ditimpa lagi.
+Auto-trim: penekanan SPACE PERTAMA di tiap sesi menandai semua frame
+sebelumnya sebagai EXCLUDED (anggap masa persiapan) -- beda dari Ko et al.
+yang cuma menyimpan frame saat tombol ditekan (kita simpan semua frame
+kontinu, krn sliding window butuh itu). Matikan dgn --no-auto-trim-start.
 
-BEDA PENTING dari Ko et al.: mereka cuma menyimpan frame saat tombol ditekan
-(sampling jarang, ~230 baris/video, TIDAK pernah proses masa persiapan karena
-kalau tidak pencet tombol ya tidak tersimpan). Kita menyimpan SEMUA frame
-dengan label kontinu (karena sliding window Eq. 2 & 3 proposal butuh frame
-berurutan) -- TAPI meniru semangat yang sama lewat AUTO-TRIM: penekanan
-SPACE PERTAMA KALI di tiap sesi menandai semua frame SEBELUM titik itu sebagai
-EXCLUDED (anggap masa persiapan), jadi sistem tidak perlu "menebak" fase pas
-kamu belum mulai gerakan. QUIT ('q') TIDAK menandai apa pun setelahnya --
-cuma berhenti sesi review, sisa frame tetap bisa dilanjut kapan saja (lihat
-RESUME di atas). Matikan auto-trim ini pakai --no-auto-trim-start kalau perlu.
-
-`posture_class` sudah pasti dari nama file video (1 video = 1 postur), jadi
-tool ini HANYA menentukan fase, lalu kelas final 18-way dirangkai sebagai
-f"{exercise}_{posture_class}_{phase}".
+`posture_class` sudah pasti dari nama file video (1 video = 1 postur), tool
+ini cuma menentukan fase, kelas final 18-way = f"{exercise}_{posture_class}_{phase}".
 
 Usage:
     python src/extraction/label_phase.py data/extracted_landmarks/squat/squat_correct_p1_left45_take01.csv
@@ -162,11 +147,9 @@ def estimate_rep_count(smoothed, fps, min_prominence_deg=DEFAULT_MIN_PROMINENCE_
 
 
 def find_source_video(exercise, source_video):
-    """Cari video mentah -- coba lokasi flat dulu (cepat, kompatibel dgn
-    struktur lama), baru fallback ke pencarian REKURSIF by nama file kalau
-    tidak ketemu (video boleh di-nested per-partisipan/per-kelas, mis.
-    raw_videos/deadlift/p2/armsspread/..., lihat diskusi proyek soal
-    reorganisasi folder -- murni soal LOKASI file, isi/logika tidak berubah)."""
+    """Cari video mentah -- coba lokasi flat dulu, baru fallback ke
+    pencarian rekursif by nama file (video boleh nested per-partisipan/
+    per-kelas, mis. raw_videos/deadlift/p2/armsspread/...)."""
     candidate = RAW_VIDEOS_DIR / exercise / source_video
     if candidate.exists():
         return candidate
@@ -447,9 +430,8 @@ def label_one_csv(csv_path, args):
 
     override = np.array([None] * len(df), dtype=object)
 
-    # RESUME: kalau CSV ini sudah pernah dilabeli sebelumnya, muat balik frame
-    # yang sudah ditandai manual sebagai override awal -- supaya buka ulang +
-    # lanjut review TIDAK menghapus koreksi manual dari sesi sebelumnya.
+    # Resume: muat balik frame yang sudah ditandai manual dari sesi
+    # sebelumnya sebagai override awal.
     if "phase" in df.columns and "label_source" in df.columns:
         prev_manual_mask = (df["label_source"] == "manual").to_numpy()
         n_resumed = int(prev_manual_mask.sum())
