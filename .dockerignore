@@ -1,0 +1,18 @@
+# File/folder yg TIDAK perlu masuk image Docker -- app.py di RUNTIME cuma
+# butuh app.py + src/ + models/ + assets/ (lihat Dockerfile). Semua di bawah
+# ini cuma dipakai saat TRAINING/EKSPERIMEN/dokumentasi, bukan saat aplikasi
+# web jalan -- ikut di-bundle cuma bikin image raksasa tanpa guna (data/
+# raw_videos isinya video mentah, bisa GB-an).
+venv/
+data/
+notebooks/
+docs/
+.git/
+.gitignore
+__pycache__/
+**/__pycache__/
+*.pyc
+cloudflared.exe
+cloudflared*.log
+scratchpad/
+*.md

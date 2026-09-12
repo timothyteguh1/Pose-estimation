@@ -1,0 +1,124 @@
+{
+  "exercise": "squat",
+  "n_train": 4715,
+  "n_test": 1858,
+  "n_features": 297,
+  "classes": [
+    "squat_backbend_concentric",
+    "squat_backbend_eccentric",
+    "squat_correct_concentric",
+    "squat_correct_eccentric",
+    "squat_kneeinward_concentric",
+    "squat_kneeinward_eccentric"
+  ],
+  "accuracy": 0.8767491926803014,
+  "precision_weighted": 0.8813524898560003,
+  "recall_weighted": 0.8767491926803014,
+  "f1_weighted": 0.8694292403589977,
+  "classification_report": {
+    "squat_backbend_concentric": {
+      "precision": 0.8127853881278538,
+      "recall": 0.5042492917847026,
+      "f1-score": 0.6223776223776224,
+      "support": 353.0
+    },
+    "squat_backbend_eccentric": {
+      "precision": 0.8740458015267175,
+      "recall": 0.9828326180257511,
+      "f1-score": 0.9252525252525252,
+      "support": 233.0
+    },
+    "squat_correct_concentric": {
+      "precision": 0.9972527472527473,
+      "recall": 0.981081081081081,
+      "f1-score": 0.9891008174386922,
+      "support": 370.0
+    },
+    "squat_correct_eccentric": {
+      "precision": 0.9770491803278688,
+      "recall": 1.0,
+      "f1-score": 0.988391376451078,
+      "support": 298.0
+    },
+    "squat_kneeinward_concentric": {
+      "precision": 0.7156862745098039,
+      "recall": 0.9012345679012346,
+      "f1-score": 0.7978142076502731,
+      "support": 405.0
+    },
+    "squat_kneeinward_eccentric": {
+      "precision": 0.98989898989899,
+      "recall": 0.9849246231155779,
+      "f1-score": 0.9874055415617129,
+      "support": 199.0
+    },
+    "accuracy": 0.8767491926803014,
+    "macro avg": {
+      "precision": 0.8944530636073301,
+      "recall": 0.892387030318058,
+      "f1-score": 0.8850570151219839,
+      "support": 1858.0
+    },
+    "weighted avg": {
+      "precision": 0.8813524898560003,
+      "recall": 0.8767491926803014,
+      "f1-score": 0.8694292403589977,
+      "support": 1858.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      178,
+      32,
+      0,
+      0,
+      143,
+      0
+    ],
+    [
+      4,
+      229,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      363,
+      7,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      298,
+      0,
+      0
+    ],
+    [
+      37,
+      0,
+      1,
+      0,
+      365,
+      2
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      2,
+      196
+    ]
+  ],
+  "hyperparameters": {
+    "n_estimators": 100,
+    "class_weight": "balanced",
+    "random_state": 42
+  }
+}
