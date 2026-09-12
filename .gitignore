@@ -1,0 +1,17 @@
+venv/
+__pycache__/
+*.pyc
+
+data/raw_videos/
+data/extracted_landmarks/
+data/rep_signal_cache/
+data/windowed_features/
+data/_upload_tmp.mp4
+
+.streamlit_ssl/
+_streamlit_https.log
+_streamlit_https_err.log
+
+.claude/
+.agents/
+.ipynb_checkpoints/
