@@ -21,6 +21,7 @@ torchvision==0.29.0
 streamlit==1.63.0
 streamlit-webrtc==0.77.0
 av==17.1.0
+imageio-ffmpeg==0.5.1
 
 # protobuf dipaksa ke versi ini -- mediapipe minta <5, streamlit minta
 # >=5.26.1, dua rentang itu tidak berpotongan. 4.25.9 terbukti jalan

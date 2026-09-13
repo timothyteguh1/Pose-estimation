@@ -1,17 +1,8 @@
-"""Aplikasi web (bab 8.3.3 proposal) -- client-server: YOLO+MediaPipe+RF+rep
-counting jalan di server, browser/HP cuma kirim video kamera & terima hasil.
-Lihat src/app/live_pipeline.py utk pipeline inti.
+from dotenv import load_dotenv
 
-video_frame_callback() jalan di thread terpisah dari script utama Streamlit,
-jadi objek yang dipakai bareng (pipeline, hasil terakhir, log sesi) disimpan
-sbg variabel Python biasa via closure, bukan akses st.session_state langsung
-dari dalam callback.
-
-Jalankan lokal:
-    streamlit run app.py
-"""
 import base64
 import io
+import subprocess
 import sys
 import threading
 import time
@@ -21,8 +12,13 @@ from pathlib import Path
 
 import av
 import cv2
+import imageio_ffmpeg
+import requests
+import os
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, VideoHTMLAttributes
+
+load_dotenv()
 
 REPO_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(REPO_ROOT))
@@ -70,18 +66,9 @@ YOLO_REDETECT_EVERY = 5
 # tidak terkait kapan/bagaimana verdict postur dihitung (lihat blok SEG_*).
 COMMIT_INTERVAL_SEC = 1.0
 
-# Deteksi siklus gerakan (utk klasifikasi postur) -- terpisah dari
-# OnlineRepCounter (utk hitung "Repetisi: N", tidak disentuh di sini). Lacak
-# arah gerak sudut utama + nilai ekstrem; siklus selesai begitu sudut
-# membalik >= SEG_HYSTERESIS_DEG dari ekstrem (dgn debounce SEG_MIN_SEC
-# supaya noise kecil tidak kehitung sbg siklus).
 SEG_HYSTERESIS_DEG = 8.0
 SEG_MIN_SEC = 0.5
 
-# Verdict 1 siklus = majority vote prediksi window mentah di siklus itu,
-# kecuali window di PHASE_GATE_TOP_FRAC teratas rentang sudut (fase lockout,
-# kesalahan bentuk tidak teramati di situ). None kalau window fase-kerja yg
-# tersisa < MIN_SEG_WINDOWS (data kurang, tidak menebak).
 PHASE_GATE_TOP_FRAC = 0.30
 MIN_SEG_WINDOWS = 3
 
@@ -100,21 +87,6 @@ def _silent_wav_b64():
         w.writeframes(bytes([128]) * 400)
     return base64.b64encode(buf.getvalue()).decode("ascii")
 
-
-# Tombol HTML MENTAH + onclick JS murni client-side (BUKAN st.button()) --
-# alasannya: st.button() memicu round-trip ke server Streamlit (rerun) dulu
-# sebelum HTML/JS baru sampai ke browser; pada saat itu gesture tap
-# pengguna sudah "basi" (browser tidak lagi anggap panggilan Audio().play()
-# berikutnya sbg respons LANGSUNG dari tap), jadi kebijakan autoplay HP
-# (terutama Chrome/Safari Android & iOS -- diduga kuat penyebab suara
-# peringatan tidak bunyi sama sekali saat ditest di HP, lihat diskusi
-# proyek) tetap memblokirnya. Di sini Audio().play() dipanggil LANGSUNG di
-# dalam handler onclick (tanpa nunggu Streamlit sama sekali) supaya
-# gesture-nya masih "segar" -- kebanyakan browser lalu mengizinkan audio
-# BERIKUTNYA di tab/origin yg sama (termasuk <audio autoplay> yg disisipkan
-# render_audio() belakangan) diputar otomatis tanpa gesture baru lagi.
-# Placeholder __B64__ diganti via str.replace() (BUKAN .format()/f-string)
-# supaya kurung kurawal JS di dalamnya tidak perlu di-escape.
 _UNLOCK_AUDIO_BTN_HTML = """<button onclick="
         var a = new Audio('data:audio/wav;base64,__B64__');
         a.play().then(function(){ this.innerText = '🔊 Suara sudah aktif'; this.disabled = true; })
@@ -297,39 +269,10 @@ def _update_seg_state(seg_state, a, t):
 
 
 def compute_result(img, t):
-    """Bagian BERAT (YOLO+MediaPipe+RF+rep counting) -- panggil pipeline inti
-    & simpan efek samping (result_box/session_log). TIDAK menggambar apa pun
-    (digambar terpisah oleh draw_overlay(), lihat di bawah) -- pemisahan ini
-    MURNI detail implementasi server (arsitektur client-server bab 6.4
-    proposal TIDAK berubah: server tetap satu-satunya yg proses YOLO+
-    MediaPipe+RF+rep counting, client cuma render; sini cuma mengatur GILIRAN
-    proses di sisi server, bukan pindahkan proses ke client).
-
-    Dipakai 2 cara:
-    - Mode Kamera Live: dipanggil dari THREAD TERPISAH (LiveWorker di bawah)
-      supaya video yg ditampilkan (di video_frame_callback) tetap mulus
-      mengikuti frame rate kamera, TIDAK ikut lambat walau pipeline penuh ini
-      cuma sanggup ~7-8x/detik di CPU biasa (diukur langsung, lihat diskusi
-      proyek) -- overlay (skeleton/teks) yg "nunggu" hasil terbaru, BUKAN
-      videonya. Sebelum perubahan ini, video_frame_callback memanggil
-      pipeline penuh LANGSUNG di thread callback webrtc -- video jadi ikut
-      selambat proses (~130ms/frame, terlihat kayak slow-motion).
-    - Mode Upload Video: tetap dipanggil SINKRON (langsung disusul
-      draw_overlay() pada frame yg SAMA persis) -- perilakunya TIDAK berubah
-      sama sekali dari sebelumnya, cuma dipecah jadi 2 pemanggilan fungsi."""
     result = pipeline.process_frame(img, t, fps=30.0)
     in_countdown = result["countdown_remaining"] is not None
 
-    # Disalin ke result_box TANPA SYARAT (beda dari rep_count/primary_angle
-    # di bawah yg cuma diisi kalau BUKAN countdown) -- supaya panel sidebar
-    # (render_result(), widget Streamlit BIASA yg update tiap poll 0.5 detik,
-    # TIDAK terikat rendering video WebRTC) py jalur TAMPILAN CADANGAN utk
-    # hitung mundur, independen dari teks "BERSIAP..." yg dibakar ke frame
-    # video (draw_overlay()). Alasan: dicurigai di HP, video WebRTC kadang
-    # butuh sesaat utk mulai render (negosiasi kamera/kodek) SEBELUM frame
-    # pertama kelihatan -- kalau itu terjadi, teks di DALAM video ikut
-    # "hilang"/terlewat, padahal sidebar (jalur terpisah) seharusnya tetap
-    # update normal.
+
     result_box["countdown_remaining"] = result["countdown_remaining"]
 
     # Konversi ke koordinat piksel frame utuh sekali di sini, supaya
@@ -439,12 +382,6 @@ def draw_overlay(raw_frame, computed):
             cv2.putText(canvas, line, ((w - tw) // 2, h // 2 + i * 40),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 200, 255), 2, cv2.LINE_AA)
         return canvas
-
-    # TEKS PREDIKSI/SUDUT/REPETISI/PERINGATAN SENGAJA TIDAK LAGI DIGAMBAR DI
-    # ATAS VIDEO (dihapus atas permintaan user, lihat diskusi proyek).
-    # Teks prediksi/repetisi sengaja tidak digambar di video (bisa beda
-    # waktu dgn panel kanan krn worker async) -- satu-satunya sumber
-    # tampilan kelas = render_result(), video cuma bbox+skeleton.
     return canvas
 
 
@@ -531,10 +468,7 @@ def video_frame_callback(frame):
     (dikecilkan ke LIVE_RETURN_MAX_W sebelum encode WebRTC)."""
     img = frame.to_ndarray(format="bgr24")
     img = _apply_rotation(img, rotate_camera)
-    result_box["debug_frame_shape"] = img.shape  # DEBUG: ukuran setelah rotasi manual (kalau dipilih)
-    # getUserMedia tidak membalik data mentah kamera (efek mirror yg biasa
-    # terlihat itu CSS tampilan doang) -- sudah diverifikasi tidak ke-mirror
-    # di data yg diterima server.
+    result_box["debug_frame_shape"] = img.shape  # DEBUG: ukuran frame mentah dari kamera
     if flip_camera:
         img = cv2.flip(img, 1)
     if session_start_box["t0"] is None:
@@ -566,12 +500,6 @@ with col_info:
 
 
 def render_result():
-    # Hitung mundur "BERSIAP..." -- JALUR TAMPILAN KEDUA (widget Streamlit
-    # biasa, lewat result_box["countdown_remaining"]), TERPISAH dari teks
-    # yg dibakar ke frame video di draw_overlay(). Diduga di HP, video WebRTC
-    # butuh sesaat sebelum benar2 tampil (negosiasi kamera/kodek) -- kalau
-    # itu terjadi, teks DI DALAM video bisa terlewat, tapi panel sidebar ini
-    # (poll independen, bukan bagian video) tetap seharusnya update normal.
     countdown = result_box.get("countdown_remaining")
     if countdown is not None:
         secs_left = int(countdown) + 1
@@ -579,10 +507,6 @@ def render_result():
     else:
         countdown_slot.empty()
 
-    # Kelas cuma tampil setelah 1 siklus selesai dikonfirmasi, sumbernya
-    # sama dgn render_summary() (session_log) -- panel & Ringkasan Sesi tidak
-    # mungkin saling bertentangan. "Repetisi" (OnlineRepCounter) bisa beda
-    # angka dari "Siklus" (deteksi sendiri) -- disengaja, 2 sinyal berbeda.
     angle_txt = f"{result_box['primary_angle']:.1f}°" if result_box["primary_angle"] is not None else "-"
     with status_slot.container(border=True):
         c1, c2 = st.columns(2)
@@ -613,7 +537,9 @@ def render_audio():
     played = st.session_state.get("played_log_len", 0)
     if len(session_log) > played:
         entry = session_log[-1]
-        audio_path = get_warning_audio_path(entry["class"])
+        prev_entry = session_log[-2] if len(session_log) > 1 else None
+        is_repeat = prev_entry is not None and prev_entry["class"] == entry["class"]
+        audio_path = None if is_repeat else get_warning_audio_path(entry["class"])
         # Jeda minimal 3 detik antar audio -- kalau kurang, elemen <audio>
         # lama ke-timpa yg baru sebelum selesai diputar (kedengaran kepotong).
         now = time.time()
@@ -622,10 +548,6 @@ def render_audio():
             audio_path = None  # lewati pemutaran, tapi entry TETAP ditandai sudah dilihat
         if audio_path is not None:
             st.session_state["last_audio_at"] = now
-            # st.audio() tidak punya parameter `key` di versi streamlit ini,
-            # jadi audio_path yg identik berulang bikin StreamlitDuplicateElementId.
-            # Solusi: tag <audio> HTML manual dgn komentar nomor urut entry
-            # biar stringnya selalu unik (komentar HTML tidak pengaruhi audio).
             b64 = base64.b64encode(audio_path.read_bytes()).decode("ascii")
             audio_slot.markdown(
                 f"<!-- warn_audio_{len(session_log)} -->"
@@ -637,22 +559,6 @@ def render_audio():
 
 
 def render_summary():
-    # DIPERLUAS atas permintaan -- ringkasan sekarang menampilkan SEMUA
-    # siklus gerakan (benar maupun salah), TAPI DI-GROUP PER KELAS supaya
-    # tidak numpuk foto identik: kalau kesalahan yg SAMA muncul lagi di siklus
-    # lain (mis. siklus 1 & 3 sama2 "armsspread"), digabung jadi 1 kartu
-    # ("Siklus 1, 3 -- armsspread", 1 foto wakil), BUKAN 2 kartu terpisah.
-    # Begitu kelasnya BEDA (mis. siklus 5 ternyata "backround", bukan
-    # "armsspread" lagi), itu otomatis jadi kartu baru krn key group-nya beda.
-    # Grouping ini MURNI presentasi (session_log mentah tetap granular 1
-    # entri/siklus, tidak diubah) -- proposal (ruang lingkup #15e) cuma
-    # mewajibkan gambar utk KESALAHAN; menampilkan siklus BENAR & meng-group
-    # itu tambahan presentasi semata, bukan perubahan metodologi klasifikasi.
-    #
-    # "Total Repetisi" (OnlineRepCounter, resmi) & "Siklus Dianalisis"
-    # (deteksi sendiri, lihat blok SEG_* di compute_result) SENGAJA
-    # ditampilkan TERPISAH -- keduanya sinyal berbeda (lihat diskusi proyek
-    # 2026-09-11: rep counting != klasifikasi postur, tidak wajib sama angka).
     st.divider()
     st.subheader("📋 Ringkasan Sesi")
     c1, c2 = st.columns(2)
@@ -716,6 +622,47 @@ def _live_panel():
     # Ringkasan ditampilkan terus-menerus selama sesi (bukan cuma setelah
     # tombol STOP) -- riwayat yg terus tumbuh terlihat selama latihan.
     render_summary()
+    
+def _get_turn_ice_servers():
+    """Ambil kredensial TURN dari Metered.ca -- API key disimpan di
+    environment variable (BUKAN di kode), supaya tidak ke-commit ke repo
+    public. Fallback ke STUN saja kalau key belum di-set/API gagal."""
+    api_key = os.environ.get("METERED_API_KEY")
+    if not api_key:
+        return [{"urls": "stun:stun.l.google.com:19302"}]
+    try:
+        resp = requests.get(
+            "https://skripsi-postur-gym.metered.live/api/v1/turn/credentials",
+            params={"apiKey": api_key}, timeout=5,
+        )
+        resp.raise_for_status()
+        return resp.json()
+    except requests.RequestException:
+        return [{"urls": "stun:stun.l.google.com:19302"}]
+
+
+
+def _finalize_upload_video(raw_path, audio_events, out_path, duration_sec):
+    ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+    cmd = [ffmpeg_exe, "-y", "-i", str(raw_path)]
+    if audio_events:
+        cmd += ["-f", "lavfi", "-t", f"{duration_sec:.3f}", "-i", "anullsrc=r=24000:cl=mono"]
+        for _, audio_path in audio_events:
+            cmd += ["-i", str(audio_path)]
+        filter_parts = []
+        for i, (t, _) in enumerate(audio_events, start=2):
+            filter_parts.append(f"[{i}:a]adelay={int(t * 1000)}[a{i}]")
+        mix_inputs = "[1:a]" + "".join(f"[a{i}]" for i in range(2, len(audio_events) + 2))
+        filter_parts.append(f"{mix_inputs}amix=inputs={len(audio_events) + 1}:duration=first:dropout_transition=0[aout]")
+        cmd += [
+            "-filter_complex", ";".join(filter_parts),
+            "-map", "0:v", "-map", "[aout]",
+            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac",
+        ]
+    else:
+        cmd += ["-c:v", "libx264", "-pix_fmt", "yuv420p", "-an"]
+    cmd += ["-movflags", "+faststart", str(out_path)]
+    subprocess.run(cmd, check=True, capture_output=True)
 
 
 if source_mode == "Kamera Live":
@@ -725,10 +672,7 @@ if source_mode == "Kamera Live":
             key=f"posture-{exercise}",
             mode=WebRtcMode.SENDRECV,
             video_frame_callback=video_frame_callback,
-            # facingMode="user" = kamera depan/selfie. Tanpa aspectRatio/
-            # width/height eksplisit -- browser HP tertentu tidak menghormati
-            # constraint itu (selalu balik landscape meski HP dipegang
-            # tegak), constraint minimal justru kasih hasil portrait yg benar.
+            rtc_configuration={"iceServers": _get_turn_ice_servers()},
             media_stream_constraints={
                 "video": {"facingMode": {"ideal": "user"}},
                 "audio": False,
@@ -742,14 +686,9 @@ if source_mode == "Kamera Live":
             ),
         )
 
-    # Di luar fragmen sengaja -- webrtc_streamer() cuma dipanggil sekali per
-    # full script run, tidak ikut ter-panggil ulang tiap _live_panel() refresh.
     _live_panel()
 
 else:  # Upload Video
-    # Loop di bawah (YOLO+MediaPipe+RF per frame) jalan sinkron di thread
-    # utama -- kunci uploader+tombol selama "analyzing" aktif, supaya tidak
-    # ada upload baru nyelonong di tengah proses lama.
     is_analyzing = st.session_state.get("analyzing", False)
     with col_video:
         st.subheader("📹 Video")
@@ -768,7 +707,6 @@ else:  # Upload Video
             tmp_path.parent.mkdir(parents=True, exist_ok=True)
             tmp_path.write_bytes(uploaded.read())
 
-            # Reset pipeline/log tiap mulai analisis video baru
             st.session_state["pipeline"] = LivePosturePipeline(exercise, countdown_sec=float(countdown_sec),
                                                        yolo_redetect_every=YOLO_REDETECT_EVERY)
             pipeline = st.session_state["pipeline"]
@@ -776,8 +714,6 @@ else:  # Upload Video
             session_log.clear()
             result_box.update({"rep_count": 0, "primary_angle": None, "countdown_remaining": None})
             st.session_state["played_log_len"] = 0
-            # Reset juga state deteksi siklus, supaya buffer video sebelumnya
-            # tidak bocor ke video baru ini.
             seg_state.update({"direction": None, "extreme_val": None, "last_confirm_t": None})
             seg_windows.clear()
             seg_evidence.update(angle=None, img=None, skeleton_points_px=None,
@@ -785,8 +721,19 @@ else:  # Upload Video
 
             cap = open_video_capture(str(tmp_path))
             fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
+            frame = _apply_rotation(cap.read()[1], rotate_camera)
+            cap.release()
+            cap = open_video_capture(str(tmp_path))
+            h, w = frame.shape[:2]
+            raw_path = Path("data") / "_upload_raw.mp4"
+            out_path = Path("data") / "_upload_result.mp4"
+            writer = cv2.VideoWriter(str(raw_path), cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
+
             n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
             idx = 0
+            current_label = None
+            label_color = (60, 200, 60)
+            audio_events = []
             while True:
                 ok, frame = cap.read()
                 if not ok:
@@ -795,24 +742,34 @@ else:  # Upload Video
                 if flip_camera:
                     frame = cv2.flip(frame, 1)
                 t = idx / fps
+                prev_log_len = len(session_log)
                 computed = compute_result(frame, t)  # frame resolusi asli -- akurasi tidak tersentuh
                 canvas = draw_overlay(frame, computed)
-                # Preview di-update tiap frame (bukan skip-frame) & dikecilkan
-                # ke 480px -- biar tidak patah-patah/freeze lewat tunnel,
-                # sementara compute_result() tetap proses frame resolusi asli.
-                preview_w = 480
-                ph, pw = canvas.shape[:2]
-                preview_h = int(ph * (preview_w / pw))
-                preview = cv2.resize(canvas, (preview_w, preview_h), interpolation=cv2.INTER_AREA)
-                video_slot.image(cv2.cvtColor(preview, cv2.COLOR_BGR2RGB), channels="RGB",
-                                  width="stretch")
+                if len(session_log) > prev_log_len:
+                    last = session_log[-1]
+                    label_disp = _display_name(last["class"]) or "tidak cukup yakin"
+                    current_label = f"Siklus {last['rep_no']}: {label_disp}"
+                    label_color = (60, 60, 230) if last["warning"] else (60, 200, 60)
+                    prev_class = session_log[-2]["class"] if len(session_log) > 1 else None
+                    if last["warning"] and last["class"] != prev_class:
+                        audio_path = get_warning_audio_path(last["class"])
+                        if audio_path is not None:
+                            audio_events.append((t, audio_path))
+                label = f"Repetisi: {result_box['rep_count']}"
+                cv2.putText(canvas, label, (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
+                if current_label:
+                    cv2.putText(canvas, current_label, (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.8, label_color, 2, cv2.LINE_AA)
+                writer.write(canvas)
                 progress_slot.progress(min(1.0, idx / max(1, n_frames)))
-                render_result()  # panel kanan ikut update sinkron dgn video (bug sebelumnya: cuma di-render 1x di akhir)
-                render_audio()
                 idx += 1
+            writer.release()
             cap.release()
             tmp_path.unlink(missing_ok=True)
+            progress_slot.progress(1.0, text="Menggabungkan audio & menyiapkan video...")
+            _finalize_upload_video(raw_path, audio_events, out_path, idx / fps)
+            raw_path.unlink(missing_ok=True)
             progress_slot.empty()
+            video_slot.video(str(out_path))
             st.success("Analisis video selesai.")
         finally:
             # Wajib finally -- kalau video rusak/error di tengah loop,

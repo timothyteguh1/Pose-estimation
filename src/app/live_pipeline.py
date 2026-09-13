@@ -55,14 +55,7 @@ class LivePosturePipeline:
                  min_detection_confidence=0.5, min_tracking_confidence=0.5,
                  countdown_sec=5.0, crop_padding=0.75, class_confidence_threshold=0.0,
                  yolo_redetect_every=1):
-        """crop_padding: perluasan bbox YOLO sebelum di-crop utk MediaPipe
-        (beda dari crop ketat Ko et al.) -- 0.75 dipilih dari sweep empiris,
-        cukup mengurangi window hilang akibat occlusion tanpa memperbesar
-        risiko crop kena orang lain di background.
-
-        countdown_sec: detik pertama sesi = masa persiapan, tidak diproses
-        jadi window/rep counting -- padanan live dari auto-trim-start di
-        label_phase.py."""
+        
         self.exercise = exercise
         self.countdown_sec = countdown_sec
         self.crop_padding = crop_padding

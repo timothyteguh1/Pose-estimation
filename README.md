@@ -40,20 +40,9 @@ pakai PowerShell.
 venv\Scripts\python.exe -m streamlit run app.py --server.port 8501
 ```
 
-Setelah jalan, terminal akan menampilkan 2 baris penting:
-
-```
 Local URL:   http://localhost:8501
-Network URL: http://192.168.x.x:8501     <-- alamat ini OTOMATIS ikut wifi yang laptop lagi konek, tidak perlu diset manual
-```
+Network URL: http://192.168.x.x:8501     lagi konek, tidak perlu diset manual
 
-- **Local URL** — cuma bisa dibuka DI LAPTOP yang sama.
-- **Network URL** — bisa dibuka dari HP/device LAIN, ASALKAN device itu terhubung
-  ke **jaringan yang sama** dengan laptop (wifi yang sama, atau laptop nge-hotspot
-  dan HP konek ke hotspot itu, atau sebaliknya HP hotspot dan laptop konek ke situ).
-  Angka IP-nya (`192.168.x.x`) beda-beda tergantung jaringan apa yang lagi
-  dipakai laptop saat itu — **selalu cek ulang baris ini tiap kali jalankan**,
-  jangan pakai angka lama kalau sudah ganti jaringan.
 
 **Kalau muncul error "Port 8501 is not available"** — berarti ada proses lain
 (termasuk punya Claude kalau sedang bantu debug bareng) yang masih pakai port itu.
@@ -92,3 +81,47 @@ manapun (bukan cuma 1 wifi yang sama).
 | Tes sendiri di laptop | Langkah 1 saja | `Local URL` |
 | Tes dari HP sendiri, 1 wifi/hotspot yang sama | Langkah 1 saja | `Network URL` |
 | Penguji di luar kota/pulau, jaringan beda | Langkah 1 + Langkah 2 | URL `trycloudflare.com` |
+
+## Labeling Video Baru
+
+Video mentah baru harus diekstrak lalu dilabel manual (fase konsentrik/eksentrik)
+sebelum bisa dipakai `build_dataset.py`. Labeling WAJIB manual (nonton video +
+tekan tombol) -- tidak bisa diotomasi.
+
+### 1. Ekstraksi (skip kalau CSV-nya sudah ada)
+
+```powershell
+venv\Scripts\python.exe src\extraction\extract_landmarks.py data\raw_videos\squat\p3 --use-yolo-crop
+venv\Scripts\python.exe src\extraction\extract_landmarks.py data\raw_videos\benchpress\p3\flatback --use-yolo-crop
+```
+
+*(Status saat ini: squat P3 sudah diekstrak. Benchpress P3 flatback juga sudah.)*
+
+### 2. Labeling manual
+
+`label_batch.py` menjalankan `label_phase.py` untuk banyak CSV berurutan, tapi
+**tidak baca subfolder rekursif** -- kalau videonya nested per posture_class
+(seperti P3), tiap subfolder harus disebut terpisah:
+
+```powershell
+venv\Scripts\python.exe src\extraction\label_batch.py data\extracted_landmarks\squat\p3\backbend data\extracted_landmarks\squat\p3\correct data\extracted_landmarks\squat\p3\kneeinward
+```
+
+Sisa benchpress P3 flatback yang belum dilabel (cuma left45 -- front & right45 sudah):
+
+```powershell
+venv\Scripts\python.exe src\extraction\label_phase.py data\extracted_landmarks\benchpress\p3\flatback\benchpress_flatback_p3_left45_take01.csv
+```
+
+Kontrol saat playback: `space`=play/pause (pertama kali = tandai mulai gerakan),
+`u`/`d`=tandai konsentrik/eksentrik, `e`=exclude, `r`=ikut auto-detect,
+`,`/`.`=mundur/maju 1 frame, `s`=simpan, `q`=simpan & keluar.
+
+### 3. Rebuild dataset + retrain (setelah SEMUA video di atas selesai dilabel)
+
+```powershell
+venv\Scripts\python.exe src\features\build_dataset.py squat
+venv\Scripts\python.exe src\features\build_dataset.py benchpress
+venv\Scripts\python.exe src\training\train_model.py squat
+venv\Scripts\python.exe src\training\train_model.py benchpress
+```
