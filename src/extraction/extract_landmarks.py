@@ -54,8 +54,14 @@ def find_videos(inputs):
     return videos
 
 
+TASKS_API_MODEL_PATH = (
+    REPO_ROOT / "experimental_client_pipeline" / "models" / "pose_landmarker_full.task"
+)
+
+
 def extract_one_video(video_path, min_detection_confidence, min_tracking_confidence,
-                        use_yolo_crop=False, yolo_confidence=0.7, crop_padding=0.75):
+                        use_yolo_crop=False, yolo_confidence=0.7, crop_padding=0.75,
+                        mediapipe_variant="legacy"):
     """Run MediaPipe Pose over every frame of one video. Returns a DataFrame.
 
     use_yolo_crop:
@@ -67,8 +73,17 @@ def extract_one_video(video_path, min_detection_confidence, min_tracking_confide
       derajat di frame yg fisiknya sama, murni akibat crop). MediaPipe
       tetap dipanggil tiap frame (tracker internal butuh itu); hasilnya
       dipaksa NaN kalau YOLO tidak nemu orang -- gerbang yg sama dgn
-      live_pipeline.py."""
-    mp_pose = mp.solutions.pose
+      live_pipeline.py.
+
+    mediapipe_variant:
+    - "legacy" (default, produksi arsitektur utama): mp.solutions.pose,
+      sama persis dgn Ko et al. dan src/app/live_pipeline.py.
+    - "tasks": mediapipe.tasks.python.vision.PoseLandmarker (model
+      pose_landmarker_full.task), sama dgn yg dipakai browser/JS di
+      experimental_client_pipeline (Tasks API tidak punya versi Legacy utk
+      browser) -- dipakai utk bangun dataset training KHUSUS arsitektur
+      client-side itu, supaya train/inference konsisten satu varian
+      MediaPipe (bukan dilatih dari Legacy tapi di-infer pakai Tasks API)."""
     cap = open_video_capture(str(video_path))
     if not cap.isOpened():
         raise RuntimeError(f"gagal membuka video: {video_path}")
@@ -85,10 +100,23 @@ def extract_one_video(video_path, min_detection_confidence, min_tracking_confide
         expand_bbox_fn = expand_bbox
         training_aspect_ratio = TRAINING_VIDEO_ASPECT_RATIO
 
-    with mp_pose.Pose(
-        min_detection_confidence=min_detection_confidence,
-        min_tracking_confidence=min_tracking_confidence,
-    ) as pose:
+    if mediapipe_variant == "tasks":
+        from mediapipe.tasks.python import BaseOptions
+        from mediapipe.tasks.python.vision import PoseLandmarker, PoseLandmarkerOptions, RunningMode
+        pose_ctx = PoseLandmarker.create_from_options(PoseLandmarkerOptions(
+            base_options=BaseOptions(model_asset_path=str(TASKS_API_MODEL_PATH)),
+            running_mode=RunningMode.VIDEO,
+            num_poses=1,
+            min_pose_detection_confidence=min_detection_confidence,
+            min_tracking_confidence=min_tracking_confidence,
+        ))
+    else:
+        pose_ctx = mp.solutions.pose.Pose(
+            min_detection_confidence=min_detection_confidence,
+            min_tracking_confidence=min_tracking_confidence,
+        )
+
+    with pose_ctx as pose:
         frame_idx = 0
         while True:
             ok, frame = cap.read()
@@ -106,18 +134,29 @@ def extract_one_video(video_path, min_detection_confidence, min_tracking_confide
                     pose_input = frame[crop_box[1]:crop_box[3], crop_box[0]:crop_box[2]].copy()
 
             image = cv2.cvtColor(pose_input, cv2.COLOR_BGR2RGB)
-            image.flags.writeable = False
-            # Selalu dipanggil (bbox ada atau tidak), persis live_pipeline.py
-            # -- tracker internal MediaPipe butuh itu supaya tidak reset.
-            results = pose.process(image)
 
             row = {
                 "frame_idx": frame_idx,
                 "timestamp_sec": frame_idx / fps,
             }
+            landmarks = None
             # use_yolo_crop=True dan YOLO tidak nemu orang -> paksa NaN.
-            if (not use_yolo_crop or bbox) and results.pose_landmarks is not None:
-                for name, lm in zip(POSE_LANDMARK_NAMES, results.pose_landmarks.landmark):
+            if not use_yolo_crop or bbox:
+                if mediapipe_variant == "tasks":
+                    mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
+                    result = pose.detect_for_video(mp_image, int(row["timestamp_sec"] * 1000))
+                    if result.pose_landmarks:
+                        landmarks = result.pose_landmarks[0]
+                else:
+                    image.flags.writeable = False
+                    # Selalu dipanggil (bbox ada atau tidak), persis live_pipeline.py
+                    # -- tracker internal MediaPipe butuh itu supaya tidak reset.
+                    results = pose.process(image)
+                    if results.pose_landmarks is not None:
+                        landmarks = results.pose_landmarks.landmark
+
+            if landmarks is not None:
+                for name, lm in zip(POSE_LANDMARK_NAMES, landmarks):
                     row[f"{name}_x"] = lm.x
                     row[f"{name}_y"] = lm.y
                     row[f"{name}_z"] = lm.z
@@ -147,7 +186,8 @@ def _relative_output_subpath(video_path, exercise):
 
 
 def process_video(video_path, out_dir, min_detection_confidence, min_tracking_confidence, force=False,
-                   use_yolo_crop=False, yolo_confidence=0.7, crop_padding=0.75):
+                   use_yolo_crop=False, yolo_confidence=0.7, crop_padding=0.75,
+                   mediapipe_variant="legacy"):
     try:
         meta = parse_video_filename(video_path)
     except FilenameParseError as e:
@@ -170,7 +210,7 @@ def process_video(video_path, out_dir, min_detection_confidence, min_tracking_co
 
     df, fps = extract_one_video(video_path, min_detection_confidence, min_tracking_confidence,
                                   use_yolo_crop=use_yolo_crop, yolo_confidence=yolo_confidence,
-                                  crop_padding=crop_padding)
+                                  crop_padding=crop_padding, mediapipe_variant=mediapipe_variant)
     for key, value in meta.items():
         df[key] = value
     df["fps"] = fps
@@ -203,6 +243,11 @@ def main():
                               "bukan flag ini langsung (label lama hilang).")
     parser.add_argument("--yolo-confidence", type=float, default=0.7)
     parser.add_argument("--crop-padding", type=float, default=0.75)
+    parser.add_argument("--mediapipe-variant", choices=["legacy", "tasks"], default="legacy",
+                         help="'legacy' (default, produksi arsitektur utama) = mp.solutions.pose, "
+                              "sama dgn Ko et al. 'tasks' = PoseLandmarker Tasks API, dipakai utk "
+                              "bangun dataset training khusus arsitektur client-side (browser cuma "
+                              "punya Tasks API, tidak ada versi Legacy utk JS).")
     args = parser.parse_args()
 
     videos = find_videos(args.inputs)
@@ -217,6 +262,7 @@ def main():
             args.min_detection_confidence, args.min_tracking_confidence,
             force=args.force, use_yolo_crop=args.use_yolo_crop,
             yolo_confidence=args.yolo_confidence, crop_padding=args.crop_padding,
+            mediapipe_variant=args.mediapipe_variant,
         )
         if out_path is not None:
             results.append(out_path)

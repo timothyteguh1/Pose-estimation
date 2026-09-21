@@ -1,0 +1,20 @@
+[theme]
+base = "light"
+primaryColor = "#0F766E"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F1F5F4"
+textColor = "#1F2937"
+borderColor = "#D8E2E0"
+linkColor = "#2563EB"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+headingFont = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap"
+
+greenColor = "#1A7F37"
+greenBackgroundColor = "#DAFBE1"
+greenTextColor = "#116329"
+redColor = "#CF222E"
+redBackgroundColor = "#FFEBE9"
+redTextColor = "#82071E"
+blueColor = "#2563EB"
+
+chartCategoricalColors = ["#0F766E", "#2563EB", "#CF222E", "#BF8700", "#8250DF", "#1A7F37", "#57606A"]

@@ -1,25 +1,3 @@
-"""Jalankan label_phase.py untuk BANYAK CSV berurutan dalam 1 command terminal.
-
-Video 1 dibuka -> kamu review/label -> tekan 'q' (simpan&keluar) -> otomatis
-lanjut ke video berikutnya, dst -- tanpa perlu ketik ulang command tiap video.
-Semua opsi label_phase.py (--speed, --no-auto-trim-start, dst) tetap berlaku
-sama ke semua video dalam 1 batch ini.
-
-Bisa dihentikan kapan saja (Ctrl+C di terminal, atau tutup semua window) --
-video yang sudah sempat disimpan tetap aman, sisanya bisa dilanjut lain waktu
-dengan menjalankan batch ini lagi (video yang sudah 100% dilabel otomatis
-dilewati kalau dipanggil lewat folder, lihat --skip-fully-labeled).
-
-Usage:
-    # semua CSV squat, urut nama file
-    python src/extraction/label_batch.py data/extracted_landmarks/squat
-
-    # daftar file spesifik, urut sesuai kamu tulis
-    python src/extraction/label_batch.py data/extracted_landmarks/squat/squat_correct_p1_left45_take01.csv data/extracted_landmarks/squat/squat_correct_p1_right45_take01.csv
-
-    # skip video yang sudah 100% manual/excluded (tidak ada sisa 'auto')
-    python src/extraction/label_batch.py data/extracted_landmarks/squat --skip-fully-labeled
-"""
 import argparse
 import sys
 from pathlib import Path

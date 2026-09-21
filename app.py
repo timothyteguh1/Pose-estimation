@@ -53,7 +53,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.title("🏋️ Aplikasi Web Pemantau Postur Beban Bebas")
+st.title(":material/fitness_center: Aplikasi web pemantau postur beban bebas")
 st.caption("Derich Fitness Gym -- YOLOv11 + MediaPipe + Random Forest")
 
 EXERCISES = {"Bench Press": "benchpress", "Squat": "squat", "Deadlift": "deadlift"}
@@ -64,7 +64,9 @@ YOLO_REDETECT_EVERY = 5
 
 # Kecepatan poll panel kanan (st.fragment run_every) -- murni refresh UI,
 # tidak terkait kapan/bagaimana verdict postur dihitung (lihat blok SEG_*).
-COMMIT_INTERVAL_SEC = 1.0
+# Diturunkan dari 1.0 -> 0.3 supaya perubahan (misal ke status "salah")
+# kelihatan lebih cepat, tanpa terlalu sering re-render (0.1-0.2 mulai berat).
+COMMIT_INTERVAL_SEC = 0.3
 
 SEG_HYSTERESIS_DEG = 8.0
 SEG_MIN_SEC = 0.5
@@ -101,10 +103,10 @@ _UNLOCK_AUDIO_BTN_HTML = """<button onclick="
 # st.columns bisa jadi sempit banget kalau viewport-nya hp/tablet (portrait),
 # jadi 1 kolom penuh lebih aman & konsisten di semua ukuran layar.
 with st.container(border=True):
-    exercise_label = st.selectbox("🏋️ Pilih Latihan", list(EXERCISES.keys()))
+    exercise_label = st.selectbox(":material/fitness_center: Pilih latihan", list(EXERCISES.keys()))
     exercise = EXERCISES[exercise_label]
-    source_mode = st.radio("📷 Sumber Video", ["Kamera Live", "Upload Video"], horizontal=True)
-    with st.expander("⚙️ Pengaturan tambahan"):
+    source_mode = st.radio(":material/videocam: Sumber video", ["Kamera Live", "Upload Video"], horizontal=True)
+    with st.expander("Pengaturan tambahan", icon=":material/tune:"):
         # Proposal tidak menetapkan durasi persiapan tertentu, jadi ini aman
         # dibuat adjustable oleh pengguna.
         countdown_sec = st.slider(
@@ -124,7 +126,7 @@ with st.container(border=True):
         )
         # Koreksi manual kalau kamera/video hasil rekaman selfie ke-mirror.
         flip_camera = st.checkbox(
-            "🔄 Flip kamera horizontal",
+            ":material/flip: Flip kamera horizontal",
             value=False,
             help="Nyalakan kalau video (live ATAU upload) terlihat terbalik kiri-kanan "
                  "(tangan kanan tampil sbg tangan kiri, dst) -- terutama utk video hasil "
@@ -133,7 +135,7 @@ with st.container(border=True):
         # Koreksi manual kalau frame dari kamera HP tertentu datang landscape
         # walau HP dipegang tegak -- server tidak bisa deteksi otomatis.
         rotate_camera = st.selectbox(
-            "🔃 Putar orientasi kamera",
+            ":material/rotate_right: Putar orientasi kamera",
             ["Tidak diputar", "90° searah jarum jam", "90° berlawanan jarum jam", "180°"],
             index=0,
             help="Nyalakan kalau video (live ATAU upload) kepotong/kelihatan landscape "
@@ -178,7 +180,7 @@ if (
         st.session_state["load_error"] = str(e)
 
 if st.session_state.get("load_error"):
-    st.error(f"⚠️ Model untuk **{exercise_label}** belum tersedia:\n\n{st.session_state['load_error']}")
+    st.error(f"Model untuk **{exercise_label}** belum tersedia:\n\n{st.session_state['load_error']}", icon=":material/error:")
     st.stop()
 
 pipeline = st.session_state["pipeline"]
@@ -211,17 +213,25 @@ def _majority_class(preds):
     return Counter(non_none).most_common(1)[0][0]
 
 
-def _phase_gated_seg_class(seg_windows):
+def _phase_gated_seg_class(seg_windows, min_amplitude_deg):
     """Verdict 1 siklus gerakan dari seg_windows (list (raw_class,
     primary_angle) per window sejak siklus terakhir): buang window fase
     lockout (PHASE_GATE_TOP_FRAC teratas rentang sudut, lockout = sudut
     utama maks), lalu majority vote sisanya. None kalau window fase-kerja
-    < MIN_SEG_WINDOWS."""
+    < MIN_SEG_WINDOWS.
+
+    min_amplitude_deg (reuse OnlineRepCounter.min_prominence_deg, BUKAN
+    angka baru): siklus dgn rentang sudut (hi-lo) di bawah ini dianggap
+    goyangan kecil (mis. berdiri diam), BUKAN repetisi sungguhan -- None
+    tanpa diklasifikasi, konsisten dgn ambang yg sudah dipakai definisi
+    "1 repetisi" itu sendiri."""
     pairs = [(c, a) for (c, a) in seg_windows if c is not None and a is not None]
     if len(pairs) < MIN_SEG_WINDOWS:
         return None
     angles = [a for (_, a) in pairs]
     lo, hi = min(angles), max(angles)
+    if hi - lo < min_amplitude_deg:
+        return None
     cut = lo + (hi - lo) * (1.0 - PHASE_GATE_TOP_FRAC)
     kept = [c for (c, a) in pairs if a <= cut]
     if len(kept) < MIN_SEG_WINDOWS:
@@ -313,7 +323,7 @@ def compute_result(img, t):
         if seg_done:
             # None kalau window fase-kerja kurang dari MIN_SEG_WINDOWS
             # (data kurang, tidak menebak).
-            seg_class = _phase_gated_seg_class(seg_windows)
+            seg_class = _phase_gated_seg_class(seg_windows, pipeline.rep_counter.min_prominence_deg)
             seg_windows.clear()
             seg_warning = get_warning(seg_class)
             # Snapshot dari frame bukti (fase terdalam) kalau ada, fallback
@@ -492,8 +502,9 @@ st.divider()
 col_video, col_info = st.columns([2, 1], gap="large")
 
 with col_info:
-    st.subheader("📊 Hasil Real-time")
-    st.markdown(_UNLOCK_AUDIO_BTN_HTML.replace("__B64__", _silent_wav_b64()), unsafe_allow_html=True)
+    if source_mode == "Kamera Live":
+        st.subheader(":material/monitoring: Hasil real-time")
+        st.markdown(_UNLOCK_AUDIO_BTN_HTML.replace("__B64__", _silent_wav_b64()), unsafe_allow_html=True)
     countdown_slot = st.empty()
     status_slot = st.empty()  # 1 kartu gabungan (repetisi+sudut+prediksi+peringatan)
     audio_slot = st.empty()
@@ -503,7 +514,7 @@ def render_result():
     countdown = result_box.get("countdown_remaining")
     if countdown is not None:
         secs_left = int(countdown) + 1
-        countdown_slot.info(f"⏳ **BERSIAP... {secs_left} detik** -- atur posisi kamera, pastikan seluruh badan terlihat")
+        countdown_slot.info(f"**Bersiap... {secs_left} detik** -- atur posisi kamera, pastikan seluruh badan terlihat", icon=":material/hourglass_top:")
     else:
         countdown_slot.empty()
 
@@ -511,23 +522,23 @@ def render_result():
     with status_slot.container(border=True):
         c1, c2 = st.columns(2)
         c1.metric("Repetisi", result_box["rep_count"])
-        c2.metric("Sudut Utama", angle_txt)
+        c2.metric("Sudut utama", angle_txt)
         if not session_log:
             st.caption("Menganalisis siklus gerakan pertama...")
         else:
             last = session_log[-1]
             label = _display_name(last["class"]) or "tidak cukup yakin"
             if last["warning"]:
-                st.error(f"⚠️ Siklus {last['rep_no']}: {label} -- {last['warning']}")
+                st.error(f"Siklus {last['rep_no']}: {label} -- {last['warning']}", icon=":material/error:")
             elif last["class"]:
-                st.success(f"✅ Siklus {last['rep_no']}: {label}")
+                st.success(f"Siklus {last['rep_no']}: {label}", icon=":material/check_circle:")
             else:
                 st.caption(f"Siklus {last['rep_no']}: model kurang yakin (data kurang)")
             st.caption("Riwayat lengkap semua siklus ada di 'Ringkasan Sesi' di bawah.")
         # DEBUG: ukuran frame mentah dari kamera.
         shp = result_box.get("debug_frame_shape")
         if shp is not None:
-            st.caption(f"🔧 DEBUG: ukuran frame mentah dari kamera = {shp[1]}x{shp[0]} (lebar x tinggi)")
+            st.caption(f":material/bug_report: DEBUG: ukuran frame mentah dari kamera = {shp[1]}x{shp[0]} (lebar x tinggi)")
 
 
 def render_audio():
@@ -560,12 +571,12 @@ def render_audio():
 
 def render_summary():
     st.divider()
-    st.subheader("📋 Ringkasan Sesi")
+    st.subheader(":material/summarize: Ringkasan sesi")
     c1, c2 = st.columns(2)
-    c1.metric("Total Repetisi", result_box["rep_count"])
-    c2.metric("Siklus Dianalisis", len(session_log))
+    c1.metric("Total repetisi", result_box["rep_count"])
+    c2.metric("Siklus dianalisis", len(session_log))
     if not session_log:
-        st.info("Belum ada siklus gerakan yang tercatat pada sesi ini.")
+        st.info("Belum ada siklus gerakan yang tercatat pada sesi ini.", icon=":material/info:")
         return
 
     # Pisah dulu confirmed (class bukan None) dari unconfirmed -- siklus
@@ -573,14 +584,14 @@ def render_summary():
     confirmed = [e for e in session_log if e["class"] is not None]
     n_unconfirmed = len(session_log) - len(confirmed)
     if not confirmed:
-        st.info("Belum ada siklus dengan data cukup untuk diklasifikasi.")
+        st.info("Belum ada siklus dengan data cukup untuk diklasifikasi.", icon=":material/info:")
         if n_unconfirmed:
             st.caption(f"({n_unconfirmed} siklus terdeteksi tapi datanya kurang -- "
                        f"mis. sebagian badan tidak terlihat kamera.)")
         return
     n_wrong = sum(1 for e in confirmed if e["warning"])
     if n_wrong == 0:
-        st.success(f"Semua {len(confirmed)} siklus gerakan terpantau postur BENAR. 👍")
+        st.success(f"Semua {len(confirmed)} siklus gerakan terpantau postur benar.", icon=":material/check_circle:")
     else:
         st.write(f"**{n_wrong} dari {len(confirmed)} siklus gerakan terdeteksi postur salah:**")
     if n_unconfirmed:
@@ -607,9 +618,9 @@ def render_summary():
                       caption=f"Siklus {segs_txt} -- {key}",
                       width="stretch")
             if g["warning"]:
-                st.caption(f"⚠️ {g['warning']}")
+                st.caption(f":material/warning: {g['warning']}")
             else:
-                st.caption("✅ Postur benar")
+                st.caption(":material/check_circle: Postur benar")
 
 
 @st.fragment(run_every=COMMIT_INTERVAL_SEC)
@@ -667,7 +678,7 @@ def _finalize_upload_video(raw_path, audio_events, out_path, duration_sec):
 
 if source_mode == "Kamera Live":
     with col_video:
-        st.subheader("📹 Kamera")
+        st.subheader(":material/videocam: Kamera")
         webrtc_ctx = webrtc_streamer(
             key=f"posture-{exercise}",
             mode=WebRtcMode.SENDRECV,
@@ -691,14 +702,14 @@ if source_mode == "Kamera Live":
 else:  # Upload Video
     is_analyzing = st.session_state.get("analyzing", False)
     with col_video:
-        st.subheader("📹 Video")
+        st.subheader(":material/movie: Video")
         uploaded = st.file_uploader("Upload video latihan (mp4/mov)", type=["mp4", "mov", "avi"],
                                      disabled=is_analyzing)
         video_slot = st.empty()
         progress_slot = st.empty()
-        start_btn = st.button("▶️ Mulai Analisis", disabled=uploaded is None or is_analyzing)
+        start_btn = st.button("Mulai analisis", icon=":material/play_arrow:", disabled=uploaded is None or is_analyzing)
         if is_analyzing:
-            st.caption("⏳ Video sebelumnya masih diproses -- tunggu sampai selesai sebelum upload lagi.")
+            st.caption(":material/hourglass_top: Video sebelumnya masih diproses -- tunggu sampai selesai sebelum upload lagi.")
 
     if uploaded is not None and start_btn:
         st.session_state["analyzing"] = True
@@ -770,14 +781,12 @@ else:  # Upload Video
             raw_path.unlink(missing_ok=True)
             progress_slot.empty()
             video_slot.video(str(out_path))
-            st.success("Analisis video selesai.")
+            st.success("Analisis video selesai.", icon=":material/check_circle:")
         finally:
             # Wajib finally -- kalau video rusak/error di tengah loop,
             # uploader tidak boleh terkunci selamanya.
             st.session_state["analyzing"] = False
 
-    render_result()
-    render_audio()
     if session_log:
         render_summary()
 

@@ -18,3 +18,5 @@ _streamlit_https_err.log
 .agents/
 .ipynb_checkpoints/
 .env
+
+experimental_client_pipeline/
