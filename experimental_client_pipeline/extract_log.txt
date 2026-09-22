@@ -1,0 +1,486 @@
+[extract] benchpress_armsspread_p1_front_take01.mp4 (exercise=benchpress, posture_class=armsspread, camera_angle=front, take=1)
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1789356808.239124   23308 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789356808.256142   23308 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789356850.621560   20160 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789356850.638326   20160 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789356890.176422   11556 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789356890.192941   11556 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789356931.069611   15820 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789356931.085659   15820 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789356974.173338   13292 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789356974.189665   13292 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357016.132107   16520 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357016.148166   16520 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357055.494767    5236 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357055.510491    5236 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357091.699618    4984 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357091.714939   22224 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357132.973716   20800 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357132.989927   20800 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357178.258708    9592 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357178.275105    9592 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357195.474542    3768 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357195.491152    5568 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357217.969729   15372 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357217.985844   15372 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357246.598436   11556 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357246.614343   11556 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357267.626814    7660 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357267.642764    7660 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357288.611003   13192 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357288.626970   13192 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357316.300733   12756 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357316.316283   12756 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357339.841779   16528 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357339.857551   16528 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357365.518766   19436 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357365.534614   19436 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357391.850718   11808 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357391.866659   11808 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357415.037363   17580 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357415.053216   17580 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357432.102116   14120 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357432.118240   14120 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357453.227869   19860 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357453.243596   19860 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357480.467655    3584 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357480.483578    3584 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357505.082732   18784 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357505.098370   18784 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357534.792233    2608 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357534.808312   10988 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357556.652563   23936 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357556.668456   23936 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357578.284482   24392 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357578.299652   24392 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357599.228669    6904 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357599.245387    6904 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357649.283222   17860 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357649.298982   17860 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357694.628320    4964 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357694.644437    4964 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357748.308700   18664 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357748.324569   18664 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357800.440335   17996 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357800.456102   17996 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357844.733797   22788 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357844.749391   22788 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357895.937136   10840 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357895.953269   10840 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357945.709991   10944 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357945.726256   10944 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789357993.275370   21412 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789357993.291857   21412 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358040.323490   16820 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358040.343105   15464 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358074.273854    9480 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358074.290082    9480 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358102.139767    2560 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358102.155893    2560 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358130.079601   13604 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358130.095856   13604 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358161.832635   23120 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358161.848583   23120 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358192.413663    9256 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358192.429539    9256 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358251.378608   19888 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358251.395296   19888 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358284.075147    8832 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358284.091303    8832 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358319.621899   11248 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358319.637604   11248 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358357.160133   19464 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358357.176423   19464 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358375.968975   14404 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358375.985150   14404 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358407.509840   13108 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358407.523105   13108 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358430.643087    5876 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358430.656237    5876 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p1\armsspread\benchpress_armsspread_p1_front_take01.csv (1034 frame, 784 frame terdeteksi pose)
+[extract] benchpress_armsspread_p1_left45_take01.mp4 (exercise=benchpress, posture_class=armsspread, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p1\armsspread\benchpress_armsspread_p1_left45_take01.csv (898 frame, 775 frame terdeteksi pose)
+[extract] benchpress_armsspread_p1_right45_take01.mp4 (exercise=benchpress, posture_class=armsspread, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p1\armsspread\benchpress_armsspread_p1_right45_take01.csv (898 frame, 738 frame terdeteksi pose)
+[extract] benchpress_correct_p1_front_take01.mp4 (exercise=benchpress, posture_class=correct, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p1\correct\benchpress_correct_p1_front_take01.csv (1077 frame, 822 frame terdeteksi pose)
+[extract] benchpress_correct_p1_left45_take01.mp4 (exercise=benchpress, posture_class=correct, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p1\correct\benchpress_correct_p1_left45_take01.csv (984 frame, 861 frame terdeteksi pose)
+[extract] benchpress_correct_p1_right45_take01.mp4 (exercise=benchpress, posture_class=correct, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p1\correct\benchpress_correct_p1_right45_take01.csv (884 frame, 791 frame terdeteksi pose)
+[extract] benchpress_flatback_p1_front_take01.mp4 (exercise=benchpress, posture_class=flatback, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p1\flatback\benchpress_flatback_p1_front_take01.csv (936 frame, 681 frame terdeteksi pose)
+[extract] benchpress_flatback_p1_left45_take01.mp4 (exercise=benchpress, posture_class=flatback, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p1\flatback\benchpress_flatback_p1_left45_take01.csv (955 frame, 829 frame terdeteksi pose)
+[extract] benchpress_flatback_p1_right45_take01.mp4 (exercise=benchpress, posture_class=flatback, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p1\flatback\benchpress_flatback_p1_right45_take01.csv (997 frame, 966 frame terdeteksi pose)
+[extract] benchpress_armsspread_p2_front_take01.mp4 (exercise=benchpress, posture_class=armsspread, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p2\armsspread\benchpress_armsspread_p2_front_take01.csv (391 frame, 387 frame terdeteksi pose)
+[extract] benchpress_armsspread_p2_left45_take01.mp4 (exercise=benchpress, posture_class=armsspread, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p2\armsspread\benchpress_armsspread_p2_left45_take01.csv (514 frame, 514 frame terdeteksi pose)
+[extract] benchpress_armsspread_p2_right45_take01.mp4 (exercise=benchpress, posture_class=armsspread, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p2\armsspread\benchpress_armsspread_p2_right45_take01.csv (643 frame, 643 frame terdeteksi pose)
+[extract] benchpress_correct_p2_front_take01.mp4 (exercise=benchpress, posture_class=correct, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p2\correct\benchpress_correct_p2_front_take01.csv (483 frame, 483 frame terdeteksi pose)
+[extract] benchpress_correct_p2_left45_take01.mp4 (exercise=benchpress, posture_class=correct, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p2\correct\benchpress_correct_p2_left45_take01.csv (476 frame, 476 frame terdeteksi pose)
+[extract] benchpress_correct_p2_right45_take01.mp4 (exercise=benchpress, posture_class=correct, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p2\correct\benchpress_correct_p2_right45_take01.csv (626 frame, 626 frame terdeteksi pose)
+[extract] benchpress_flatback_p2_front_take01.mp4 (exercise=benchpress, posture_class=flatback, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p2\flatback\benchpress_flatback_p2_front_take01.csv (528 frame, 518 frame terdeteksi pose)
+[extract] benchpress_flatback_p2_left45_take01.mp4 (exercise=benchpress, posture_class=flatback, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p2\flatback\benchpress_flatback_p2_left45_take01.csv (593 frame, 593 frame terdeteksi pose)
+[extract] benchpress_flatback_p2_right45_take01.mp4 (exercise=benchpress, posture_class=flatback, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p2\flatback\benchpress_flatback_p2_right45_take01.csv (594 frame, 594 frame terdeteksi pose)
+[extract] benchpress_armsspread_p3_front_take01.mp4 (exercise=benchpress, posture_class=armsspread, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p3\armsspread\benchpress_armsspread_p3_front_take01.csv (586 frame, 586 frame terdeteksi pose)
+[extract] benchpress_armsspread_p3_left45_take01.mp4 (exercise=benchpress, posture_class=armsspread, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p3\armsspread\benchpress_armsspread_p3_left45_take01.csv (434 frame, 434 frame terdeteksi pose)
+[extract] benchpress_armsspread_p3_right45_take01.mp4 (exercise=benchpress, posture_class=armsspread, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p3\armsspread\benchpress_armsspread_p3_right45_take01.csv (528 frame, 528 frame terdeteksi pose)
+[extract] benchpress_correct_p3_front_take01.mp4 (exercise=benchpress, posture_class=correct, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p3\correct\benchpress_correct_p3_front_take01.csv (676 frame, 674 frame terdeteksi pose)
+[extract] benchpress_correct_p3_left45_take01.mp4 (exercise=benchpress, posture_class=correct, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p3\correct\benchpress_correct_p3_left45_take01.csv (611 frame, 611 frame terdeteksi pose)
+[extract] benchpress_correct_p3_right45_take01.mp4 (exercise=benchpress, posture_class=correct, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p3\correct\benchpress_correct_p3_right45_take01.csv (765 frame, 765 frame terdeteksi pose)
+[extract] benchpress_flatback_p3_front_take01.mp4 (exercise=benchpress, posture_class=flatback, camera_angle=front, take=1)
+W0000 00:00:1789358452.429684   10744 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358452.443004   10744 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358475.570041   18124 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358475.583501   18124 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358496.600175   14788 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358496.613563   14788 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358524.025755   11732 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358524.041522   11732 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358547.035242    3080 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358547.048557    3080 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358571.596976   17476 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358571.610325   17476 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358596.104174   15528 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358596.117998   15528 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358619.949988   10324 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358619.963514   10324 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358647.613418   12260 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358647.626566   12260 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358670.438273    3572 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358670.452166    3572 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358691.369910    3048 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358691.383140    3048 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358715.954643   10192 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358715.968333   10192 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358738.990359   11704 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358739.003604   11704 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358764.559876    8216 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358764.572985    8216 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358801.416672   13212 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358801.432561   13212 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358833.827529   18084 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358833.840757   18084 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358864.675197   17696 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358864.688513   17696 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358893.716782   17272 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358893.729995   17272 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358922.493715   10204 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358922.507489   10204 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358948.201045    5348 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358948.217748    5348 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789358979.352956   20516 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789358979.368149   14960 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789359011.317056    4060 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359011.329985    4060 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789359038.879377   17848 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359038.892906   17848 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789359066.037428   20436 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359066.051183   20436 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789359084.977947   21076 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359084.990981   21076 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789359110.650907   13072 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359110.667885   13072 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p3\flatback\benchpress_flatback_p3_front_take01.csv (559 frame, 559 frame terdeteksi pose)
+[extract] benchpress_flatback_p3_left45_take01.mp4 (exercise=benchpress, posture_class=flatback, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p3\flatback\benchpress_flatback_p3_left45_take01.csv (469 frame, 469 frame terdeteksi pose)
+[extract] benchpress_flatback_p3_right45_take01.mp4 (exercise=benchpress, posture_class=flatback, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\benchpress\p3\flatback\benchpress_flatback_p3_right45_take01.csv (545 frame, 545 frame terdeteksi pose)
+[extract] deadlift_armsspread_p1_front_take01.mp4 (exercise=deadlift, posture_class=armsspread, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p1\armsspread\deadlift_armsspread_p1_front_take01.csv (1110 frame, 848 frame terdeteksi pose)
+[extract] deadlift_armsspread_p1_left45_take01.mp4 (exercise=deadlift, posture_class=armsspread, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p1\armsspread\deadlift_armsspread_p1_left45_take01.csv (1037 frame, 870 frame terdeteksi pose)
+[extract] deadlift_armsspread_p1_right45_take01.mp4 (exercise=deadlift, posture_class=armsspread, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p1\armsspread\deadlift_armsspread_p1_right45_take01.csv (1171 frame, 939 frame terdeteksi pose)
+[extract] deadlift_backround_p1_front_take01.mp4 (exercise=deadlift, posture_class=backround, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p1\backround\deadlift_backround_p1_front_take01.csv (1157 frame, 939 frame terdeteksi pose)
+[extract] deadlift_backround_p1_left45_take01.mp4 (exercise=deadlift, posture_class=backround, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p1\backround\deadlift_backround_p1_left45_take01.csv (1015 frame, 872 frame terdeteksi pose)
+[extract] deadlift_backround_p1_right45_take01.mp4 (exercise=deadlift, posture_class=backround, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p1\backround\deadlift_backround_p1_right45_take01.csv (1188 frame, 952 frame terdeteksi pose)
+[extract] deadlift_correct_p1_front_take01.mp4 (exercise=deadlift, posture_class=correct, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p1\correct\deadlift_correct_p1_front_take01.csv (1068 frame, 839 frame terdeteksi pose)
+[extract] deadlift_correct_p1_left45_take01.mp4 (exercise=deadlift, posture_class=correct, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p1\correct\deadlift_correct_p1_left45_take01.csv (1024 frame, 887 frame terdeteksi pose)
+[extract] deadlift_correct_p1_right45_take01.mp4 (exercise=deadlift, posture_class=correct, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p1\correct\deadlift_correct_p1_right45_take01.csv (1075 frame, 829 frame terdeteksi pose)
+[extract] deadlift_armsspread_p2_front_take01.mp4 (exercise=deadlift, posture_class=armsspread, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p2\armsspread\deadlift_armsspread_p2_front_take01.csv (824 frame, 822 frame terdeteksi pose)
+[extract] deadlift_armsspread_p2_left45_take01.mp4 (exercise=deadlift, posture_class=armsspread, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p2\armsspread\deadlift_armsspread_p2_left45_take01.csv (710 frame, 710 frame terdeteksi pose)
+[extract] deadlift_armsspread_p2_right45_take01.mp4 (exercise=deadlift, posture_class=armsspread, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p2\armsspread\deadlift_armsspread_p2_right45_take01.csv (723 frame, 723 frame terdeteksi pose)
+[extract] deadlift_backround_p2_front_take01.mp4 (exercise=deadlift, posture_class=backround, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p2\backround\deadlift_backround_p2_front_take01.csv (768 frame, 767 frame terdeteksi pose)
+[extract] deadlift_backround_p2_left45_take01.mp4 (exercise=deadlift, posture_class=backround, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p2\backround\deadlift_backround_p2_left45_take01.csv (780 frame, 780 frame terdeteksi pose)
+[extract] deadlift_backround_p2_right45_take01.mp4 (exercise=deadlift, posture_class=backround, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p2\backround\deadlift_backround_p2_right45_take01.csv (1331 frame, 1054 frame terdeteksi pose)
+[extract] deadlift_correct_p2_front_take01.mp4 (exercise=deadlift, posture_class=correct, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p2\correct\deadlift_correct_p2_front_take01.csv (837 frame, 837 frame terdeteksi pose)
+[extract] deadlift_correct_p2_left45_take01.mp4 (exercise=deadlift, posture_class=correct, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p2\correct\deadlift_correct_p2_left45_take01.csv (859 frame, 859 frame terdeteksi pose)
+[extract] deadlift_correct_p2_right45_take01.mp4 (exercise=deadlift, posture_class=correct, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p2\correct\deadlift_correct_p2_right45_take01.csv (969 frame, 969 frame terdeteksi pose)
+[extract] deadlift_armsspread_p3_front_take01.mp4 (exercise=deadlift, posture_class=armsspread, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p3\armsspread\deadlift_armsspread_p3_front_take01.csv (482 frame, 480 frame terdeteksi pose)
+[extract] deadlift_armsspread_p3_left45_take01.mp4 (exercise=deadlift, posture_class=armsspread, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p3\armsspread\deadlift_armsspread_p3_left45_take01.csv (780 frame, 780 frame terdeteksi pose)
+[extract] deadlift_armsspread_p3_right45_take01.mp4 (exercise=deadlift, posture_class=armsspread, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p3\armsspread\deadlift_armsspread_p3_right45_take01.csv (596 frame, 590 frame terdeteksi pose)
+[extract] deadlift_backround_p3_front_take01.mp4 (exercise=deadlift, posture_class=backround, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p3\backround\deadlift_backround_p3_front_take01.csv (549 frame, 535 frame terdeteksi pose)
+W0000 00:00:1789359132.010286    7080 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359132.024068    7080 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789359153.958428    8004 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359153.971321    8004 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789359179.823220   17868 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359179.836794   19332 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789359198.917471    3480 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359198.930930   21004 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+W0000 00:00:1789359218.076853     404 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1789359218.090400     404 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\totit\Downloads\skripsi-postur-gym\venv\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+[extract] deadlift_backround_p3_left45_take01.mp4 (exercise=deadlift, posture_class=backround, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p3\backround\deadlift_backround_p3_left45_take01.csv (593 frame, 593 frame terdeteksi pose)
+[extract] deadlift_backround_p3_right45_take01.mp4 (exercise=deadlift, posture_class=backround, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p3\backround\deadlift_backround_p3_right45_take01.csv (506 frame, 503 frame terdeteksi pose)
+[extract] deadlift_correct_p3_front_take01.mp4 (exercise=deadlift, posture_class=correct, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p3\correct\deadlift_correct_p3_front_take01.csv (618 frame, 617 frame terdeteksi pose)
+[extract] deadlift_correct_p3_left45_take01.mp4 (exercise=deadlift, posture_class=correct, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p3\correct\deadlift_correct_p3_left45_take01.csv (604 frame, 546 frame terdeteksi pose)
+[extract] deadlift_correct_p3_right45_take01.mp4 (exercise=deadlift, posture_class=correct, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\deadlift\p3\correct\deadlift_correct_p3_right45_take01.csv (580 frame, 580 frame terdeteksi pose)
+[extract] squat_backbend_p1_front_take01.mp4 (exercise=squat, posture_class=backbend, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p1\backbend\squat_backbend_p1_front_take01.csv (559 frame, 463 frame terdeteksi pose)
+[extract] squat_backbend_p1_left45_take01.mp4 (exercise=squat, posture_class=backbend, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p1\backbend\squat_backbend_p1_left45_take01.csv (529 frame, 528 frame terdeteksi pose)
+[extract] squat_backbend_p1_right45_take01.mp4 (exercise=squat, posture_class=backbend, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p1\backbend\squat_backbend_p1_right45_take01.csv (626 frame, 626 frame terdeteksi pose)
+[extract] squat_correct_p1_front_take01.mp4 (exercise=squat, posture_class=correct, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p1\correct\squat_correct_p1_front_take01.csv (519 frame, 519 frame terdeteksi pose)
+[skip] squat_correct_p1_left45_take01.csv sudah ada, pakai --force utk ekstrak ulang
+[extract] squat_correct_p1_right45_take01.mp4 (exercise=squat, posture_class=correct, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p1\correct\squat_correct_p1_right45_take01.csv (492 frame, 492 frame terdeteksi pose)
+[extract] squat_kneeinward_p1_front_take01.mp4 (exercise=squat, posture_class=kneeinward, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p1\kneeinward\squat_kneeinward_p1_front_take01.csv (559 frame, 559 frame terdeteksi pose)
+[extract] squat_kneeinward_p1_left45_take01.mp4 (exercise=squat, posture_class=kneeinward, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p1\kneeinward\squat_kneeinward_p1_left45_take01.csv (502 frame, 502 frame terdeteksi pose)
+[extract] squat_kneeinward_p1_right45_take01.mp4 (exercise=squat, posture_class=kneeinward, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p1\kneeinward\squat_kneeinward_p1_right45_take01.csv (573 frame, 573 frame terdeteksi pose)
+[extract] squat_backbend_p2_front_take01.mp4 (exercise=squat, posture_class=backbend, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p2\backbend\squat_backbend_p2_front_take01.csv (933 frame, 760 frame terdeteksi pose)
+[extract] squat_backbend_p2_left45_take01.mp4 (exercise=squat, posture_class=backbend, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p2\backbend\squat_backbend_p2_left45_take01.csv (772 frame, 765 frame terdeteksi pose)
+[extract] squat_backbend_p2_right45_take01.mp4 (exercise=squat, posture_class=backbend, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p2\backbend\squat_backbend_p2_right45_take01.csv (752 frame, 722 frame terdeteksi pose)
+[extract] squat_correct_p2_front_take01.mp4 (exercise=squat, posture_class=correct, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p2\correct\squat_correct_p2_front_take01.csv (682 frame, 682 frame terdeteksi pose)
+[extract] squat_correct_p2_left45_take01.mp4 (exercise=squat, posture_class=correct, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p2\correct\squat_correct_p2_left45_take01.csv (690 frame, 690 frame terdeteksi pose)
+[extract] squat_correct_p2_right45_take01.mp4 (exercise=squat, posture_class=correct, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p2\correct\squat_correct_p2_right45_take01.csv (614 frame, 614 frame terdeteksi pose)
+[extract] squat_kneeinward_p2_front_take01.mp4 (exercise=squat, posture_class=kneeinward, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p2\kneeinward\squat_kneeinward_p2_front_take01.csv (737 frame, 727 frame terdeteksi pose)
+[extract] squat_kneeinward_p2_left45_take01.mp4 (exercise=squat, posture_class=kneeinward, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p2\kneeinward\squat_kneeinward_p2_left45_take01.csv (782 frame, 782 frame terdeteksi pose)
+[extract] squat_kneeinward_p2_right45_take01.mp4 (exercise=squat, posture_class=kneeinward, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p2\kneeinward\squat_kneeinward_p2_right45_take01.csv (705 frame, 705 frame terdeteksi pose)
+[extract] squat_backbend_p3_front_take01.mp4 (exercise=squat, posture_class=backbend, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p3\backbend\squat_backbend_p3_front_take01.csv (698 frame, 449 frame terdeteksi pose)
+[extract] squat_backbend_p3_left45_take01.mp4 (exercise=squat, posture_class=backbend, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p3\backbend\squat_backbend_p3_left45_take01.csv (483 frame, 476 frame terdeteksi pose)
+[extract] squat_backbend_p3_right45_take01.mp4 (exercise=squat, posture_class=backbend, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p3\backbend\squat_backbend_p3_right45_take01.csv (639 frame, 598 frame terdeteksi pose)
+[extract] squat_correct_p3_front_take01.mp4 (exercise=squat, posture_class=correct, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p3\correct\squat_correct_p3_front_take01.csv (533 frame, 533 frame terdeteksi pose)
+[extract] squat_correct_p3_left45_take01.mp4 (exercise=squat, posture_class=correct, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p3\correct\squat_correct_p3_left45_take01.csv (533 frame, 533 frame terdeteksi pose)
+[extract] squat_correct_p3_right45_take01.mp4 (exercise=squat, posture_class=correct, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p3\correct\squat_correct_p3_right45_take01.csv (672 frame, 672 frame terdeteksi pose)
+[extract] squat_kneeinward_p3_front_take01.mp4 (exercise=squat, posture_class=kneeinward, camera_angle=front, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p3\kneeinward\squat_kneeinward_p3_front_take01.csv (481 frame, 481 frame terdeteksi pose)
+[extract] squat_kneeinward_p3_left45_take01.mp4 (exercise=squat, posture_class=kneeinward, camera_angle=left45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p3\kneeinward\squat_kneeinward_p3_left45_take01.csv (482 frame, 482 frame terdeteksi pose)
+[extract] squat_kneeinward_p3_right45_take01.mp4 (exercise=squat, posture_class=kneeinward, camera_angle=right45, take=1)
+  -> C:\Users\totit\Downloads\skripsi-postur-gym\experimental_client_pipeline\data\extracted_landmarks\squat\p3\kneeinward\squat_kneeinward_p3_right45_take01.csv (456 frame, 456 frame terdeteksi pose)
+[skip] 'WhatsApp Video 2026-09-09 at 18.43.14.mp4' tidak cocok pola {exercise}_{posture_class}_p{id}_{camera_angle}_take{NN}.mp4
+
+Selesai: 80/82 video berhasil diekstrak.

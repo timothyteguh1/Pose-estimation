@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eksperimen Client-Side Pose</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/ort.webgpu.min.js"></script>
+<script src="yolo.js"></script>
+<script src="crop.js"></script>
+<style>
+  :root {
+    --bg: #0F1412;
+    --panel: #161F1C;
+    --panel-2: #1C2622;
+    --border: #283530;
+    --text: #EAF1EE;
+    --muted: #85A69C;
+    --accent: #14B8A6;
+    --accent-dim: #0F766E;
+    --good: #34D399;
+    --good-bg: rgba(52, 211, 153, 0.12);
+    --bad: #F87171;
+    --bad-bg: rgba(248, 113, 113, 0.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg); color: var(--text); margin: 0; padding: 20px 16px 40px;
+  }
+  .num, #repCount, #fps, #finalMetrics .num {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1.appTitle { max-width: 1100px; margin: 0 auto 16px; font-size: 15px; font-weight: 600;
+    letter-spacing: 0.02em; color: var(--muted); text-transform: uppercase; text-align: center; }
+
+  #toolbar { max-width: 1100px; margin: 0 auto 18px; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; }
+  #toolbar .divider { width: 1px; align-self: stretch; background: var(--border); margin: 0 2px; }
+  #setup { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
+  #setup label { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+  #setup input, #setup select, #setup button {
+    padding: 8px 12px; font-size: 14px; border-radius: 7px; border: 1px solid var(--border);
+    background: var(--panel-2); color: var(--text); font-family: inherit;
+  }
+  #setup button { cursor: pointer; font-weight: 500; border-color: var(--accent-dim); }
+  #setup button:hover:not(:disabled) { border-color: var(--accent); }
+  #setup button:disabled { opacity: 0.4; cursor: default; }
+  #connectBtn, #startUploadBtn { background: var(--accent-dim); color: #fff; }
+  #status { max-width: 1100px; margin: 0 auto 16px; text-align: center; padding: 4px; font-size: 13px; color: var(--muted); }
+
+  #mainLayout { display: flex; flex-wrap: wrap; gap: 20px; max-width: 1100px; margin: 0 auto; align-items: flex-start; }
+  #videoCol { flex: 2 1 420px; min-width: 280px; }
+  #infoCol { flex: 1 1 300px; min-width: 240px; display: flex; flex-direction: column; gap: 14px; }
+
+  #wrap { position: relative; aspect-ratio: 4 / 3; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+  video, canvas.overlay { width: 100%; height: 100%; display: block; object-fit: contain; }
+  canvas.overlay { position: absolute; top: 0; left: 0; }
+  #statsRow { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; font-size: 12px; }
+  #fps { color: var(--accent); font-weight: 600; }
+  #timing { color: var(--muted); text-align: right; }
+
+  #result { text-align: center; border: 1px solid var(--border); background: var(--panel); border-radius: 12px; padding: 20px 16px; }
+  #result .rep { font-size: 34px; font-weight: 700; color: var(--accent); }
+  #clsText { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  #result .cls-ok { color: var(--good); font-size: 14px; margin-top: 6px; font-weight: 500; }
+  #result .cls-warn { color: var(--bad); font-size: 14px; margin-top: 6px; font-weight: 500; }
+  #progressWrap { text-align: center; }
+  #progressWrap progress { width: 100%; }
+  #summary { display: none; }
+  #summary .item { position: relative; border: 1px solid var(--border); background: var(--panel); border-radius: 9px;
+    padding: 9px 12px 9px 20px; font-size: 13px; text-align: left; line-height: 1.4; }
+  #summary .item::before { content: ""; position: absolute; left: 9px; top: 14px; width: 7px; height: 7px; border-radius: 50%; }
+  #summary .item.warn::before { background: var(--bad); }
+  #summary .item.ok::before { background: var(--good); }
+  #finalSummary { display: none; border: 1px solid var(--border); background: var(--panel); border-radius: 12px; padding: 18px 16px; }
+  #finalSummary h3 { text-align: center; margin: 0 0 14px; font-size: 15px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em; }
+  #finalMetrics { display: flex; justify-content: space-around; margin-bottom: 14px; }
+  #finalMetrics div { text-align: center; }
+  #finalMetrics .num { font-size: 28px; font-weight: 700; color: var(--accent); display: block; }
+  #finalGroups { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .groupCard { width: 140px; border: 1px solid var(--border); background: var(--panel-2); border-radius: 10px;
+    padding: 8px; text-align: center; font-size: 12px; }
+  .groupCard img { width: 100%; border-radius: 6px; display: block; margin-bottom: 6px; }
+  .groupCard.warn { border-color: var(--bad); background: var(--bad-bg); }
+  .groupCard.ok { border-color: var(--good); background: var(--good-bg); }
+  #uploadPanel { display: none; }
+</style>
+</head>
+<body>
+<h1 class="appTitle">Pemantau Postur — Eksperimen Client-Side</h1>
+<div id="toolbar">
+  <div id="setup">
+    <label><input type="radio" name="mode" value="live" checked> Kamera Live</label>
+    <label><input type="radio" name="mode" value="upload"> Upload Video</label>
+    <select id="exercise">
+      <option value="squat">Squat</option>
+      <option value="benchpress">Bench Press</option>
+      <option value="deadlift">Deadlift</option>
+    </select>
+    <label>Countdown: <input type="number" id="countdownInput" value="5" min="0" max="30" step="1" style="width:50px;"> detik</label>
+  </div>
+  <div class="divider"></div>
+  <div id="setup">
+    <span id="livePanel">
+      <button id="connectBtn" disabled>Hubungkan ke backend</button>
+      <button id="stopLiveBtn" disabled>Stop</button>
+    </span>
+    <span id="uploadPanel">
+      <input type="file" id="videoFile" accept="video/*">
+      <button id="startUploadBtn" disabled>Mulai Analisis</button>
+    </span>
+  </div>
+</div>
+<div id="status">Belum jalan.</div>
+<div id="mainLayout">
+  <div id="videoCol">
+    <div id="wrap">
+      <video id="video" autoplay playsinline muted></video>
+      <canvas id="overlay" class="overlay"></canvas>
+    </div>
+    <div id="statsRow">
+      <div id="fps"></div>
+      <div id="timing"></div>
+    </div>
+  </div>
+  <div id="infoCol">
+    <div id="progressWrap"></div>
+    <div id="result">
+      <div class="rep" id="repCount">Repetisi: -</div>
+      <div id="clsText">Menunggu koneksi backend...</div>
+    </div>
+    <div id="summary"></div>
+    <div id="finalSummary">
+      <h3>Ringkasan Sesi</h3>
+      <div id="finalMetrics"></div>
+      <div id="finalGroups"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { FilesetResolver, PoseLandmarker } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
+
+const statusEl = document.getElementById("status");
+const fpsEl = document.getElementById("fps");
+const timingEl = document.getElementById("timing");
+const video = document.getElementById("video");
+const canvas = document.getElementById("overlay");
+const ctx = canvas.getContext("2d");
+const cropCanvas = document.createElement("canvas");
+const cropCtx = cropCanvas.getContext("2d");
+const repCountEl = document.getElementById("repCount");
+const clsTextEl = document.getElementById("clsText");
+const connectBtn = document.getElementById("connectBtn");
+const stopLiveBtn = document.getElementById("stopLiveBtn");
+const livePanelEl = document.getElementById("livePanel");
+const exerciseSel = document.getElementById("exercise");
+const uploadPanel = document.getElementById("uploadPanel");
+const videoFileInput = document.getElementById("videoFile");
+const startUploadBtn = document.getElementById("startUploadBtn");
+const summaryEl = document.getElementById("summary");
+const modeRadios = document.getElementsByName("mode");
+const progressWrapEl = document.getElementById("progressWrap");
+const resultEl = document.getElementById("result");
+const finalSummaryEl = document.getElementById("finalSummary");
+const finalMetricsEl = document.getElementById("finalMetrics");
+const finalGroupsEl = document.getElementById("finalGroups");
+
+const TRAINING_FPS = 30.0;
+const countdownInputEl = document.getElementById("countdownInput");
+function getCountdownSec() {
+  return parseFloat(countdownInputEl.value) || 0;
+}
+
+let yolo = null;
+let poseLandmarker = null;
+let lastTime = performance.now();
+const frameTimes = [];
+const FPS_WINDOW = 30;
+let frameCount = 0;
+const timingLog = { yoloAll: [], yoloReal: [], crop: [], pose: [] };
+
+const YOLO_REDETECT_EVERY = 5;
+let cachedDet = null;
+let framesSinceDetect = 0;
+
+let ws = null;
+let lastSendMs = null;
+let sessionStartMs = null;
+let wsReady = false;
+let mode = "live";
+let running = false;
+
+const sessionLog = [];
+let lastRepCount = 0;
+
+let cycleEvidence = { angle: null, dataUrl: null };
+const snapCanvas = document.createElement("canvas");
+const snapCtx = snapCanvas.getContext("2d");
+
+function captureSnapshot() {
+  snapCanvas.width = video.videoWidth;
+  snapCanvas.height = video.videoHeight;
+  snapCtx.drawImage(video, 0, 0, snapCanvas.width, snapCanvas.height);
+  snapCtx.drawImage(canvas, 0, 0, snapCanvas.width, snapCanvas.height);
+  return snapCanvas.toDataURL("image/jpeg", 0.7);
+}
+
+function displayName(className) {
+  if (!className) return null;
+  const idx = className.lastIndexOf("_");
+  return idx === -1 ? className : className.slice(0, idx);
+}
+
+function renderSummary() {
+  summaryEl.innerHTML = sessionLog.map((c) => {
+    const cls = displayName(c.class) || "(kurang data)";
+    const warnClass = c.warning ? "warn" : "ok";
+    return `<div class="item ${warnClass}">Siklus ${c.rep_no}: ${cls}${c.warning ? " -- " + c.warning : ""}</div>`;
+  }).join("");
+}
+
+function renderFinalSummary() {
+  finalMetricsEl.innerHTML = `
+    <div><div class="num">${lastRepCount}</div>Total repetisi</div>
+    <div><div class="num">${sessionLog.length}</div>Siklus dianalisis</div>
+  `;
+
+  const confirmed = sessionLog.filter((e) => e.class);
+  const nUnconfirmed = sessionLog.length - confirmed.length;
+
+  if (confirmed.length === 0) {
+    finalGroupsEl.innerHTML = `<p>Belum ada siklus dengan data cukup untuk diklasifikasi.</p>`;
+  } else {
+    const groups = {};
+    const order = [];
+    for (const entry of confirmed) {
+      const key = displayName(entry.class);
+      if (!(key in groups)) {
+        groups[key] = { segs: [], warning: entry.warning, image: entry.snapshot };
+        order.push(key);
+      }
+      groups[key].segs.push(entry.rep_no);
+    }
+    finalGroupsEl.innerHTML = order.map((key) => {
+      const g = groups[key];
+      const warnClass = g.warning ? "warn" : "ok";
+      const img = g.image ? `<img src="${g.image}">` : "";
+      return `<div class="groupCard ${warnClass}">${img}<div>Siklus ${g.segs.join(", ")}</div><div>${key}</div>${g.warning ? `<div>${g.warning}</div>` : "<div>Postur benar</div>"}</div>`;
+    }).join("");
+    if (nUnconfirmed) {
+      finalGroupsEl.innerHTML += `<p style="width:100%;text-align:center;font-size:12px;">(${nUnconfirmed} siklus lain datanya kurang, tidak ditampilkan)</p>`;
+    }
+  }
+
+  finalSummaryEl.style.display = "block";
+}
+
+for (const r of modeRadios) {
+  r.onchange = (e) => {
+    if (running && video.srcObject) {
+      running = false;
+      for (const track of video.srcObject.getTracks()) track.stop();
+      video.srcObject = null;
+      stopLiveBtn.disabled = true;
+      connectBtn.disabled = false;
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = 0;
+    canvas.height = 0;
+    repCountEl.textContent = "Repetisi: -";
+    clsTextEl.textContent = "Menunggu koneksi backend...";
+    clsTextEl.className = "";
+    summaryEl.innerHTML = "";
+    sessionLog.length = 0;
+    lastRepCount = 0;
+    mode = e.target.value;
+    uploadPanel.style.display = mode === "upload" ? "inline" : "none";
+    livePanelEl.style.display = mode === "live" ? "inline" : "none";
+    finalSummaryEl.style.display = "none";
+    progressWrapEl.innerHTML = "";
+  };
+}
+
+function unlockAudio() {
+  // Browser HP blokir autoplay audio kecuali dipicu dari gesture user langsung --
+  // klik tombol connect/mulai analisis ITU gesture-nya, dipakai buat "buka kunci"
+  // audio duluan (sama seperti _UNLOCK_AUDIO_BTN_HTML di app.py produksi).
+  try {
+    const a = new Audio();
+    a.muted = true;
+    a.play().catch(() => {});
+  } catch (e) { /* ignore */ }
+}
+
+let lastAudioAtMs = 0;
+let currentAudioEl = null;
+
+function maybePlayWarningAudio(entry, prevEntry) {
+  // Persis pola render_audio() di app.py: skip kalau kelas sama persis dgn
+  // siklus sebelumnya (biar gak spam audio yg sama berturut-turut), skip kalau
+  // kelasnya "correct" (gak ada peringatan), jeda minimal 3 detik antar audio.
+  // "Sama" dibandingkan pakai KEY (tanpa suffix _concentric/_eccentric) --
+  // squat_backbend_eccentric lalu squat_backbend_concentric itu peringatan
+  // yg SAMA (backbend lagi), bukan peringatan baru, jadi jangan bunyi lagi.
+  const key = displayName(entry.class);
+  const prevKey = prevEntry ? displayName(prevEntry.class) : null;
+  if (prevKey !== null && prevKey === key) return;
+  if (!key || key.includes("correct")) return;
+  const now = performance.now();
+  if (now - lastAudioAtMs < 3000) return;
+  lastAudioAtMs = now;
+  // File audio (gTTS) durasinya 4-7 detik, LEBIH PANJANG dari jeda 3 detik --
+  // tanpa distop dulu, audio baru numpuk di atas audio lama yg masih muter
+  // (kedengaran "nonstop"/berantakan). Hentikan yg lama dulu sebelum mulai yg baru.
+  if (currentAudioEl) {
+    currentAudioEl.pause();
+    currentAudioEl.currentTime = 0;
+  }
+  currentAudioEl = new Audio(`audio/${key}.mp3`);
+  currentAudioEl.play().catch((err) => console.warn("Audio peringatan gagal diputar:", err.message));
+}
+
+let localCountdownTimer = null;
+
+function startLocalCountdown(countdownSec) {
+  stopLocalCountdown();
+  if (!countdownSec || countdownSec <= 0) return;
+  const deadline = performance.now() + countdownSec * 1000;
+  clsTextEl.textContent = `Bersiap... ${Math.ceil(countdownSec)} detik`;
+  clsTextEl.className = "";
+  localCountdownTimer = setInterval(() => {
+    const remain = (deadline - performance.now()) / 1000;
+    if (remain <= 0) {
+      stopLocalCountdown();
+      return;
+    }
+    clsTextEl.textContent = `Bersiap... ${Math.ceil(remain)} detik`;
+  }, 200);
+}
+
+function stopLocalCountdown() {
+  if (localCountdownTimer !== null) {
+    clearInterval(localCountdownTimer);
+    localCountdownTimer = null;
+  }
+}
+
+function handleResultMessage(msg) {
+  // Pesan asli dari backend sdh datang -- timer lokal (perkiraan) gak dipakai lagi,
+  // countdown_remaining dari backend yg jadi acuan (lebih akurat, dari waktu video
+  // sebenarnya bukan wall-clock browser).
+  stopLocalCountdown();
+  lastRepCount = msg.rep_count;
+  repCountEl.textContent = `Repetisi: ${msg.rep_count}`;
+
+  if (msg.primary_angle !== null && msg.primary_angle !== undefined) {
+    if (cycleEvidence.angle === null || msg.primary_angle < cycleEvidence.angle) {
+      cycleEvidence = { angle: msg.primary_angle, dataUrl: captureSnapshot() };
+    }
+  }
+
+  if (msg.cycle_result) {
+    const prevEntry = sessionLog.length > 0 ? sessionLog[sessionLog.length - 1] : null;
+    sessionLog.push({ ...msg.cycle_result, snapshot: cycleEvidence.dataUrl });
+    maybePlayWarningAudio(msg.cycle_result, prevEntry);
+    cycleEvidence = { angle: null, dataUrl: null };
+    renderSummary();
+  }
+
+  if (msg.countdown_remaining !== null && msg.countdown_remaining !== undefined) {
+    clsTextEl.textContent = `Bersiap... ${Math.ceil(msg.countdown_remaining)} detik`;
+    clsTextEl.className = "";
+  } else if (sessionLog.length === 0) {
+    clsTextEl.textContent = "Menganalisis siklus gerakan pertama...";
+    clsTextEl.className = "";
+  } else {
+    const last = sessionLog[sessionLog.length - 1];
+    const label = displayName(last.class) || "tidak cukup yakin";
+    if (last.warning) {
+      clsTextEl.textContent = `Siklus ${last.rep_no}: ${label} -- ${last.warning}`;
+      clsTextEl.className = "cls-warn";
+    } else if (last.class) {
+      clsTextEl.textContent = `Siklus ${last.rep_no}: ${label}`;
+      clsTextEl.className = "cls-ok";
+    } else {
+      clsTextEl.textContent = `Siklus ${last.rep_no}: model kurang yakin (data kurang)`;
+      clsTextEl.className = "";
+    }
+  }
+}
+
+function ensureSocketOpen() {
+  if (ws && ws.readyState === WebSocket.OPEN) return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
+    ws = new WebSocket(`${proto}//${window.location.host}`);
+    ws.onopen = () => resolve();
+    ws.onerror = (err) => { clsTextEl.textContent = "Error koneksi backend."; reject(err); };
+    ws.onclose = () => { wsReady = false; clsTextEl.textContent = "Backend terputus."; };
+  });
+}
+
+async function startFreshSession(exercise, countdownSec) {
+  wsReady = false;
+  clsTextEl.textContent = "Menghubungkan ke backend...";
+  await ensureSocketOpen();
+  await new Promise((resolve) => {
+    ws.onmessage = (ev) => {
+      const msg = JSON.parse(ev.data);
+      if (msg.type === "ready") {
+        wsReady = true;
+        sessionStartMs = null;
+        lastSendMs = null;
+        sessionLog.length = 0;
+        cycleEvidence = { angle: null, dataUrl: null };
+        lastRepCount = 0;
+        renderSummary();
+        finalSummaryEl.style.display = "none";
+        finalMetricsEl.innerHTML = "";
+        finalGroupsEl.innerHTML = "";
+        clsTextEl.textContent = "Backend siap.";
+        ws.onmessage = (ev2) => handleResultMessage(JSON.parse(ev2.data));
+        resolve();
+      }
+    };
+    ws.send(JSON.stringify({ type: "init", exercise, countdown_sec: countdownSec }));
+  });
+}
+
+const LOAD_MAX_ATTEMPTS = 5;
+const LOAD_RETRY_DELAY_MS = 2000;
+
+// Model YOLO+MediaPipe ukurannya puluhan MB -- kalau koneksi lambat/putus
+// sesaat, panggilan load() bisa gagal/timeout. Daripada diam (kelihatan
+// "gak muncul apa-apa"), coba ulang otomatis dengan status yang kelihatan.
+async function loadWithRetry(loadFn, label) {
+  for (let attempt = 1; attempt <= LOAD_MAX_ATTEMPTS; attempt++) {
+    statusEl.textContent = `Memuat ${label}... (percobaan ke-${attempt}/${LOAD_MAX_ATTEMPTS})`;
+    try {
+      return await loadFn();
+    } catch (err) {
+      console.error(`${label} gagal dimuat (percobaan ${attempt}):`, err);
+      if (attempt === LOAD_MAX_ATTEMPTS) {
+        statusEl.textContent = `Gagal memuat ${label} setelah ${LOAD_MAX_ATTEMPTS}x percobaan (${err.message}). Cek koneksi internet, lalu refresh halaman.`;
+        throw err;
+      }
+      await new Promise((resolve) => setTimeout(resolve, LOAD_RETRY_DELAY_MS));
+    }
+  }
+}
+
+async function setup() {
+  connectBtn.disabled = true;
+  startUploadBtn.disabled = true;
+
+  // 640px = resolusi efektif YOLO arsitektur utama; deteksi cuma tiap YOLO_REDETECT_EVERY frame.
+  yolo = new YoloDetector();
+  await loadWithRetry(() => yolo.load("models/yolo11n_640.onnx", 640), "model YOLO");
+
+  const vision = await loadWithRetry(
+    () => FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"),
+    "runtime MediaPipe"
+  );
+  let poseBackend;
+  await loadWithRetry(async () => {
+    try {
+      // Sama pola dgn YOLO: coba GPU dulu, kalau device gak dukung, JANGAN gagal
+      // total -- otomatis coba lagi pakai CPU (delegate berbeda dari yg webgpu/wasm
+      // dipakai YOLO, tapi ide fallback-nya sama).
+      poseLandmarker = await PoseLandmarker.createFromOptions(vision, {
+        baseOptions: { modelAssetPath: "models/pose_landmarker_full.task", delegate: "GPU" },
+        runningMode: "VIDEO",
+        numPoses: 1,
+      });
+      poseBackend = "GPU (PASTI, bukan dugaan)";
+    } catch (err) {
+      console.warn("MediaPipe: delegate GPU gagal, fallback ke CPU. Error:", err.message);
+      poseLandmarker = await PoseLandmarker.createFromOptions(vision, {
+        baseOptions: { modelAssetPath: "models/pose_landmarker_full.task", delegate: "CPU" },
+        runningMode: "VIDEO",
+        numPoses: 1,
+      });
+      poseBackend = `CPU (fallback, GPU gagal: ${err.message})`;
+    }
+  }, "model MediaPipe");
+
+  statusEl.textContent = `Model siap. (YOLO backend=${yolo.backend} | MediaPipe backend=${poseBackend})`;
+  await startFreshSession(exerciseSel.value, getCountdownSec());
+  connectBtn.disabled = false;
+  startUploadBtn.disabled = false;
+};
+
+connectBtn.onclick = async () => {
+  unlockAudio();
+  connectBtn.disabled = true;
+  try {
+    await startFreshSession(exerciseSel.value, getCountdownSec());
+    finalSummaryEl.style.display = "none";
+    if (mode === "live") {
+      await startCamera();
+      startLocalCountdown(getCountdownSec());
+      stopLiveBtn.disabled = false;
+    } else {
+      connectBtn.disabled = false;
+    }
+  } catch (err) {
+    statusEl.textContent = "Error: " + err.message;
+    connectBtn.disabled = false;
+  }
+};
+
+stopLiveBtn.onclick = () => {
+  running = false;
+  stopLocalCountdown();
+  if (video.srcObject) {
+    for (const track of video.srcObject.getTracks()) track.stop();
+    video.srcObject = null;
+  }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  canvas.width = 0;
+  canvas.height = 0;
+  statusEl.textContent = "Sesi live dihentikan.";
+  stopLiveBtn.disabled = true;
+  connectBtn.disabled = false;
+  renderFinalSummary();
+};
+
+startUploadBtn.onclick = async () => {
+  const file = videoFileInput.files[0];
+  if (!file) return;
+  unlockAudio();
+  startUploadBtn.disabled = true;
+  await startFreshSession(exerciseSel.value, getCountdownSec());
+  finalSummaryEl.style.display = "none";
+  video.srcObject = null;
+  video.src = URL.createObjectURL(file);
+  video.loop = false;
+  video.muted = true;
+  await new Promise((resolve) => { video.onloadedmetadata = resolve; });
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  sessionStartMs = null;
+  sessionLog.length = 0;
+  cycleEvidence = { angle: null, dataUrl: null };
+  running = true;
+  await runUploadDeterministic();
+};
+
+// Upload Video diproses frame demi frame lewat seek (tidak real-time), supaya
+// video yang sama selalu memberi hasil yang sama. Live Camera tetap real-time (loop()).
+function seekTo(timeSec) {
+  return new Promise((resolve) => {
+    video.onseeked = resolve;
+    video.currentTime = timeSec;
+  });
+}
+
+async function runUploadDeterministic() {
+  cachedDet = null;
+  framesSinceDetect = 0;
+  const frameIntervalSec = 1 / TRAINING_FPS;
+  const totalFrames = Math.floor(video.duration / frameIntervalSec);
+  // MediaPipe VIDEO mode butuh timestamp yang selalu naik (poseLandmarker dipakai
+  // ulang antar sesi), jadi mulai dari performance.now() dengan jarak antar-frame tetap.
+  const mediapipeBaseMs = performance.now();
+  let frameIdx = 0;
+  while (running && frameIdx <= totalFrames) {
+    const t = frameIdx * frameIntervalSec;
+    await seekTo(Math.min(t, video.duration));
+    const landmarksForBackend = await processCurrentVideoFrame(mediapipeBaseMs + t * 1000);
+    if (wsReady && ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ type: "landmarks", landmarks: landmarksForBackend, t, fps: TRAINING_FPS }));
+    }
+    if (frameIdx % 5 === 0 || frameIdx === totalFrames) {
+      const pct = Math.round((frameIdx / totalFrames) * 100);
+      progressWrapEl.innerHTML =
+        `<progress value="${frameIdx}" max="${totalFrames}"></progress><div>Memproses frame ${frameIdx}/${totalFrames} (${pct}%)</div>`;
+    }
+    frameIdx++;
+  }
+  running = false;
+  progressWrapEl.innerHTML = "";
+  statusEl.textContent = "Analisis video selesai.";
+  startUploadBtn.disabled = false;
+  renderFinalSummary();
+}
+
+async function startCamera() {
+  cachedDet = null;
+  framesSinceDetect = 0;
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: { ideal: "user" } },
+    audio: false,
+  });
+  video.srcObject = stream;
+  await new Promise((resolve) => { video.onloadedmetadata = resolve; });
+  video.play();
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  running = true;
+  loop();
+}
+
+async function loop() {
+  if (!running) return;
+  try {
+    await loopBody();
+  } catch (err) {
+    console.error("loop() error, lanjut ke frame berikutnya:", err);
+  }
+  if (running) requestAnimationFrame(loop);
+}
+
+async function loopBody() {
+  const landmarksForBackend = await processCurrentVideoFrame();
+
+  const nowMs = performance.now();
+  const sendIntervalMs = 1000 / TRAINING_FPS;
+  if (wsReady && ws && ws.readyState === WebSocket.OPEN && frameTimes.length >= FPS_WINDOW
+      && (lastSendMs === null || nowMs - lastSendMs >= sendIntervalMs)) {
+    if (sessionStartMs === null) sessionStartMs = performance.now();
+    lastSendMs = nowMs;
+    const t = (nowMs - sessionStartMs) / 1000.0;
+    ws.send(JSON.stringify({ type: "landmarks", landmarks: landmarksForBackend, t, fps: TRAINING_FPS }));
+  }
+}
+
+// Dipakai LIVE (via startCamera) maupun Upload Video (via video.play() biasa)
+// -- keduanya lewat loop()/loopBody() yang sama, real-time.
+async function processCurrentVideoFrame(mediapipeTimestampMs = null) {
+  const t0 = performance.now();
+  let det;
+  let ranRealDetect = false;
+  if (cachedDet && framesSinceDetect < YOLO_REDETECT_EVERY) {
+    det = cachedDet;
+    framesSinceDetect++;
+  } else {
+    det = await yolo.detect(video, 0.7, 0.45);
+    cachedDet = det;
+    framesSinceDetect = 0;
+    ranRealDetect = true;
+  }
+  const t1 = performance.now();
+  // Dipisah: "real" cuma dicatat pas YOLO BENERAN jalan (1 dari tiap
+  // YOLO_REDETECT_EVERY frame) -- rata2 gabungan/"all" akan keliatan kecil krn
+  // sebagian besar frame cuma pakai cache (~0ms), itu BUKTI caching jalan, bukan
+  // berarti tiap frame beneran cuma segitu.
+  timingLog.yoloAll.push(t1 - t0);
+  if (ranRealDetect) timingLog.yoloReal.push(t1 - t0);
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  let landmarksForBackend = null;
+
+  if (det) {
+    const cropBox = expandBbox(det.box, 0.75, video.videoWidth, video.videoHeight);
+    const [cx1, cy1, cx2, cy2] = cropBox;
+    const cropW = cx2 - cx1;
+    const cropH = cy2 - cy1;
+
+    if (cropW > 0 && cropH > 0) {
+      cropCanvas.width = cropW;
+      cropCanvas.height = cropH;
+      cropCtx.drawImage(video, cx1, cy1, cropW, cropH, 0, 0, cropW, cropH);
+      const t2 = performance.now();
+      timingLog.crop.push(t2 - t1);
+
+      const result = poseLandmarker.detectForVideo(cropCanvas, mediapipeTimestampMs ?? performance.now());
+      const t3 = performance.now();
+      timingLog.pose.push(t3 - t2);
+
+      if (result.landmarks && result.landmarks.length > 0) {
+        const lm = result.landmarks[0];
+        landmarksForBackend = lm.map((l) => [l.x, l.y, l.z, l.visibility]);
+
+        const px = (l) => cx1 + l.x * cropW;
+        const py = (l) => cy1 + l.y * cropH;
+        ctx.strokeStyle = "#3cff3c";
+        ctx.lineWidth = 2;
+        for (const [a, b] of BODY_CONNECTIONS) {
+          if (lm[a].visibility > 0.6 && lm[b].visibility > 0.6) {
+            ctx.beginPath();
+            ctx.moveTo(px(lm[a]), py(lm[a]));
+            ctx.lineTo(px(lm[b]), py(lm[b]));
+            ctx.stroke();
+          }
+        }
+        ctx.fillStyle = "#ff3c3c";
+        for (const l of lm) {
+          if (l.visibility > 0.6) {
+            ctx.beginPath();
+            ctx.arc(px(l), py(l), 3, 0, 2 * Math.PI);
+            ctx.fill();
+          }
+        }
+      }
+      ctx.strokeStyle = "#3c3cff";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(cx1, cy1, cropW, cropH);
+    }
+    ctx.strokeStyle = "#ffff3c";
+    ctx.lineWidth = 2;
+    const [x1, y1, x2, y2] = det.box;
+    ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+  }
+
+  const now = performance.now();
+  frameTimes.push(now - lastTime);
+  if (frameTimes.length > FPS_WINDOW) frameTimes.shift();
+  lastTime = now;
+  const avgFrameTime = frameTimes.reduce((a, b) => a + b, 0) / frameTimes.length;
+  const measuredFps = 1000 / avgFrameTime;
+  fpsEl.textContent = `${measuredFps.toFixed(1)} FPS rata-rata`;
+
+  frameCount++;
+  if (frameCount % 30 === 0) {
+    const avg = (arr) => arr.length ? (arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(1) : "-";
+    const msg = `YOLO nyata (1/${YOLO_REDETECT_EVERY} frame)=${avg(timingLog.yoloReal)}ms | rata2 semua frame=${avg(timingLog.yoloAll)}ms | crop=${avg(timingLog.crop)}ms | pose=${avg(timingLog.pose)}ms`;
+    console.log(`[timing] ${msg}`);
+    timingEl.textContent = msg;
+    timingLog.yoloAll = []; timingLog.yoloReal = []; timingLog.crop = []; timingLog.pose = [];
+  }
+
+  return landmarksForBackend;
+}
+
+setup().catch((err) => {
+  statusEl.textContent = "Error: " + err.message;
+  console.error(err);
+});
+</script>
+</body>
+</html>

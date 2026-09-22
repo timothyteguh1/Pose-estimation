@@ -1,0 +1,124 @@
+{
+  "exercise": "deadlift",
+  "n_train": 7976,
+  "n_test": 3087,
+  "n_features": 297,
+  "classes": [
+    "deadlift_armsspread_concentric",
+    "deadlift_armsspread_eccentric",
+    "deadlift_backround_concentric",
+    "deadlift_backround_eccentric",
+    "deadlift_correct_concentric",
+    "deadlift_correct_eccentric"
+  ],
+  "accuracy": 0.9708454810495627,
+  "precision_weighted": 0.9729779655297349,
+  "recall_weighted": 0.9708454810495627,
+  "f1_weighted": 0.9704064695876639,
+  "classification_report": {
+    "deadlift_armsspread_concentric": {
+      "precision": 1.0,
+      "recall": 0.9956584659913169,
+      "f1-score": 0.9978245105148659,
+      "support": 691.0
+    },
+    "deadlift_armsspread_eccentric": {
+      "precision": 0.9920424403183024,
+      "recall": 1.0,
+      "f1-score": 0.996005326231691,
+      "support": 374.0
+    },
+    "deadlift_backround_concentric": {
+      "precision": 0.9821428571428571,
+      "recall": 0.9649122807017544,
+      "f1-score": 0.9734513274336283,
+      "support": 570.0
+    },
+    "deadlift_backround_eccentric": {
+      "precision": 1.0,
+      "recall": 0.8189910979228486,
+      "f1-score": 0.900489396411093,
+      "support": 337.0
+    },
+    "deadlift_correct_concentric": {
+      "precision": 0.9702380952380952,
+      "recall": 0.9908814589665653,
+      "f1-score": 0.9804511278195489,
+      "support": 658.0
+    },
+    "deadlift_correct_eccentric": {
+      "precision": 0.8891050583657587,
+      "recall": 1.0,
+      "f1-score": 0.94129763130793,
+      "support": 457.0
+    },
+    "accuracy": 0.9708454810495627,
+    "macro avg": {
+      "precision": 0.972254741844169,
+      "recall": 0.9617405505970807,
+      "f1-score": 0.9649198866197928,
+      "support": 3087.0
+    },
+    "weighted avg": {
+      "precision": 0.9729779655297349,
+      "recall": 0.9708454810495627,
+      "f1-score": 0.9704064695876639,
+      "support": 3087.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      688,
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      374,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      550,
+      0,
+      20,
+      0
+    ],
+    [
+      0,
+      0,
+      10,
+      276,
+      0,
+      51
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      652,
+      6
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      457
+    ]
+  ],
+  "hyperparameters": {
+    "n_estimators": 100,
+    "class_weight": "balanced",
+    "random_state": 42
+  }
+}

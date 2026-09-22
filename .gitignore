@@ -19,4 +19,4 @@ _streamlit_https_err.log
 .ipynb_checkpoints/
 .env
 
-experimental_client_pipeline/
+experimental_client_pipeline/data/

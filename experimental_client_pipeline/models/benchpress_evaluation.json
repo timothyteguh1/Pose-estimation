@@ -1,0 +1,124 @@
+{
+  "exercise": "benchpress",
+  "n_train": 5308,
+  "n_test": 1868,
+  "n_features": 297,
+  "classes": [
+    "benchpress_armsspread_concentric",
+    "benchpress_armsspread_eccentric",
+    "benchpress_correct_concentric",
+    "benchpress_correct_eccentric",
+    "benchpress_flatback_concentric",
+    "benchpress_flatback_eccentric"
+  ],
+  "accuracy": 0.9148822269807281,
+  "precision_weighted": 0.9212338648216812,
+  "recall_weighted": 0.9148822269807281,
+  "f1_weighted": 0.9128208603581753,
+  "classification_report": {
+    "benchpress_armsspread_concentric": {
+      "precision": 0.9245810055865922,
+      "recall": 0.9880597014925373,
+      "f1-score": 0.9552669552669552,
+      "support": 335.0
+    },
+    "benchpress_armsspread_eccentric": {
+      "precision": 0.975609756097561,
+      "recall": 0.7017543859649122,
+      "f1-score": 0.8163265306122448,
+      "support": 228.0
+    },
+    "benchpress_correct_concentric": {
+      "precision": 0.9030303030303031,
+      "recall": 1.0,
+      "f1-score": 0.9490445859872612,
+      "support": 298.0
+    },
+    "benchpress_correct_eccentric": {
+      "precision": 0.9219858156028369,
+      "recall": 0.9420289855072463,
+      "f1-score": 0.9318996415770608,
+      "support": 276.0
+    },
+    "benchpress_flatback_concentric": {
+      "precision": 1.0,
+      "recall": 0.8338870431893688,
+      "f1-score": 0.9094202898550725,
+      "support": 301.0
+    },
+    "benchpress_flatback_eccentric": {
+      "precision": 0.8467908902691511,
+      "recall": 0.9511627906976744,
+      "f1-score": 0.895947426067908,
+      "support": 430.0
+    },
+    "accuracy": 0.9148822269807281,
+    "macro avg": {
+      "precision": 0.9286662950977407,
+      "recall": 0.9028154844752899,
+      "f1-score": 0.9096509048944171,
+      "support": 1868.0
+    },
+    "weighted avg": {
+      "precision": 0.9212338648216812,
+      "recall": 0.9148822269807281,
+      "f1-score": 0.9128208603581753,
+      "support": 1868.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      331,
+      4,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      27,
+      160,
+      0,
+      1,
+      0,
+      40
+    ],
+    [
+      0,
+      0,
+      298,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      260,
+      0,
+      16
+    ],
+    [
+      0,
+      0,
+      32,
+      0,
+      251,
+      18
+    ],
+    [
+      0,
+      0,
+      0,
+      21,
+      0,
+      409
+    ]
+  ],
+  "hyperparameters": {
+    "n_estimators": 100,
+    "class_weight": "balanced",
+    "random_state": 42
+  }
+}
