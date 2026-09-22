@@ -1,0 +1,284 @@
+<title>Peta Sistem Postur</title>
+<meta name="description" content="Referensi teknis lengkap: rumus resmi, alur kerja, penyimpangan dari proposal, dan status 3 metode tambahan untuk sistem pemantau postur.">
+<style>
+  :root{
+    --bg:#F4F5F2; --surface:#FFFFFF; --surface-2:#EBEEE9;
+    --ink:#141B18; --ink-dim:#3E4A45; --muted:#6B7A73; --border:#D7DED8;
+    --accent:#245C4B; --accent-ink:#F4F5F2;
+    --warn:#A6502A; --warn-bg:#F7E8DF; --warn-border:#E3B693;
+    --ok:#245C4B; --ok-bg:#E3ECE6; --ok-border:#A9C7B7;
+    --bad:#8C2F2F; --bad-bg:#F5E4E1; --bad-border:#DDA79E;
+    --code-bg:#101613; --code-ink:#D8E4DD;
+    --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+    --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#121613; --surface:#191F1B; --surface-2:#20261F;
+      --ink:#E9EEE9; --ink-dim:#C4CFC7; --muted:#8FA098; --border:#30392F;
+      --accent:#7FC4A6; --accent-ink:#0E1613;
+      --warn:#E8A16E; --warn-bg:#302219; --warn-border:#5A3D26;
+      --ok:#7FC4A6; --ok-bg:#1B2B22; --ok-border:#345643;
+      --bad:#E39189; --bad-bg:#2E1C1B; --bad-border:#5B332F;
+      --code-bg:#0A0E0B; --code-ink:#CBE0D3;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#121613; --surface:#191F1B; --surface-2:#20261F;
+    --ink:#E9EEE9; --ink-dim:#C4CFC7; --muted:#8FA098; --border:#30392F;
+    --accent:#7FC4A6; --accent-ink:#0E1613;
+    --warn:#E8A16E; --warn-bg:#302219; --warn-border:#5A3D26;
+    --ok:#7FC4A6; --ok-bg:#1B2B22; --ok-border:#345643;
+    --bad:#E39189; --bad-bg:#2E1C1B; --bad-border:#5B332F;
+    --code-bg:#0A0E0B; --code-ink:#CBE0D3;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--font-body);
+    margin:0; padding:0 16px; line-height:1.6; font-size:15.5px;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding-block:36px 80px;}
+  h1{font-family:var(--font-display); font-size:clamp(28px,5vw,40px); font-weight:600; margin:0 0 6px; text-wrap:balance; letter-spacing:-0.01em;}
+  .subtitle{color:var(--muted); font-size:15px; margin:0 0 28px; max-width:60ch;}
+  h2{
+    font-family:var(--font-display); font-size:23px; font-weight:600; margin:48px 0 14px;
+    padding-top:14px; border-top:1px solid var(--border); text-wrap:balance;
+  }
+  h2 .num{color:var(--muted); font-family:var(--font-mono); font-size:14px; font-weight:500; margin-right:8px;}
+  h3{font-size:16.5px; font-weight:650; margin:22px 0 8px; color:var(--ink);}
+  p{margin:0 0 12px; color:var(--ink-dim); max-width:66ch;}
+  ol,ul{margin:0 0 14px; padding-left:22px; color:var(--ink-dim); max-width:64ch;}
+  li{margin-bottom:5px;}
+  strong{color:var(--ink); font-weight:650;}
+  code{
+    font-family:var(--font-mono); font-size:0.88em; background:var(--surface-2);
+    border:1px solid var(--border); border-radius:4px; padding:1px 5px; color:var(--ink);
+    word-break:break-word;
+  }
+  .path{color:var(--accent);}
+  .callout{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:16px 18px; margin:16px 0;
+  }
+  .callout.ok{background:var(--ok-bg); border-color:var(--ok-border);}
+  .callout.warn{background:var(--warn-bg); border-color:var(--warn-border);}
+  .callout.bad{background:var(--bad-bg); border-color:var(--bad-border);}
+  .pill{
+    display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono);
+    font-size:11.5px; font-weight:600; letter-spacing:0.02em; text-transform:uppercase;
+    padding:3px 9px; border-radius:99px; border:1px solid; white-space:nowrap;
+  }
+  .pill.ok{color:var(--ok); background:var(--ok-bg); border-color:var(--ok-border);}
+  .pill.warn{color:var(--warn); background:var(--warn-bg); border-color:var(--warn-border);}
+  .pill.bad{color:var(--bad); background:var(--bad-bg); border-color:var(--bad-border);}
+  .pill.neutral{color:var(--muted); background:var(--surface-2); border-color:var(--border);}
+  .legend{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 8px;}
+  .eq-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:16px 18px; margin:14px 0; display:flex; flex-direction:column; gap:8px;
+  }
+  .eq-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap;}
+  .eq-name{font-weight:650; font-size:15px;}
+  .eq-tag{font-family:var(--font-mono); font-size:12px; color:var(--muted);}
+  .eq-formula{
+    font-family:var(--font-mono); font-size:16px; background:var(--code-bg); color:var(--code-ink);
+    border-radius:8px; padding:12px 14px; overflow-x:auto; letter-spacing:0.01em;
+  }
+  .eq-meta{display:flex; flex-wrap:wrap; gap:8px 16px; font-size:13px; color:var(--muted); align-items:center;}
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:14px;}
+  .twrap{overflow-x:auto; margin:14px 0;}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-size:12px; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); font-weight:650;}
+  tr:last-child td{border-bottom:none;}
+  td.num{font-family:var(--font-mono); font-variant-numeric:tabular-nums; white-space:nowrap;}
+  .flow{display:flex; flex-direction:column; gap:0; margin:16px 0;}
+  .flow-step{
+    display:flex; gap:14px; padding:12px 0; border-bottom:1px dashed var(--border);
+  }
+  .flow-step:last-child{border-bottom:none;}
+  .flow-n{
+    font-family:var(--font-mono); font-size:13px; color:var(--accent); font-weight:650;
+    width:22px; flex-shrink:0; padding-top:1px;
+  }
+  .flow-body b{display:block; font-size:14.5px; margin-bottom:2px;}
+  .flow-body span{font-size:13.5px; color:var(--muted);}
+  .where{font-family:var(--font-mono); font-size:11.5px; padding:1px 7px; border-radius:5px; margin-left:6px;}
+  .where.client{background:var(--warn-bg); color:var(--warn); border:1px solid var(--warn-border);}
+  .where.server{background:var(--ok-bg); color:var(--ok); border:1px solid var(--ok-border);}
+  hr.sep{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  .toc{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:16px 20px; margin:20px 0 8px;
+  }
+  .toc b{display:block; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); margin-bottom:8px;}
+  .toc ol{margin:0; padding-left:20px; columns:1;}
+  .toc a{color:var(--ink-dim); text-decoration:none; font-size:14px;}
+  .toc a:hover{color:var(--accent); text-decoration:underline;}
+  .stat-row{display:flex; gap:14px; flex-wrap:wrap; margin:14px 0;}
+  .stat{
+    flex:1 1 140px; background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:12px 14px;
+  }
+  .stat .k{font-size:12px; color:var(--muted);}
+  .stat .v{font-family:var(--font-mono); font-size:20px; font-weight:600; font-variant-numeric:tabular-nums;}
+  .stat .v.up{color:var(--ok);} .stat .v.down{color:var(--bad);}
+  footer{margin-top:56px; padding-top:18px; border-top:1px solid var(--border); font-size:12.5px; color:var(--muted);}
+</style>
+
+<div class="wrap">
+  <h1>Peta Sistem Postur</h1>
+  <p class="subtitle">Referensi teknis untuk Bab III — apa yang program ini benar-benar lakukan, rumus resminya, di mana kodenya, dan mana bagian yang masih eksperimen. Ditulis supaya penjelasan ke dosen dan draf Bab III (termasuk lewat ChatGPT) tidak meleset dari program sebenarnya.</p>
+
+  <div class="legend">
+    <span class="pill ok">● sudah di produksi</span>
+    <span class="pill warn">● baru hasil testing, belum diterapkan</span>
+    <span class="pill bad">● menyimpang dari proposal</span>
+  </div>
+
+  <div class="toc">
+    <b>Isi</b>
+    <ol>
+      <li><a href="#ringkasan">Ringkasan: 2 arsitektur, mana yang dipakai</a></li>
+      <li><a href="#rumus">Rumus resmi (Eq. 1–6) — status per rumus</a></li>
+      <li><a href="#alur">Alur kerja sistem, langkah demi langkah</a></li>
+      <li><a href="#penyimpangan">Penyimpangan dari proposal</a></li>
+      <li><a href="#metode-e">3 metode tambahan (belum diterapkan)</a></li>
+      <li><a href="#status">Tabel status akhir</a></li>
+    </ol>
+  </div>
+
+  <h2 id="ringkasan"><span class="num">1</span>Ringkasan</h2>
+  <p>Ada 2 arsitektur yang pernah dibangun dan diuji sepanjang proyek ini. <strong>Arsitektur baru (client-side) yang dipakai untuk Bab III</strong> — keputusan ini diambil setelah arsitektur lama terbukti gagal di kondisi jaringan nyata (uji lewat tunnel: video lag berat, hampir semua siklus gerakan jadi "data kurang").</p>
+
+  <div class="twrap"><table>
+    <tr><th></th><th>Arsitektur utama (lama)</th><th>Arsitektur baru — DIPAKAI</th></tr>
+    <tr><td>Lokasi kode</td><td><code class="path">app.py</code> + <code class="path">src/app/live_pipeline.py</code></td><td><code class="path">experimental_client_pipeline/</code></td></tr>
+    <tr><td>YOLO + MediaPipe jalan di</td><td>server (Python)</td><td><strong>browser</strong> (client, WebGPU/WASM)</td></tr>
+    <tr><td>Klasifikasi RF + rep counting jalan di</td><td>server</td><td>server</td></tr>
+    <tr><td>Varian MediaPipe</td><td>Legacy Solutions (<code>mp.solutions.pose</code>)</td><td>Tasks API (<code>PoseLandmarker</code>) — satu-satunya opsi untuk browser</td></tr>
+    <tr><td>Model YOLO</td><td><code>yolo11n.pt</code>, resolusi default ~640px</td><td><code>yolo11n.onnx</code>, 640px (disamakan)</td></tr>
+    <tr><td>Ketahanan di jaringan nyata</td><td>❌ terbukti gagal (test tunnel)</td><td>✅ tidak bergantung kecepatan jaringan (proses di device)</td></tr>
+  </table></div>
+
+  <p>Rumus dan logika inti (Eq.1–6, sliding window, normalisasi, rep counting) <strong>identik</strong> di kedua arsitektur — bukan ditulis ulang, tapi benar-benar modul <code>src/</code> yang sama di-<em>import</em>/di-reuse. Detail per rumus ada di bagian 2.</p>
+
+  <h2 id="rumus"><span class="num">2</span>Rumus resmi yang dipakai (Eq. 1–6)</h2>
+  <p>Semua rumus berikut dipakai <strong>kedua arsitektur</strong>, dari modul <code class="path">src/</code> yang sama persis — bukan implementasi terpisah.</p>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-name">Eq. 1 — Sudut sendi (joint angle)</span><span class="eq-tag">bab 6.2.1</span></div>
+    <div class="eq-formula">θ = arccos( (BA · BC) / (|BA| |BC|) ) × 180/π</div>
+    <div class="eq-meta"><span class="pill ok">shared</span> <code class="path">src/features/joint_angles.py</code> — fungsi <code>calculate_angle()</code></div>
+    <p style="margin:2px 0 0">11 sudut per frame (leher, bahu, siku, pinggul, lutut, pergelangan kaki — kiri &amp; kanan). Titik dgn <code>visibility &lt; 0.6</code> membuat sudut itu saja jadi <code>NaN</code> (per-titik, bukan buang 1 frame utuh).</p>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-name">Eq. 2 — Panjang sliding window</span><span class="eq-tag">bab 6.2.2</span></div>
+    <div class="eq-formula">swl = fps × t&nbsp;&nbsp;&nbsp;(t = 0.5 detik → swl = 15 frame @30fps)</div>
+    <div class="eq-meta"><span class="pill ok">shared</span> <code class="path">src/features/sliding_window.py</code></div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-name">Eq. 3 — Jumlah window per video</span><span class="eq-tag">bab 6.2.2</span></div>
+    <div class="eq-formula">swm = frames − swl + 1&nbsp;&nbsp;&nbsp;(stride = 1)</div>
+    <div class="eq-meta"><span class="pill ok">shared</span> <code class="path">src/features/sliding_window.py</code></div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-name">Eq. 4 — Cosine similarity (gerbang pola gerakan)</span><span class="eq-tag">bab 6.2.3</span></div>
+    <div class="eq-formula">cos(θ) = (A · B) / (|A| |B|)</div>
+    <div class="eq-meta"><span class="pill ok">shared</span> <code class="path">src/app/rep_counter.py</code></div>
+    <p style="margin:2px 0 0">Opsional (mati secara default, <code>min_pattern_similarity</code>). Metode utama rep counting tetap deteksi puncak/lembah sudut — persis kalimat proposal bab 6.2.3.</p>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-name">Eq. 5 — Normalisasi Min-Max</span><span class="eq-tag">bab 6.2.4</span></div>
+    <div class="eq-formula">x_norm = (x − min) / (max − min)</div>
+    <div class="eq-meta"><span class="pill ok">shared</span> <code class="path">src/features/window_scaler.py</code></div>
+    <p style="margin:2px 0 0">Cuma kolom <strong>sudut</strong> yang dinormalisasi (koordinat sengaja tidak). <code>min</code>/<code>max</code> di-fit HANYA dari data train, diterapkan ke train+test — tidak ada kebocoran data.</p>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-name">Eq. 6 — F1-score</span><span class="eq-tag">bab 6.2.5, indikator utama</span></div>
+    <div class="eq-formula">F1 = 2 × (Precision × Recall) / (Precision + Recall)</div>
+    <div class="eq-meta"><span class="pill ok">shared</span> <code class="path">src/training/train_model.py</code> — <em>weighted</em></div>
+  </div>
+
+  <h2 id="alur"><span class="num">3</span>Alur kerja sistem (arsitektur baru)</h2>
+  <p>Batas <span class="where client">client</span> / <span class="where server">server</span> di tiap langkah — ini yang beda dari arsitektur lama (di sana, langkah 2–6 semua di server).</p>
+  <div class="flow">
+    <div class="flow-step"><div class="flow-n">01</div><div class="flow-body"><b>Kamera / file video masuk ke browser<span class="where client">client</span></b><span>Live Camera: <code>getUserMedia</code>. Upload Video: file lokal, diproses frame-demi-frame lewat seek (deterministik, tidak real-time).</span></div></div>
+    <div class="flow-step"><div class="flow-n">02</div><div class="flow-body"><b>Deteksi orang — YOLO11n 640px (ONNX)<span class="where client">client</span></b><span>Jalan via WebGPU (fallback WASM/CPU). Ulang tiap 5 frame, bbox dipakai ulang di 4 frame antaranya.</span></div></div>
+    <div class="flow-step"><div class="flow-n">03</div><div class="flow-body"><b>Crop area orang<span class="where client">client</span></b><span>Padding 0.75, dipaksa ke rasio 1080:1920 (sama rasio video training) via <code>expand_bbox()</code>.</span></div></div>
+    <div class="flow-step"><div class="flow-n">04</div><div class="flow-body"><b>Ekstraksi 33 landmark — MediaPipe Tasks API<span class="where client">client</span></b><span>Satu-satunya varian MediaPipe yang tersedia untuk browser (Legacy Solutions tidak ada versi JS).</span></div></div>
+    <div class="flow-step"><div class="flow-n">05</div><div class="flow-body"><b>Kirim landmark ke server<span class="where client">client</span> → <span class="where server">server</span></b><span>Lewat WebSocket — data JSON kecil (33 titik × 4 angka), bukan gambar/video.</span></div></div>
+    <div class="flow-step"><div class="flow-n">06</div><div class="flow-body"><b>Hitung 11 sudut sendi — Eq. 1<span class="where server">server</span></b><span>Filter visibility ≥ 0.6 per titik.</span></div></div>
+    <div class="flow-step"><div class="flow-n">07</div><div class="flow-body"><b>Buffer sliding window (rolling) — Eq. 2<span class="where server">server</span></b><span>15 frame terakhir. Sudut di-flatten (urutan waktu terjaga), koordinat dirata-ratakan → 297 kolom fitur.</span></div></div>
+    <div class="flow-step"><div class="flow-n">08</div><div class="flow-body"><b>Normalisasi Min-Max — Eq. 5<span class="where server">server</span></b><span>Pakai scaler yang sudah di-fit saat training (tidak fit ulang saat live).</span></div></div>
+    <div class="flow-step"><div class="flow-n">09</div><div class="flow-body"><b>Klasifikasi Random Forest<span class="where server">server</span></b><span>1 dari 6 kelas per exercise (3 postur × 2 fase).</span></div></div>
+    <div class="flow-step"><div class="flow-n">10</div><div class="flow-body"><b>Rep counting dari puncak/lembah sudut utama<span class="where server">server</span></b><span>Parameter <code>min_prominence_deg</code>/<code>min_distance_sec</code> beda per exercise (<code>REP_COUNTING_PARAMS</code>).</span></div></div>
+    <div class="flow-step"><div class="flow-n">11</div><div class="flow-body"><b>Verdict siklus — majority vote + gerbang lockout<span class="where server">server</span></b><span>Siklus dgn rentang sudut kecil (berdiri diam) otomatis ditolak, bukan dianggap repetisi. Fase lockout (30% teratas) dibuang sebelum voting.</span></div></div>
+    <div class="flow-step"><div class="flow-n">12</div><div class="flow-body"><b>Hasil dikirim balik ke browser<span class="where server">server</span> → <span class="where client">client</span></b><span>Bbox+skeleton, teks/suara peringatan, jumlah repetisi, ringkasan sesi + screenshot momen kesalahan.</span></div></div>
+  </div>
+
+  <h2 id="penyimpangan"><span class="num">4</span>Penyimpangan dari proposal</h2>
+  <div class="callout bad">
+    <span class="pill bad">menyimpang</span>
+    <p style="margin-top:10px"><strong>Bab 6.4 proposal:</strong> "Pada sisi <em>server</em> dilakukan <em>seluruh</em> proses pengolahan data, mulai dari deteksi objek menggunakan YOLOv11, ekstraksi pose menggunakan MediaPipe, hingga klasifikasi postur menggunakan Random Forest."</p>
+    <p>Arsitektur baru memindahkan YOLO + MediaPipe ke <strong>client</strong> (langkah 2–4 di atas). Cuma klasifikasi RF + rep counting yang tetap di server.</p>
+    <p><strong>Konsekuensi turunan:</strong> MediaPipe terpaksa pakai varian Tasks API (bukan Legacy Solutions) karena Legacy tidak punya versi browser sama sekali — bukan pilihan bebas.</p>
+    <p style="margin-bottom:0"><strong>Justifikasi:</strong> dibuktikan lewat pengujian jaringan nyata (tunnel) bahwa pendekatan server-side penuh gagal dipakai dari luar 1 jaringan yang sama — video lag berat, klasifikasi tidak bisa diandalkan. Ini harus ditulis eksplisit di Bab III sebagai keputusan desain yang disengaja dan berdasar bukti, bukan disembunyikan.</p>
+  </div>
+  <p>Syarat ruang lingkup lain (output a–e: bbox+skeleton, info klasifikasi, teks+suara peringatan, jumlah repetisi, ringkasan+screenshot; rep counting dari pola sudut; model pre-trained) <strong>tetap terpenuhi 100%</strong> di arsitektur baru — sudah dicek satu-satu di kode.</p>
+
+  <h2 id="metode-e"><span class="num">5</span>3 metode tambahan untuk generalisasi ke orang baru</h2>
+  <div class="callout warn">
+    <span class="pill warn">baru testing — belum diterapkan ke kode produksi</span>
+    <p style="margin-top:10px; margin-bottom:0">Dilatih &amp; diuji di script terpisah (scratchpad), belum masuk <code class="path">experimental_client_pipeline/models/</code>. Kalau nanti diadopsi, otomatis berlaku untuk Live Camera <em>dan</em> Upload Video sekaligus (satu classifier yang sama dipakai keduanya).</p>
+  </div>
+
+  <h3>5.1 Koordinat relatif <span class="pill neutral">rumus baru</span></h3>
+  <div class="eq-formula" style="margin:8px 0">coord_rel = (coord_mean − pusat_pinggul) / panjang_torso</div>
+  <p>66 kolom tambahan (33 landmark × sumbu x,y). Menghilangkan informasi posisi/ukuran orang di frame yang seharusnya tidak relevan untuk postur. <strong>Hanya menyentuh fitur koordinat (pendukung)</strong> — sudut sendi (fitur utama, Eq.1) sudah otomatis invarian terhadap posisi/skala dari sononya, tidak disentuh.</p>
+
+  <h3>5.2 Mirror augmentation <span class="pill neutral">prosedur, bukan rumus</span></h3>
+  <p>Tiap window data training digandakan versi cerminnya: landmark kiri↔kanan ditukar, koordinat x dibalik (x' = 1 − x). Kelas tidak berubah. Data training jadi 2× lipat.</p>
+
+  <h3>5.3 Regularisasi Random Forest <span class="pill neutral">parameter, bukan rumus</span></h3>
+  <p><code>min_samples_leaf</code>: 1 (default sekarang, tidak pernah diset eksplisit) → <strong>4</strong>. Memaksa pohon berhenti bercabang lebih awal supaya tidak menghafal detail 1 window/1 orang spesifik.</p>
+
+  <h3>Bukti eksperimen</h3>
+  <p><strong>LOPO</strong> (tahan 1 dari 3 partisipan training, F1 level postur):</p>
+  <div class="twrap"><table>
+    <tr><th>Exercise</th><th class="num">Baseline</th><th class="num">+ 3 metode</th><th class="num">Kenaikan</th></tr>
+    <tr><td>Squat</td><td class="num">0.571</td><td class="num">0.612</td><td class="num">+7%</td></tr>
+    <tr><td>Bench Press</td><td class="num">0.441</td><td class="num">0.499</td><td class="num">+13%</td></tr>
+    <tr><td>Deadlift</td><td class="num">0.613</td><td class="num">0.696</td><td class="num">+14%</td></tr>
+  </table></div>
+
+  <p><strong>Video ground truth</strong> (2 tester baru, sama sekali di luar data training, 9 video):</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Baseline (model produksi)</div><div class="v">33/41 · 80.5%</div></div>
+    <div class="stat"><div class="k">+ 3 metode gabungan</div><div class="v up">39/41 · 95.1%</div></div>
+  </div>
+  <p>Perbaikan paling besar: video benchpress arms spread yang sebelumnya 40% benar (sering kebaca "flat back") jadi 100% benar. Video deadlift correct membaik dari 0% jadi 50%. Satu video (squat knee inward) turun 1 siklus (100%→80%).</p>
+
+  <div class="callout">
+    <p style="margin:0"><strong>Sudut 3D (dicoba terpisah, DITOLAK):</strong> memakai kedalaman (z) MediaPipe untuk sudut invarian sudut kamera. Hasilnya <em>tidak konsisten</em> — membantu deadlift (+4%) tapi merusak squat &amp; benchpress (benchpress bahkan lebih jelek dari baseline). Tidak diadopsi karena tidak bisa dipukul rata ke 3 exercise.</p>
+  </div>
+
+  <p style="color:var(--muted); font-size:13.5px">⚠️ Sampel uji baru 2 orang — cukup untuk sinyal awal yang konsisten, belum cukup untuk klaim generalisasi yang kuat secara statistik. Rencana tambah partisipan uji di Derich akan memperkuat/mengoreksi angka ini.</p>
+
+  <h2 id="status"><span class="num">6</span>Tabel status akhir</h2>
+  <div class="twrap"><table>
+    <tr><th>Komponen</th><th>Status</th><th>Lokasi</th></tr>
+    <tr><td>Arsitektur client-side (YOLO 640px + Tasks API + Upload deterministik)</td><td><span class="pill ok">produksi</span></td><td><code class="path">experimental_client_pipeline/</code></td></tr>
+    <tr><td>Eq.1–6 (sudut, window, normalisasi, F1)</td><td><span class="pill ok">produksi</span> (shared)</td><td><code class="path">src/features/</code>, <code class="path">src/app/rep_counter.py</code></td></tr>
+    <tr><td>Gerbang lockout (tolak siklus berdiri diam)</td><td><span class="pill ok">produksi</span></td><td><code class="path">app.py</code> &amp; <code class="path">landmark_pipeline.py</code> (duplikat, identik)</td></tr>
+    <tr><td>Koordinat relatif + mirror + RF leaf=4</td><td><span class="pill warn">testing saja</span></td><td>scratchpad, belum masuk <code class="path">models/</code></td></tr>
+    <tr><td>Sudut 3D (viewpoint-invariant)</td><td><span class="pill bad">ditolak</span></td><td>hasil tidak konsisten antar exercise</td></tr>
+  </table></div>
+
+  <footer>Disusun dari kode &amp; hasil pengujian aktual per 21 September 2026 — dicek langsung ke file, bukan dari ingatan/asumsi.</footer>
+</div>

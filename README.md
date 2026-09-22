@@ -125,3 +125,11 @@ venv\Scripts\python.exe src\features\build_dataset.py benchpress
 venv\Scripts\python.exe src\training\train_model.py squat
 venv\Scripts\python.exe src\training\train_model.py benchpress
 ```
+### jalankan cmd utk arsitektur baru
+venv\Scripts\python.exe experimental_client_pipeline\webapp\app.py
+Setelah itu buka browser ke:
+http://localhost:8600
+
+### untuk di akses di luar network
+cd C:\Users\totit\Downloads\skripsi-postur-gym
+.\cloudflared.exe tunnel --url http://localhost:8600
