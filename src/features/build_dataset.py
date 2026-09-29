@@ -164,11 +164,12 @@ def group_fragmented_runs(df, runs, max_gap_frames):
     return groups
 
 
-def feature_columns(window_len_frames, coord_mode="mean"):
+def feature_columns(window_len_frames, coord_mode="mean", coord_relative=False):
     """Urutan kolom fitur HARUS sama persis dgn yg dibangun
-    build_windows_from_runs()/_predict_from_buffer() (live_pipeline.py).
+    build_windows_from_runs()/_predict_from_buffer() (landmark_pipeline.py).
     coord_mode="mean" (default/produksi) atau "flatten" (eksperimen
-    pembanding --coord-mode, lihat sliding_window.py)."""
+    pembanding --coord-mode, lihat sliding_window.py).
+    coord_relative=True menambah kolom coord_rel_* (Lee et al., 2026)."""
     cols = []
     for f in range(window_len_frames):
         for col in ANGLE_COLUMNS:
@@ -181,6 +182,10 @@ def feature_columns(window_len_frames, coord_mode="mean"):
             else:
                 for f in range(window_len_frames):
                     cols.append(f"coord_{col}_f{f}")
+    if coord_relative:
+        for name in POSE_LANDMARK_NAMES:
+            cols.append(f"coord_rel_{name}_x")
+            cols.append(f"coord_rel_{name}_y")
     return cols
 
 
@@ -203,6 +208,12 @@ def main():
     parser.add_argument("--coord-mode", choices=["flatten", "mean"], default="mean",
                          help="'mean' = produksi (default), koordinat dirata-rata 1 angka/window. "
                               "'flatten' = eksperimen pembanding saja, output ke file '_flatten'.")
+    parser.add_argument("--coord-relative", action="store_true",
+                         help="tambah fitur koordinat relatif hip-centered (Lee et al., 2026, "
+                              "Sensors 26(2):392) -- lihat joint_angles.compute_relative_coordinates.")
+    parser.add_argument("--flip-augment", action="store_true",
+                         help="gandakan window TRAIN dgn versi flip horizontal (Zhu & Zhu, 2021, "
+                              "Traitement du Signal 38(2):529-538) -- TIDAK diterapkan ke test.")
     args = parser.parse_args()
     tag = args.exercise
     if args.use_z:
@@ -279,10 +290,10 @@ def main():
     for vi, v in enumerate(videos):
         train_w = build_windows_from_runs(
             v["df"], v["feat_df"], per_video_train_runs[vi], args.window_sec, args.stride,
-            split_label="train", coord_mode=args.coord_mode)
+            split_label="train", coord_mode=args.coord_mode, coord_relative=args.coord_relative)
         test_w = build_windows_from_runs(
             v["df"], v["feat_df"], per_video_test_runs[vi], args.window_sec, args.stride,
-            split_label="test", coord_mode=args.coord_mode)
+            split_label="test", coord_mode=args.coord_mode, coord_relative=args.coord_relative)
         n_train = len(train_w) if train_w is not None else 0
         n_test = len(test_w) if test_w is not None else 0
         print(f"[ok] {v['path'].name}: {n_train} window train + {n_test} window test")
@@ -328,7 +339,14 @@ def main():
         return
 
     window_len = int(train_df["window_len_frames"].iloc[0])
-    feat_cols = feature_columns(window_len, coord_mode=args.coord_mode)
+    feat_cols = feature_columns(window_len, coord_mode=args.coord_mode, coord_relative=args.coord_relative)
+
+    if args.flip_augment:
+        from src.features.augmentation import flip_horizontal
+        flipped = flip_horizontal(train_df)
+        flipped["window_id"] = flipped["window_id"] + "_flip"
+        train_df = pd.concat([train_df, flipped], ignore_index=True)
+        print(f"\n[ok] flip-augment: train digandakan jadi {len(train_df)} window")
 
     print(f"\nDistribusi kelas train:\n{train_df['class'].value_counts().to_string()}")
     print(f"\nDistribusi kelas test:\n{test_df['class'].value_counts().to_string()}")
@@ -389,6 +407,8 @@ def main():
             "stride": args.stride,
             "visibility_threshold": args.visibility_threshold,
             "training_video_aspect_ratio": training_aspect_ratio,
+            "coord_relative": args.coord_relative,
+            "flip_augment": args.flip_augment,
             "feat_cols": feat_cols,
         }, f, indent=2)
     print(f"[ok] disimpan: {scaler_path}")

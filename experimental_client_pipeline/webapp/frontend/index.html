@@ -59,16 +59,16 @@
 
   #wrap { position: relative; aspect-ratio: 4 / 3; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
   video, canvas.overlay { width: 100%; height: 100%; display: block; object-fit: contain; }
-  canvas.overlay { position: absolute; top: 0; left: 0; }
+  canvas.overlay { position: absolute; top: 0; left: 0; pointer-events: none; }
   #statsRow { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; font-size: 12px; }
   #fps { color: var(--accent); font-weight: 600; }
   #timing { color: var(--muted); text-align: right; }
 
   #result { text-align: center; border: 1px solid var(--border); background: var(--panel); border-radius: 12px; padding: 20px 16px; }
   #result .rep { font-size: 34px; font-weight: 700; color: var(--accent); }
-  #clsText { font-size: 14px; color: var(--muted); margin-top: 6px; }
-  #result .cls-ok { color: var(--good); font-size: 14px; margin-top: 6px; font-weight: 500; }
-  #result .cls-warn { color: var(--bad); font-size: 14px; margin-top: 6px; font-weight: 500; }
+  #clsText { font-size: 18px; color: var(--muted); margin-top: 6px; }
+  #result .cls-ok { color: var(--good); font-size: 18px; margin-top: 6px; font-weight: 500; }
+  #result .cls-warn { color: var(--bad); font-size: 18px; margin-top: 6px; font-weight: 500; }
   #progressWrap { text-align: center; }
   #progressWrap progress { width: 100%; }
   #summary { display: none; }
@@ -92,7 +92,7 @@
 </style>
 </head>
 <body>
-<h1 class="appTitle">Pemantau Postur — Eksperimen Client-Side</h1>
+<h1 class="appTitle">Pemantau Postur</h1>
 <div id="toolbar">
   <div id="setup">
     <label><input type="radio" name="mode" value="live" checked> Kamera Live</label>
@@ -152,6 +152,7 @@ const timingEl = document.getElementById("timing");
 const video = document.getElementById("video");
 const canvas = document.getElementById("overlay");
 const ctx = canvas.getContext("2d");
+const wrapEl = document.getElementById("wrap");
 const cropCanvas = document.createElement("canvas");
 const cropCtx = cropCanvas.getContext("2d");
 const repCountEl = document.getElementById("repCount");
@@ -189,6 +190,36 @@ const YOLO_REDETECT_EVERY = 5;
 let cachedDet = null;
 let framesSinceDetect = 0;
 
+// Batas sisi terpanjang gambar yg diproses YOLO/MediaPipe -- BUKAN resolusi
+// tampilan/rekaman, cuma resolusi kerja internal. Video upload (bisa 1080p+)
+// jauh lebih lambat diproses drpd kamera live (default getUserMedia biasanya
+// jauh lebih kecil tanpa constraint eksplisit) justru krn beda resolusi ini,
+// BUKAN krn model/HP beda kemampuan -- lihat log timing YOLO/pose per frame.
+// Menyamakan batas ini bikin upload & live sama-sama diproses di resolusi
+// yg dibatasi, tanpa mengubah timestamp/window sama sekali (tetap t=idx/30).
+const MAX_PROC_LONG_SIDE = 720;
+const procCanvas = document.createElement("canvas");
+const procCtx = procCanvas.getContext("2d");
+
+function getProcessingFrame(video) {
+  const vw = video.videoWidth, vh = video.videoHeight;
+  const longSide = Math.max(vw, vh);
+  if (longSide <= MAX_PROC_LONG_SIDE) {
+    return { source: video, w: vw, h: vh, dispScale: 1 };
+  }
+  const scale = MAX_PROC_LONG_SIDE / longSide;
+  const pw = Math.max(1, Math.round(vw * scale));
+  const ph = Math.max(1, Math.round(vh * scale));
+  procCanvas.width = pw;
+  procCanvas.height = ph;
+  procCtx.drawImage(video, 0, 0, pw, ph);
+  // dispScale: kalikan koordinat hasil deteksi (di ruang procCanvas yg kecil)
+  // dgn ini utk balik ke ruang video.videoWidth/Height asli, dipakai HANYA
+  // saat menggambar overlay skeleton (supaya tetap presisi di layar penuh),
+  // TIDAK dipakai sama sekali utk crop MediaPipe (itu tetap di resolusi kecil).
+  return { source: procCanvas, w: pw, h: ph, dispScale: vw / pw };
+}
+
 let ws = null;
 let lastSendMs = null;
 let sessionStartMs = null;
@@ -200,6 +231,14 @@ const sessionLog = [];
 let lastRepCount = 0;
 
 let cycleEvidence = { angle: null, dataUrl: null };
+
+// Preview upload: skeleton per-frame yg sudah dihitung saat pemrosesan
+// disimpan di sini, lalu digambar ULANG (bukan dihitung ulang) saat video
+// diputar normal setelah selesai diproses -- lihat loopBody(), drawOverlay(),
+// startReplayLoop().
+let replayFrames = [];
+let lastDrawState = null;
+let replayRafId = null;
 const snapCanvas = document.createElement("canvas");
 const snapCtx = snapCanvas.getContext("2d");
 
@@ -273,6 +312,13 @@ for (const r of modeRadios) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.width = 0;
     canvas.height = 0;
+    cancelAnimationFrame(replayRafId);
+    replayRafId = null;
+    replayFrames = [];
+    video.onplay = null;
+    video.onseeked = null;
+    video.controls = false;
+    wrapEl.style.display = "";
     repCountEl.textContent = "Repetisi: -";
     clsTextEl.textContent = "Menunggu koneksi backend...";
     clsTextEl.className = "";
@@ -407,6 +453,14 @@ function ensureSocketOpen() {
 }
 
 async function startFreshSession(exercise, countdownSec) {
+  cancelAnimationFrame(replayRafId);
+  replayRafId = null;
+  replayFrames = [];
+  lastDrawState = null;
+  video.onplay = null;
+  video.onseeked = null;
+  video.controls = false;
+  wrapEl.style.display = "";
   wsReady = false;
   clsTextEl.textContent = "Menghubungkan ke backend...";
   await ensureSocketOpen();
@@ -542,18 +596,28 @@ startUploadBtn.onclick = async () => {
   video.src = URL.createObjectURL(file);
   video.loop = false;
   video.muted = true;
+  video.controls = false;
   await new Promise((resolve) => { video.onloadedmetadata = resolve; });
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   sessionStartMs = null;
   sessionLog.length = 0;
   cycleEvidence = { angle: null, dataUrl: null };
+  replayFrames = [];
+  cachedDet = null;
+  framesSinceDetect = 0;
   running = true;
-  await runUploadDeterministic();
+  video.ontimeupdate = () => {
+    if (video.duration) {
+      const pct = Math.round((video.currentTime / video.duration) * 100);
+      progressWrapEl.innerHTML = `<progress value="${video.currentTime}" max="${video.duration}"></progress><div>Memproses video... ${pct}%</div>`;
+    }
+  };
+  video.onended = finishUpload;
+  video.play();
+  loop();
 };
 
-// Upload Video diproses frame demi frame lewat seek (tidak real-time), supaya
-// video yang sama selalu memberi hasil yang sama. Live Camera tetap real-time (loop()).
 function seekTo(timeSec) {
   return new Promise((resolve) => {
     video.onseeked = resolve;
@@ -561,34 +625,36 @@ function seekTo(timeSec) {
   });
 }
 
-async function runUploadDeterministic() {
-  cachedDet = null;
-  framesSinceDetect = 0;
-  const frameIntervalSec = 1 / TRAINING_FPS;
-  const totalFrames = Math.floor(video.duration / frameIntervalSec);
-  // MediaPipe VIDEO mode butuh timestamp yang selalu naik (poseLandmarker dipakai
-  // ulang antar sesi), jadi mulai dari performance.now() dengan jarak antar-frame tetap.
-  const mediapipeBaseMs = performance.now();
-  let frameIdx = 0;
-  while (running && frameIdx <= totalFrames) {
-    const t = frameIdx * frameIntervalSec;
-    await seekTo(Math.min(t, video.duration));
-    const landmarksForBackend = await processCurrentVideoFrame(mediapipeBaseMs + t * 1000);
-    if (wsReady && ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type: "landmarks", landmarks: landmarksForBackend, t, fps: TRAINING_FPS }));
-    }
-    if (frameIdx % 5 === 0 || frameIdx === totalFrames) {
-      const pct = Math.round((frameIdx / totalFrames) * 100);
-      progressWrapEl.innerHTML =
-        `<progress value="${frameIdx}" max="${totalFrames}"></progress><div>Memproses frame ${frameIdx}/${totalFrames} (${pct}%)</div>`;
-    }
-    frameIdx++;
+function findNearestReplayIdx(vt) {
+  if (replayFrames.length === 0) return -1;
+  let lo = 0, hi = replayFrames.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (replayFrames[mid].vt < vt) lo = mid + 1; else hi = mid;
   }
+  return lo;
+}
+
+async function finishUpload() {
   running = false;
+  video.ontimeupdate = null;
+  video.onended = null;
   progressWrapEl.innerHTML = "";
   statusEl.textContent = "Analisis video selesai.";
   startUploadBtn.disabled = false;
   renderFinalSummary();
+
+  video.pause();
+  video.controls = true;
+  await seekTo(0);
+  video.onplay = startReplayLoop;
+  video.onseeked = () => {
+    if (video.paused) {
+      const idx = findNearestReplayIdx(video.currentTime);
+      if (idx >= 0) applyReplayState(replayFrames[idx]);
+    }
+  };
+  applyReplayState(replayFrames[0]);
 }
 
 async function startCamera() {
@@ -614,11 +680,22 @@ async function loop() {
   } catch (err) {
     console.error("loop() error, lanjut ke frame berikutnya:", err);
   }
+  if (mode === "upload" && video.ended) return;
   if (running) requestAnimationFrame(loop);
 }
 
 async function loopBody() {
   const landmarksForBackend = await processCurrentVideoFrame();
+
+  if (mode === "upload" && running) {
+    replayFrames.push({
+      vt: video.currentTime,
+      draw: lastDrawState,
+      rep: repCountEl.textContent,
+      cls: clsTextEl.textContent,
+      clsClass: clsTextEl.className,
+    });
+  }
 
   const nowMs = performance.now();
   const sendIntervalMs = 1000 / TRAINING_FPS;
@@ -631,17 +708,83 @@ async function loopBody() {
   }
 }
 
+// Dipakai HANYA saat preview upload diputar ulang (lihat startReplayLoop()).
+// Meniru persis gambar overlay yg dibuat processCurrentVideoFrame() di bawah,
+// tapi dari data yg sudah dihitung & disimpan (replayFrames), tanpa menghitung
+// ulang YOLO/MediaPipe -- makanya bisa mulus walau videonya diputar biasa.
+// Kalau gaya gambar di processCurrentVideoFrame() diubah, ubah juga di sini.
+function drawOverlay(state) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!state) return;
+  const { box, lm, cx1, cy1, cropW, cropH, dispScale } = state;
+  if (lm) {
+    const px = (l) => (cx1 + l[0] * cropW) * dispScale;
+    const py = (l) => (cy1 + l[1] * cropH) * dispScale;
+    ctx.strokeStyle = "#3cff3c";
+    ctx.lineWidth = 2;
+    for (const [a, b] of BODY_CONNECTIONS) {
+      if (lm[a][3] > 0.6 && lm[b][3] > 0.6) {
+        ctx.beginPath();
+        ctx.moveTo(px(lm[a]), py(lm[a]));
+        ctx.lineTo(px(lm[b]), py(lm[b]));
+        ctx.stroke();
+      }
+    }
+    ctx.fillStyle = "#ff3c3c";
+    for (const l of lm) {
+      if (l[3] > 0.6) {
+        ctx.beginPath();
+        ctx.arc(px(l), py(l), 3, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    }
+  }
+  if (cropW) {
+    ctx.strokeStyle = "#3c3cff";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(cx1 * dispScale, cy1 * dispScale, cropW * dispScale, cropH * dispScale);
+  }
+  ctx.strokeStyle = "#ffff3c";
+  ctx.lineWidth = 2;
+  const [x1, y1, x2, y2] = box;
+  ctx.strokeRect(x1 * dispScale, y1 * dispScale, (x2 - x1) * dispScale, (y2 - y1) * dispScale);
+}
+
+// entry: item dari replayFrames ({draw, rep, cls, clsClass}) -- gambar ulang
+// skeleton DAN kembalikan teks panel (Repetisi/clsText) ke kondisi persis
+// seperti saat frame itu diproses pertama kali, biar panel "ikut" video saat
+// preview diputar/di-scrub, bukan diam di angka akhir.
+function applyReplayState(entry) {
+  drawOverlay(entry ? entry.draw : null);
+  if (!entry) return;
+  repCountEl.textContent = entry.rep;
+  clsTextEl.textContent = entry.cls;
+  clsTextEl.className = entry.clsClass;
+}
+
+function startReplayLoop() {
+  cancelAnimationFrame(replayRafId);
+  const step = () => {
+    if (video.paused || video.ended) { replayRafId = null; return; }
+    const idx = findNearestReplayIdx(video.currentTime);
+    if (idx >= 0) applyReplayState(replayFrames[idx]);
+    replayRafId = requestAnimationFrame(step);
+  };
+  replayRafId = requestAnimationFrame(step);
+}
+
 // Dipakai LIVE (via startCamera) maupun Upload Video (via video.play() biasa)
 // -- keduanya lewat loop()/loopBody() yang sama, real-time.
 async function processCurrentVideoFrame(mediapipeTimestampMs = null) {
   const t0 = performance.now();
+  const { source: procSource, w: procW, h: procH, dispScale } = getProcessingFrame(video);
   let det;
   let ranRealDetect = false;
   if (cachedDet && framesSinceDetect < YOLO_REDETECT_EVERY) {
     det = cachedDet;
     framesSinceDetect++;
   } else {
-    det = await yolo.detect(video, 0.7, 0.45);
+    det = await yolo.detect(procSource, procW, procH, 0.7, 0.45);
     cachedDet = det;
     framesSinceDetect = 0;
     ranRealDetect = true;
@@ -656,9 +799,13 @@ async function processCurrentVideoFrame(mediapipeTimestampMs = null) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   let landmarksForBackend = null;
+  let drawState = null;
 
   if (det) {
-    const cropBox = expandBbox(det.box, 0.75, video.videoWidth, video.videoHeight);
+    // cx1/cy1/cropW/cropH di ruang procSource (kecil, buat kecepatan).
+    // Dikali dispScale HANYA saat digambar ke overlay (resolusi penuh),
+    // TIDAK pernah dipakai buat crop MediaPipe -- itu tetap di ruang kecil.
+    const cropBox = expandBbox(det.box, 0.75, procW, procH);
     const [cx1, cy1, cx2, cy2] = cropBox;
     const cropW = cx2 - cx1;
     const cropH = cy2 - cy1;
@@ -666,7 +813,7 @@ async function processCurrentVideoFrame(mediapipeTimestampMs = null) {
     if (cropW > 0 && cropH > 0) {
       cropCanvas.width = cropW;
       cropCanvas.height = cropH;
-      cropCtx.drawImage(video, cx1, cy1, cropW, cropH, 0, 0, cropW, cropH);
+      cropCtx.drawImage(procSource, cx1, cy1, cropW, cropH, 0, 0, cropW, cropH);
       const t2 = performance.now();
       timingLog.crop.push(t2 - t1);
 
@@ -678,8 +825,8 @@ async function processCurrentVideoFrame(mediapipeTimestampMs = null) {
         const lm = result.landmarks[0];
         landmarksForBackend = lm.map((l) => [l.x, l.y, l.z, l.visibility]);
 
-        const px = (l) => cx1 + l.x * cropW;
-        const py = (l) => cy1 + l.y * cropH;
+        const px = (l) => (cx1 + l.x * cropW) * dispScale;
+        const py = (l) => (cy1 + l.y * cropH) * dispScale;
         ctx.strokeStyle = "#3cff3c";
         ctx.lineWidth = 2;
         for (const [a, b] of BODY_CONNECTIONS) {
@@ -701,13 +848,15 @@ async function processCurrentVideoFrame(mediapipeTimestampMs = null) {
       }
       ctx.strokeStyle = "#3c3cff";
       ctx.lineWidth = 1;
-      ctx.strokeRect(cx1, cy1, cropW, cropH);
+      ctx.strokeRect(cx1 * dispScale, cy1 * dispScale, cropW * dispScale, cropH * dispScale);
     }
     ctx.strokeStyle = "#ffff3c";
     ctx.lineWidth = 2;
     const [x1, y1, x2, y2] = det.box;
-    ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+    ctx.strokeRect(x1 * dispScale, y1 * dispScale, (x2 - x1) * dispScale, (y2 - y1) * dispScale);
+    drawState = { box: det.box, lm: landmarksForBackend, cx1, cy1, cropW, cropH, dispScale };
   }
+  lastDrawState = drawState;
 
   const now = performance.now();
   frameTimes.push(now - lastTime);

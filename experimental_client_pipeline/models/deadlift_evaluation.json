@@ -1,8 +1,8 @@
 {
   "exercise": "deadlift",
-  "n_train": 7976,
+  "n_train": 15952,
   "n_test": 3087,
-  "n_features": 297,
+  "n_features": 363,
   "classes": [
     "deadlift_armsspread_concentric",
     "deadlift_armsspread_eccentric",
@@ -11,65 +11,65 @@
     "deadlift_correct_concentric",
     "deadlift_correct_eccentric"
   ],
-  "accuracy": 0.9708454810495627,
-  "precision_weighted": 0.9729779655297349,
-  "recall_weighted": 0.9708454810495627,
-  "f1_weighted": 0.9704064695876639,
+  "accuracy": 0.9549724651765468,
+  "precision_weighted": 0.9563846139096728,
+  "recall_weighted": 0.9549724651765468,
+  "f1_weighted": 0.9545072332810208,
   "classification_report": {
     "deadlift_armsspread_concentric": {
       "precision": 1.0,
-      "recall": 0.9956584659913169,
-      "f1-score": 0.9978245105148659,
+      "recall": 0.9971056439942113,
+      "f1-score": 0.9985507246376812,
       "support": 691.0
     },
     "deadlift_armsspread_eccentric": {
-      "precision": 0.9920424403183024,
+      "precision": 0.9946808510638298,
       "recall": 1.0,
-      "f1-score": 0.996005326231691,
+      "f1-score": 0.9973333333333333,
       "support": 374.0
     },
     "deadlift_backround_concentric": {
-      "precision": 0.9821428571428571,
-      "recall": 0.9649122807017544,
-      "f1-score": 0.9734513274336283,
+      "precision": 0.9332161687170475,
+      "recall": 0.9315789473684211,
+      "f1-score": 0.9323968393327481,
       "support": 570.0
     },
     "deadlift_backround_eccentric": {
-      "precision": 1.0,
-      "recall": 0.8189910979228486,
-      "f1-score": 0.900489396411093,
+      "precision": 0.9785714285714285,
+      "recall": 0.8130563798219584,
+      "f1-score": 0.8881685575364667,
       "support": 337.0
     },
     "deadlift_correct_concentric": {
-      "precision": 0.9702380952380952,
-      "recall": 0.9908814589665653,
-      "f1-score": 0.9804511278195489,
+      "precision": 0.9417910447761194,
+      "recall": 0.958966565349544,
+      "f1-score": 0.9503012048192772,
       "support": 658.0
     },
     "deadlift_correct_eccentric": {
-      "precision": 0.8891050583657587,
-      "recall": 1.0,
-      "f1-score": 0.94129763130793,
+      "precision": 0.8926441351888668,
+      "recall": 0.9824945295404814,
+      "f1-score": 0.9354166666666667,
       "support": 457.0
     },
-    "accuracy": 0.9708454810495627,
+    "accuracy": 0.9549724651765468,
     "macro avg": {
-      "precision": 0.972254741844169,
-      "recall": 0.9617405505970807,
-      "f1-score": 0.9649198866197928,
+      "precision": 0.9568172713862153,
+      "recall": 0.9472003443457694,
+      "f1-score": 0.950361221054362,
       "support": 3087.0
     },
     "weighted avg": {
-      "precision": 0.9729779655297349,
-      "recall": 0.9708454810495627,
-      "f1-score": 0.9704064695876639,
+      "precision": 0.9563846139096728,
+      "recall": 0.9549724651765468,
+      "f1-score": 0.9545072332810208,
       "support": 3087.0
     }
   },
   "confusion_matrix": [
     [
-      688,
-      3,
+      689,
+      2,
       0,
       0,
       0,
@@ -86,38 +86,39 @@
     [
       0,
       0,
-      550,
+      531,
       0,
-      20,
+      39,
       0
     ],
     [
       0,
       0,
-      10,
-      276,
+      9,
+      274,
       0,
-      51
+      54
     ],
     [
       0,
       0,
+      27,
       0,
-      0,
-      652,
-      6
+      631,
+      0
     ],
     [
       0,
       0,
+      2,
+      6,
       0,
-      0,
-      0,
-      457
+      449
     ]
   ],
   "hyperparameters": {
     "n_estimators": 100,
+    "min_samples_leaf": 4,
     "class_weight": "balanced",
     "random_state": 42
   }

@@ -38,15 +38,11 @@ def _cosine_similarity(a, b):
 RISING = "rising"
 FALLING = "falling"
 
-# Tuning per-exercise dari sinyal produksi asli (LivePosturePipeline, bukan
-# shortcut CSV) -- skema tuning/held-out per exercise (bagian video cari
-# parameter, bagian lain dikunci sampai evaluasi akhir, padanan train/test
-# split), ground truth dari label manual. Params ini baru divalidasi dari
-# 1-2 partisipan -- wajib divalidasi ulang begitu partisipan lebih banyak.
+# Hasil tuning MAE dari video P1-P3 + video uji (countdown 0), per latihan.
 REP_COUNTING_PARAMS = {
-    "squat": {"min_prominence_deg": 20.0, "min_distance_sec": 0.6},
-    "benchpress": {"min_prominence_deg": 28.0, "min_distance_sec": 0.6},
-    "deadlift": {"min_prominence_deg": 25.0, "min_distance_sec": 1.0},
+    "squat": {"min_prominence_deg": 12.0, "min_distance_sec": 1.6},
+    "benchpress": {"min_prominence_deg": 12.0, "min_distance_sec": 1.6},
+    "deadlift": {"min_prominence_deg": 14.0, "min_distance_sec": 1.6},
 }
 
 

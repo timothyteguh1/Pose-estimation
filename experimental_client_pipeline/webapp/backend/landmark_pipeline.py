@@ -16,6 +16,7 @@ from src.features.joint_angles import (
     ANGLE_COLUMNS,
     POSE_LANDMARK_NAMES,
     compute_frame_angles,
+    compute_relative_coordinates,
     primary_angle_for_frame,
 )
 
@@ -197,6 +198,7 @@ class LandmarkPosturePipeline:
                 values = [frame_feat[col] for frame_feat in self._buffer]
                 valid = [v for v in values if v == v]
                 window_row[f"coord_mean_{col}"] = (sum(valid) / len(valid)) if valid else float("nan")
+        window_row.update(compute_relative_coordinates(window_row))
 
         if any(v != v for v in window_row.values()):
             self._last_confidence = None

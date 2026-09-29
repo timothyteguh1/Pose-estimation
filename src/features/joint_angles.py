@@ -45,6 +45,43 @@ NECK_ANGLE_TRIPLES = (
 
 ANGLE_COLUMNS = ["neck_angle"] + list(JOINT_ANGLE_TRIPLES.keys())
 
+# Pasangan kiri-kanan, dipakai flip augmentation (src/features/augmentation.py).
+# Tangani pola awalan ("left_shoulder") maupun akhiran ("mouth_left") -- MediaPipe
+# tidak konsisten. "nose" sengaja tidak masuk (tidak ada pasangan kiri-kanan).
+LEFT_RIGHT_LANDMARK_PAIRS = []
+_seen_lr = set()
+for _name in POSE_LANDMARK_NAMES:
+    if _name in _seen_lr:
+        continue
+    if _name.startswith("left_"):
+        _pair = "right_" + _name[len("left_"):]
+    elif _name.endswith("_left"):
+        _pair = _name[: -len("_left")] + "_right"
+    else:
+        continue
+    if _pair in POSE_LANDMARK_NAMES:
+        LEFT_RIGHT_LANDMARK_PAIRS.append((_name, _pair))
+        _seen_lr.update((_name, _pair))
+
+LEFT_RIGHT_ANGLE_PAIRS = [(c, c.replace("left_", "right_", 1)) for c in ANGLE_COLUMNS if c.startswith("left_")]
+
+
+def compute_relative_coordinates(coord):
+    """Koordinat relatif hip-centered (Lee et al., 2026, Sensors 26(2):392,
+    Persamaan 5-9), diterapkan ke semua 33 landmark. `coord`: dict/DataFrame
+    berisi kolom coord_mean_{name}_x / coord_mean_{name}_y untuk semua landmark.
+    """
+    hip_x = (coord["coord_mean_left_hip_x"] + coord["coord_mean_right_hip_x"]) / 2
+    hip_y = (coord["coord_mean_left_hip_y"] + coord["coord_mean_right_hip_y"]) / 2
+    shoulder_x = (coord["coord_mean_left_shoulder_x"] + coord["coord_mean_right_shoulder_x"]) / 2
+    shoulder_y = (coord["coord_mean_left_shoulder_y"] + coord["coord_mean_right_shoulder_y"]) / 2
+    scale = ((shoulder_x - hip_x) ** 2 + (shoulder_y - hip_y) ** 2) ** 0.5
+    rel = {}
+    for name in POSE_LANDMARK_NAMES:
+        rel[f"coord_rel_{name}_x"] = (coord[f"coord_mean_{name}_x"] - hip_x) / scale
+        rel[f"coord_rel_{name}_y"] = (coord[f"coord_mean_{name}_y"] - hip_y) / scale
+    return rel
+
 # Primary joint angle used for automatic concentric/eccentric phase detection
 # (user-specified mapping): squat -> knee, bench press -> elbow, deadlift -> hip.
 PRIMARY_ANGLE_BASE_BY_EXERCISE = {

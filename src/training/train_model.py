@@ -90,6 +90,9 @@ def main():
     parser.add_argument("exercise", choices=["squat", "benchpress", "deadlift"])
     parser.add_argument("--n-estimators", type=int, default=100,
                          help="jumlah pohon RF (default scikit-learn = 100)")
+    parser.add_argument("--min-samples-leaf", type=int, default=1,
+                         help="minimum sampel per leaf (default scikit-learn = 1). "
+                              "Nilai lebih besar = regularisasi lebih kuat.")
     parser.add_argument("--random-state", type=int, default=42)
     args = parser.parse_args()
 
@@ -107,6 +110,7 @@ def main():
 
     model = RandomForestClassifier(
         n_estimators=args.n_estimators,
+        min_samples_leaf=args.min_samples_leaf,
         class_weight="balanced",
         random_state=args.random_state,
     )
@@ -166,8 +170,8 @@ def main():
         "f1_weighted": f1,
         "classification_report": report,
         "confusion_matrix": cm.tolist(),
-        "hyperparameters": {"n_estimators": args.n_estimators, "class_weight": "balanced",
-                             "random_state": args.random_state},
+        "hyperparameters": {"n_estimators": args.n_estimators, "min_samples_leaf": args.min_samples_leaf,
+                             "class_weight": "balanced", "random_state": args.random_state},
     }
     with open(eval_path, "w") as f:
         json.dump(eval_result, f, indent=2)

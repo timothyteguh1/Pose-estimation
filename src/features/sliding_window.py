@@ -41,6 +41,7 @@ from src.features.joint_angles import (
     POSE_LANDMARK_NAMES,
     VISIBILITY_THRESHOLD,
     compute_frame_angles,
+    compute_relative_coordinates,
 )
 
 
@@ -134,7 +135,8 @@ def split_runs_by_frame_fraction(runs, front_fraction):
     return front, back
 
 
-def build_windows_from_runs(df, feat_df, runs, window_sec, stride=1, split_label=None, coord_mode="mean"):
+def build_windows_from_runs(df, feat_df, runs, window_sec, stride=1, split_label=None, coord_mode="mean",
+                             coord_relative=False):
     """Bangun window (Eq.2 & 3) dari daftar run yang sudah ditentukan
     (biasanya hasil find_valid_runs() atau split_runs_by_frame_fraction()).
 
@@ -143,6 +145,10 @@ def build_windows_from_runs(df, feat_df, runs, window_sec, stride=1, split_label
 
     coord_mode: "mean" (default, produksi) atau "flatten" (eksperimen
     pembanding, lihat build_dataset.py --coord-mode dan docstring modul).
+
+    coord_relative: default False. True -> tambahkan koordinat relatif
+    hip-centered (Lee et al., 2026 -- lihat joint_angles.compute_relative_coordinates),
+    HANYA didukung utk coord_mode="mean".
 
     Returns DataFrame (1 baris = 1 window) atau None kalau tidak ada window
     yang bisa dibangun (semua run < swl).
@@ -180,6 +186,8 @@ def build_windows_from_runs(df, feat_df, runs, window_sec, stride=1, split_label
                     else:
                         for f in range(swl):
                             coord_block[f"coord_{col}_f{f}"] = window_feat[col].iloc[f]
+            if coord_relative:
+                coord_block.update(compute_relative_coordinates(coord_block))
 
             # Occlusion 1 titik sesaat tidak memutus run (usable longgar),
             # tapi window yg kebetulan masih mengandung NaN dibuang di sini

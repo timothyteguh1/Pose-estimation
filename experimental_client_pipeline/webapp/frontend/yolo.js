@@ -1,8 +1,8 @@
 const PERSON_CLASS = 0;
 
-function letterbox(video, canvasSize) {
-  const w = video.videoWidth;
-  const h = video.videoHeight;
+function letterbox(source, srcW, srcH, canvasSize) {
+  const w = srcW;
+  const h = srcH;
   const scale = Math.min(canvasSize / w, canvasSize / h);
   const nw = Math.round(w * scale);
   const nh = Math.round(h * scale);
@@ -15,7 +15,7 @@ function letterbox(video, canvasSize) {
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = "rgb(114,114,114)";
   ctx.fillRect(0, 0, canvasSize, canvasSize);
-  ctx.drawImage(video, padX, padY, nw, nh);
+  ctx.drawImage(source, padX, padY, nw, nh);
 
   return { canvas, ctx, scale, padX, padY };
 }
@@ -125,14 +125,18 @@ class YoloDetector {
     }
   }
 
-  async detect(video, confThreshold = 0.7, iouThreshold = 0.45) {
-    const { canvas, scale, padX, padY } = letterbox(video, this.inputSize);
+  // source: <video> ATAU <canvas> (kanvas hasil pengecilan resolusi utk mode
+  // upload -- lihat getProcessingFrame() di index.html). srcW/srcH WAJIB
+  // dimensi source-nya sendiri, bukan video.videoWidth/Height, supaya kotak
+  // yg dikembalikan konsisten dgn koordinat source yg dipakai.
+  async detect(source, srcW, srcH, confThreshold = 0.7, iouThreshold = 0.45) {
+    const { canvas, scale, padX, padY } = letterbox(source, srcW, srcH, this.inputSize);
     const tensor = canvasToTensor(canvas);
     const feeds = { images: tensor };
     const results = await this.session.run(feeds);
     const output = results[this.session.outputNames[0]];
     return decodePersonBox(
-      output, scale, padX, padY, video.videoWidth, video.videoHeight,
+      output, scale, padX, padY, srcW, srcH,
       confThreshold, iouThreshold
     );
   }
