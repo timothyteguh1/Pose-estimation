@@ -1,0 +1,249 @@
+{
+  "exercise": "benchpress",
+  "camera_angles_latih": [
+    "left45",
+    "right45"
+  ],
+  "n_train": 7842,
+  "n_features": 363,
+  "classes": [
+    "benchpress_armsspread_concentric",
+    "benchpress_armsspread_eccentric",
+    "benchpress_correct_concentric",
+    "benchpress_correct_eccentric",
+    "benchpress_flatback_concentric",
+    "benchpress_flatback_eccentric"
+  ],
+  "hyperparameters": {
+    "n_estimators": 100,
+    "min_samples_leaf": 4,
+    "class_weight": "balanced",
+    "random_state": 42
+  },
+  "uji_diagonal": {
+    "camera_angle_uji": {
+      "left45": 551,
+      "right45": 616,
+      "front": 0
+    },
+    "n_test": 1167,
+    "accuracy": 0.9502999143101971,
+    "precision_weighted": 0.9527793493843263,
+    "recall_weighted": 0.9502999143101971,
+    "f1_weighted": 0.950361904113981,
+    "classification_report": {
+      "benchpress_armsspread_concentric": {
+        "precision": 1.0,
+        "recall": 0.9951456310679612,
+        "f1-score": 0.9975669099756691,
+        "support": 206.0
+      },
+      "benchpress_armsspread_eccentric": {
+        "precision": 0.990990990990991,
+        "recall": 1.0,
+        "f1-score": 0.9954751131221719,
+        "support": 110.0
+      },
+      "benchpress_correct_concentric": {
+        "precision": 0.9502487562189055,
+        "recall": 0.9845360824742269,
+        "f1-score": 0.9670886075949368,
+        "support": 194.0
+      },
+      "benchpress_correct_eccentric": {
+        "precision": 0.9469026548672567,
+        "recall": 0.9304347826086956,
+        "f1-score": 0.9385964912280702,
+        "support": 230.0
+      },
+      "benchpress_flatback_concentric": {
+        "precision": 0.9939759036144579,
+        "recall": 0.8638743455497382,
+        "f1-score": 0.9243697478991597,
+        "support": 191.0
+      },
+      "benchpress_flatback_eccentric": {
+        "precision": 0.8682170542635659,
+        "recall": 0.9491525423728814,
+        "f1-score": 0.9068825910931175,
+        "support": 236.0
+      },
+      "accuracy": 0.9502999143101971,
+      "macro avg": {
+        "precision": 0.9583892266591961,
+        "recall": 0.9538572306789171,
+        "f1-score": 0.9549965768188541,
+        "support": 1167.0
+      },
+      "weighted avg": {
+        "precision": 0.9527793493843263,
+        "recall": 0.9502999143101971,
+        "f1-score": 0.950361904113981,
+        "support": 1167.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        205,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        110,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        191,
+        0,
+        1,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        214,
+        0,
+        16
+      ],
+      [
+        0,
+        0,
+        10,
+        0,
+        165,
+        16
+      ],
+      [
+        0,
+        0,
+        0,
+        12,
+        0,
+        224
+      ]
+    ]
+  },
+  "uji_data_lengkap": {
+    "camera_angle_uji": {
+      "left45": 551,
+      "right45": 616,
+      "front": 701
+    },
+    "n_test": 1868,
+    "accuracy": 0.7890792291220556,
+    "precision_weighted": 0.8274664709495799,
+    "recall_weighted": 0.7890792291220556,
+    "f1_weighted": 0.7895570126452283,
+    "classification_report": {
+      "benchpress_armsspread_concentric": {
+        "precision": 0.8313609467455622,
+        "recall": 0.8388059701492537,
+        "f1-score": 0.8350668647845468,
+        "support": 335.0
+      },
+      "benchpress_armsspread_eccentric": {
+        "precision": 0.993006993006993,
+        "recall": 0.6228070175438597,
+        "f1-score": 0.7654986522911051,
+        "support": 228.0
+      },
+      "benchpress_correct_concentric": {
+        "precision": 0.9502487562189055,
+        "recall": 0.6409395973154363,
+        "f1-score": 0.7655310621242486,
+        "support": 298.0
+      },
+      "benchpress_correct_eccentric": {
+        "precision": 0.9469026548672567,
+        "recall": 0.7753623188405797,
+        "f1-score": 0.852589641434263,
+        "support": 276.0
+      },
+      "benchpress_flatback_concentric": {
+        "precision": 0.7215189873417721,
+        "recall": 0.7574750830564784,
+        "f1-score": 0.7390599675850891,
+        "support": 301.0
+      },
+      "benchpress_flatback_eccentric": {
+        "precision": 0.6490683229813664,
+        "recall": 0.9720930232558139,
+        "f1-score": 0.7783985102420855,
+        "support": 430.0
+      },
+      "accuracy": 0.7890792291220556,
+      "macro avg": {
+        "precision": 0.848684443526976,
+        "recall": 0.7679138350269037,
+        "f1-score": 0.7893574497435564,
+        "support": 1868.0
+      },
+      "weighted avg": {
+        "precision": 0.8274664709495799,
+        "recall": 0.7890792291220556,
+        "f1-score": 0.7895570126452283,
+        "support": 1868.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        281,
+        1,
+        0,
+        0,
+        34,
+        19
+      ],
+      [
+        57,
+        142,
+        0,
+        0,
+        0,
+        29
+      ],
+      [
+        0,
+        0,
+        191,
+        0,
+        54,
+        53
+      ],
+      [
+        0,
+        0,
+        0,
+        214,
+        0,
+        62
+      ],
+      [
+        0,
+        0,
+        10,
+        0,
+        228,
+        63
+      ],
+      [
+        0,
+        0,
+        0,
+        12,
+        0,
+        418
+      ]
+    ]
+  }
+}
