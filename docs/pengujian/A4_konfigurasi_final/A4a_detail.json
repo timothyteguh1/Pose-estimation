@@ -1,0 +1,281 @@
+{
+  "keterangan": "F1 weighted, 6 kelas per latihan; LOPO = tahan satu partisipan; flip hanya pada data latih",
+  "varian": [
+    {
+      "latihan": "Squat",
+      "varian": "A baseline",
+      "jumlah_fitur": 297,
+      "f1_weighted_70_30": 0.9192500101982083,
+      "n_latih": 6365,
+      "n_uji": 2477,
+      "accuracy_70_30": 0.9216794509487283,
+      "f1_macro_70_30": 0.9125047457538011,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.4842036055632293,
+        "P2": 0.517669469055783,
+        "P3": 0.5322054048625843
+      },
+      "f1_weighted_LOPO_rata2": 0.5113594931605322
+    },
+    {
+      "latihan": "Squat",
+      "varian": "B +relatif",
+      "jumlah_fitur": 363,
+      "f1_weighted_70_30": 0.9055591100701451,
+      "n_latih": 6365,
+      "n_uji": 2477,
+      "accuracy_70_30": 0.9087605974969721,
+      "f1_macro_70_30": 0.8983879233805995,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.5611413744510881,
+        "P2": 0.4586889134200374,
+        "P3": 0.6095757537967773
+      },
+      "f1_weighted_LOPO_rata2": 0.5431353472226342
+    },
+    {
+      "latihan": "Squat",
+      "varian": "C +flip",
+      "jumlah_fitur": 363,
+      "f1_weighted_70_30": 0.8884390292343926,
+      "n_latih": 12730,
+      "n_uji": 2477,
+      "accuracy_70_30": 0.8922083165119096,
+      "f1_macro_70_30": 0.886072304262692,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.6106555183820102,
+        "P2": 0.44577431263631656,
+        "P3": 0.540788429050663
+      },
+      "f1_weighted_LOPO_rata2": 0.5324060866896633
+    },
+    {
+      "latihan": "Squat",
+      "varian": "D final (+leaf 4)",
+      "jumlah_fitur": 363,
+      "f1_weighted_70_30": 0.8818068614257376,
+      "n_latih": 12730,
+      "n_uji": 2477,
+      "accuracy_70_30": 0.8845377472749294,
+      "f1_macro_70_30": 0.8805019781586885,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.6249210273128367,
+        "P2": 0.4549019501261273,
+        "P3": 0.5289533709301413
+      },
+      "f1_weighted_LOPO_rata2": 0.5362587827897017
+    },
+    {
+      "latihan": "Bench press",
+      "varian": "A baseline",
+      "jumlah_fitur": 297,
+      "f1_weighted_70_30": 0.9128208603581753,
+      "n_latih": 5308,
+      "n_uji": 1868,
+      "accuracy_70_30": 0.9148822269807281,
+      "f1_macro_70_30": 0.9096509048944171,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.2335193323992654,
+        "P2": 0.30111739941117455,
+        "P3": 0.49522107288441525
+      },
+      "f1_weighted_LOPO_rata2": 0.34328593489828507
+    },
+    {
+      "latihan": "Bench press",
+      "varian": "B +relatif",
+      "jumlah_fitur": 363,
+      "f1_weighted_70_30": 0.9314394885627472,
+      "n_latih": 5308,
+      "n_uji": 1868,
+      "accuracy_70_30": 0.9320128479657388,
+      "f1_macro_70_30": 0.9301855551435038,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.3042183070795517,
+        "P2": 0.3034665264358596,
+        "P3": 0.5035780569610399
+      },
+      "f1_weighted_LOPO_rata2": 0.3704209634921504
+    },
+    {
+      "latihan": "Bench press",
+      "varian": "C +flip",
+      "jumlah_fitur": 363,
+      "f1_weighted_70_30": 0.9185820912386979,
+      "n_latih": 10616,
+      "n_uji": 1868,
+      "accuracy_70_30": 0.9197002141327623,
+      "f1_macro_70_30": 0.9170567728396222,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.2866179153555712,
+        "P2": 0.46351531061344503,
+        "P3": 0.5037166653911329
+      },
+      "f1_weighted_LOPO_rata2": 0.41794996378671634
+    },
+    {
+      "latihan": "Bench press",
+      "varian": "D final (+leaf 4)",
+      "jumlah_fitur": 363,
+      "f1_weighted_70_30": 0.9147904223222006,
+      "n_latih": 10616,
+      "n_uji": 1868,
+      "accuracy_70_30": 0.9159528907922913,
+      "f1_macro_70_30": 0.9113470752367437,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.3201167456736312,
+        "P2": 0.4857175679376882,
+        "P3": 0.40610217059421516
+      },
+      "f1_weighted_LOPO_rata2": 0.4039788280685115
+    },
+    {
+      "latihan": "Deadlift",
+      "varian": "A baseline",
+      "jumlah_fitur": 297,
+      "f1_weighted_70_30": 0.9704064695876639,
+      "n_latih": 7976,
+      "n_uji": 3087,
+      "accuracy_70_30": 0.9708454810495627,
+      "f1_macro_70_30": 0.9649198866197928,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.5822963266457364,
+        "P2": 0.5618101423753646,
+        "P3": 0.5269749517893472
+      },
+      "f1_weighted_LOPO_rata2": 0.5570271402701493
+    },
+    {
+      "latihan": "Deadlift",
+      "varian": "B +relatif",
+      "jumlah_fitur": 363,
+      "f1_weighted_70_30": 0.9434310987892057,
+      "n_latih": 7976,
+      "n_uji": 3087,
+      "accuracy_70_30": 0.9439585357952704,
+      "f1_macro_70_30": 0.9415158577380391,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.5613101904270619,
+        "P2": 0.6192227720282356,
+        "P3": 0.45908214708766526
+      },
+      "f1_weighted_LOPO_rata2": 0.5465383698476542
+    },
+    {
+      "latihan": "Deadlift",
+      "varian": "C +flip",
+      "jumlah_fitur": 363,
+      "f1_weighted_70_30": 0.9541947066015969,
+      "n_latih": 15952,
+      "n_uji": 3087,
+      "accuracy_70_30": 0.9546485260770975,
+      "f1_macro_70_30": 0.95142686427559,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.6434826787565189,
+        "P2": 0.6173278984356299,
+        "P3": 0.5935663742379717
+      },
+      "f1_weighted_LOPO_rata2": 0.6181256504767068
+    },
+    {
+      "latihan": "Deadlift",
+      "varian": "D final (+leaf 4)",
+      "jumlah_fitur": 363,
+      "f1_weighted_70_30": 0.9545072332810208,
+      "n_latih": 15952,
+      "n_uji": 3087,
+      "accuracy_70_30": 0.9549724651765468,
+      "f1_macro_70_30": 0.950361221054362,
+      "f1_weighted_LOPO_per_lipatan": {
+        "P1": 0.6590460701708136,
+        "P2": 0.5850544686355312,
+        "P3": 0.5911948655302935
+      },
+      "f1_weighted_LOPO_rata2": 0.6117651347788794
+    }
+  ],
+  "selisih_final_vs_baseline": {
+    "Squat": {
+      "selisih_70_30": -0.03744314877247068,
+      "selisih_LOPO": 0.02489928962916954
+    },
+    "Bench press": {
+      "selisih_70_30": 0.0019695619640253126,
+      "selisih_LOPO": 0.060692893170226414
+    },
+    "Deadlift": {
+      "selisih_70_30": -0.015899236306643028,
+      "selisih_LOPO": 0.05473799450873007
+    }
+  },
+  "efek_tiap_tambahan": {
+    "Squat": {
+      "B +relatif": {
+        "selisih_70_30": -0.013690900128063177,
+        "selisih_LOPO": 0.03177585406210204
+      },
+      "C +flip": {
+        "selisih_70_30": -0.01712008083575256,
+        "selisih_LOPO": -0.010729260532970963
+      },
+      "D final (+leaf 4)": {
+        "selisih_70_30": -0.006632167808654943,
+        "selisih_LOPO": 0.0038526961000384663
+      }
+    },
+    "Bench press": {
+      "B +relatif": {
+        "selisih_70_30": 0.01861862820457183,
+        "selisih_LOPO": 0.02713502859386535
+      },
+      "C +flip": {
+        "selisih_70_30": -0.012857397324049225,
+        "selisih_LOPO": 0.047529000294565915
+      },
+      "D final (+leaf 4)": {
+        "selisih_70_30": -0.0037916689164972928,
+        "selisih_LOPO": -0.013971135718204852
+      }
+    },
+    "Deadlift": {
+      "B +relatif": {
+        "selisih_70_30": -0.02697537079845813,
+        "selisih_LOPO": -0.010488770422495075
+      },
+      "C +flip": {
+        "selisih_70_30": 0.010763607812391163,
+        "selisih_LOPO": 0.07158728062905251
+      },
+      "D final (+leaf 4)": {
+        "selisih_70_30": 0.0003125266794239412,
+        "selisih_LOPO": -0.0063605156978273625
+      }
+    }
+  },
+  "lipatan_LOPO_final_vs_baseline": {
+    "naik": 6,
+    "sama": 1,
+    "turun": 2,
+    "batas_sama": 0.005
+  },
+  "cek_varian_D_vs_A1": [
+    {
+      "latihan": "Squat",
+      "f1_weighted_A4a_varian_D": 0.8818068614257376,
+      "f1_weighted_A1_json": 0.8818068614257376,
+      "selisih": 0.0
+    },
+    {
+      "latihan": "Bench press",
+      "f1_weighted_A4a_varian_D": 0.9147904223222006,
+      "f1_weighted_A1_json": 0.9147904223222006,
+      "selisih": 0.0
+    },
+    {
+      "latihan": "Deadlift",
+      "f1_weighted_A4a_varian_D": 0.9545072332810208,
+      "f1_weighted_A1_json": 0.9545072332810208,
+      "selisih": 0.0
+    }
+  ]
+}

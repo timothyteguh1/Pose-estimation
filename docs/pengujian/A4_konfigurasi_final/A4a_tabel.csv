@@ -1,0 +1,13 @@
+Latihan;Varian;Jumlah_fitur;F1w_70_30;F1w_LOPO
+Squat;A baseline;297;0,9193;0,5114
+Squat;B +relatif;363;0,9056;0,5431
+Squat;C +flip;363;0,8884;0,5324
+Squat;D final (+leaf 4);363;0,8818;0,5363
+Bench press;A baseline;297;0,9128;0,3433
+Bench press;B +relatif;363;0,9314;0,3704
+Bench press;C +flip;363;0,9186;0,4179
+Bench press;D final (+leaf 4);363;0,9148;0,4040
+Deadlift;A baseline;297;0,9704;0,5570
+Deadlift;B +relatif;363;0,9434;0,5465
+Deadlift;C +flip;363;0,9542;0,6181
+Deadlift;D final (+leaf 4);363;0,9545;0,6118

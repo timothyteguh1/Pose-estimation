@@ -1,0 +1,28 @@
+Membaca landmark dan label dari CSV berlabel ...
+Jumlah video: Squat 27, Bench_press 27, Deadlift 27 (total 81)
+
+MAE Pers. 12 per latihan (pada data tuning; video penuh, tanpa countdown dan tanpa pemotongan)
+                                         Set_parameter  Squat Bench_press Deadlift
+    Set 1 (lama): 20°; 0,6 s / 28°; 0,6 s / 25°; 1,0 s 0,2821      0,2555   0,1809
+  Set 2 (tengah): 16°; 1,0 s / 16°; 1,0 s / 16°; 1,0 s 0,2414      0,2500   0,2340
+Set 3 (sekarang): 12°; 1,6 s / 12°; 1,6 s / 14°; 1,6 s 0,2204      0,1834   0,1654
+
+Per kelompok partisipan (P1 | P2 dan P3) dan bias rata-rata (sistem - sebenarnya)
+  Squat        Set 1 (lama)      n 27 | MAE P1 0,2667 (n 9) | P2+P3 0,2898 (n 18) | bias -1,22
+  Squat        Set 2 (tengah)    n 27 | MAE P1 0,2222 (n 9) | P2+P3 0,2509 (n 18) | bias -1,0
+  Squat        Set 3 (sekarang)  n 27 | MAE P1 0,1778 (n 9) | P2+P3 0,2417 (n 18) | bias -0,81
+  Bench_press  Set 1 (lama)      n 27 | MAE P1 0,3810 (n 9) | P2+P3 0,1927 (n 18) | bias 0,26
+  Bench_press  Set 2 (tengah)    n 27 | MAE P1 0,4303 (n 9) | P2+P3 0,1598 (n 18) | bias 0,59
+  Bench_press  Set 3 (sekarang)  n 27 | MAE P1 0,2937 (n 9) | P2+P3 0,1283 (n 18) | bias 0,26
+  Deadlift     Set 1 (lama)      n 27 | MAE P1 0,2593 (n 9) | P2+P3 0,1417 (n 18) | bias 0,22
+  Deadlift     Set 2 (tengah)    n 27 | MAE P1 0,2963 (n 9) | P2+P3 0,2028 (n 18) | bias 0,59
+  Deadlift     Set 3 (sekarang)  n 27 | MAE P1 0,2222 (n 9) | P2+P3 0,1370 (n 18) | bias 0,3
+
+Set dengan MAE terkecil per latihan (di antara tiga set yang dibandingkan)
+  Squat        Set 3 (sekarang) (MAE 0,2204)
+  Bench_press  Set 3 (sekarang) (MAE 0,1834)
+  Deadlift     Set 3 (sekarang) (MAE 0,1654)
+
+Set 3 sama dengan REP_COUNTING_PARAMS di kode: ya
+
+Tersimpan: C:\Users\totit\Downloads\skripsi-postur-gym\docs\pengujian\B1_repetisi\B1_tabel.csv, B1_detail.json, B1_terminal.log  (run ini 0.2 menit)

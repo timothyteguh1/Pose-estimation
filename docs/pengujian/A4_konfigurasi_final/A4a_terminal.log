@@ -1,0 +1,50 @@
+[Squat] A baseline         297 fitur | 70:30 0,9193 | LOPO 0,511 (P1 0,484; P2 0,518; P3 0,532)  [0.1 menit]
+[Squat] B +relatif         363 fitur | 70:30 0,9056 | LOPO 0,543 (P1 0,561; P2 0,459; P3 0,610)  [0.2 menit]
+[Squat] C +flip            363 fitur | 70:30 0,8884 | LOPO 0,532 (P1 0,611; P2 0,446; P3 0,541)  [0.6 menit]
+[Squat] D final (+leaf 4)  363 fitur | 70:30 0,8818 | LOPO 0,536 (P1 0,625; P2 0,455; P3 0,529)  [0.8 menit]
+[Bench press] A baseline         297 fitur | 70:30 0,9128 | LOPO 0,343 (P1 0,234; P2 0,301; P3 0,495)  [1.0 menit]
+[Bench press] B +relatif         363 fitur | 70:30 0,9314 | LOPO 0,370 (P1 0,304; P2 0,303; P3 0,504)  [1.1 menit]
+[Bench press] C +flip            363 fitur | 70:30 0,9186 | LOPO 0,418 (P1 0,287; P2 0,464; P3 0,504)  [1.3 menit]
+[Bench press] D final (+leaf 4)  363 fitur | 70:30 0,9148 | LOPO 0,404 (P1 0,320; P2 0,486; P3 0,406)  [1.5 menit]
+[Deadlift] A baseline         297 fitur | 70:30 0,9704 | LOPO 0,557 (P1 0,582; P2 0,562; P3 0,527)  [1.7 menit]
+[Deadlift] B +relatif         363 fitur | 70:30 0,9434 | LOPO 0,547 (P1 0,561; P2 0,619; P3 0,459)  [1.9 menit]
+[Deadlift] C +flip            363 fitur | 70:30 0,9542 | LOPO 0,618 (P1 0,643; P2 0,617; P3 0,594)  [2.3 menit]
+[Deadlift] D final (+leaf 4)  363 fitur | 70:30 0,9545 | LOPO 0,612 (P1 0,659; P2 0,585; P3 0,591)  [2.6 menit]
+
+    Latihan            Varian  Jumlah_fitur F1w_70_30 F1w_LOPO
+      Squat        A baseline           297    0,9193   0,5114
+      Squat        B +relatif           363    0,9056   0,5431
+      Squat           C +flip           363    0,8884   0,5324
+      Squat D final (+leaf 4)           363    0,8818   0,5363
+Bench press        A baseline           297    0,9128   0,3433
+Bench press        B +relatif           363    0,9314   0,3704
+Bench press           C +flip           363    0,9186   0,4179
+Bench press D final (+leaf 4)           363    0,9148   0,4040
+   Deadlift        A baseline           297    0,9704   0,5570
+   Deadlift        B +relatif           363    0,9434   0,5465
+   Deadlift           C +flip           363    0,9542   0,6181
+   Deadlift D final (+leaf 4)           363    0,9545   0,6118
+
+Final dibanding baseline
+  Squat        70:30 -0,0374 | LOPO +0,0249
+  Bench press  70:30 +0,0020 | LOPO +0,0607
+  Deadlift     70:30 -0,0159 | LOPO +0,0547
+  Lipatan LOPO (final lawan baseline, batas sama = 0,005): naik 6, sama 1, turun 2 dari 9
+
+Efek tiap tambahan (selisih dari varian sebelumnya)
+  Squat        B +relatif         70:30 -0,0137 | LOPO +0,0318
+  Squat        C +flip            70:30 -0,0171 | LOPO -0,0107
+  Squat        D final (+leaf 4)  70:30 -0,0066 | LOPO +0,0039
+  Bench press  B +relatif         70:30 +0,0186 | LOPO +0,0271
+  Bench press  C +flip            70:30 -0,0129 | LOPO +0,0475
+  Bench press  D final (+leaf 4)  70:30 -0,0038 | LOPO -0,0140
+  Deadlift     B +relatif         70:30 -0,0270 | LOPO -0,0105
+  Deadlift     C +flip            70:30 +0,0108 | LOPO +0,0716
+  Deadlift     D final (+leaf 4)  70:30 +0,0003 | LOPO -0,0064
+
+Cek varian D terhadap *_evaluation.json produksi (A1)
+  Squat        A4a 0,8818 | A1 0,8818 | selisih +0,000000
+  Bench press  A4a 0,9148 | A1 0,9148 | selisih +0,000000
+  Deadlift     A4a 0,9545 | A1 0,9545 | selisih +0,000000
+
+Tersimpan: C:\Users\totit\Downloads\skripsi-postur-gym\docs\pengujian\A4_konfigurasi_final\A4a_tabel.csv dan A4a_detail.json  (total 2.7 menit)

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C1: YOLO11n vs YOLOv5nu di browser</title>
+<!-- Runtime dan kode deteksi sama dengan aplikasi: ONNX Runtime Web 1.30.0 (webgpu) dan yolo.js. -->
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/ort.webgpu.min.js"></script>
+<script src="/yolo.js"></script>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 760px; margin: 24px auto; padding: 0 16px; line-height: 1.5; }
+  progress { width: 100%; height: 18px; }
+  table { border-collapse: collapse; margin-top: 12px; }
+  th, td { border: 1px solid #999; padding: 4px 12px; text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  #status { margin: 10px 0; }
+  .kecil { color: #555; font-size: 13px; }
+</style>
+</head>
+<body>
+<h2>C1: YOLO11n vs YOLOv5nu di browser</h2>
+<p><b>Biarkan tab ini terlihat</b> sampai selesai (jangan diminimalkan). Hasil dikirim otomatis ke terminal.</p>
+<div id="status">Memulai ...</div>
+<progress id="bar" value="0" max="1"></progress>
+<table>
+  <tr><th>Model</th><th>Frame</th><th>Waktu rata-rata sementara (ms)</th></tr>
+  <tr><td>YOLO11n (dipakai)</td><td id="nA">0</td><td id="mA">-</td></tr>
+  <tr><td>YOLOv5nu (pembanding)</td><td id="nB">0</td><td id="mB">-</td></tr>
+</table>
+<p class="kecil" id="info"></p>
+<script>
+const URL_A = "/models/yolo11n_640.onnx";      // file model aplikasi apa adanya
+const URL_B = "/models/yolov5nu_640.onnx";     // diekspor dengan pengaturan yang sama
+const CONF = 0.7, IOU = 0.45, INPUT = 640;     // sama dengan aplikasi
+const MAX_PROC_LONG_SIDE = 720;                // sama dengan index.html
+const PEMANASAN = 5;
+
+const $ = (id) => document.getElementById(id);
+const status = (t) => { $("status").textContent = t; };
+
+function kirim(path, data) {
+  return fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+}
+
+// meniru getProcessingFrame() di index.html: sisi terpanjang dibatasi 720 px lewat canvas
+const procCanvas = document.createElement("canvas");
+const procCtx = procCanvas.getContext("2d");
+function prosesFrame(img) {
+  const vw = img.naturalWidth, vh = img.naturalHeight;
+  const longSide = Math.max(vw, vh);
+  if (longSide <= MAX_PROC_LONG_SIDE) return { source: img, w: vw, h: vh };
+  const scale = MAX_PROC_LONG_SIDE / longSide;
+  const pw = Math.max(1, Math.round(vw * scale));
+  const ph = Math.max(1, Math.round(vh * scale));
+  procCanvas.width = pw;
+  procCanvas.height = ph;
+  procCtx.drawImage(img, 0, 0, pw, ph);
+  return { source: procCanvas, w: pw, h: ph };
+}
+
+async function muatFrame(file) {
+  const img = new Image();
+  img.src = "/frames/" + file;
+  await img.decode();
+  return img;
+}
+
+async function bikinDetektor(url, backend) {
+  const d = new YoloDetector();               // kelas dari yolo.js (kode deteksi aplikasi, tidak diubah)
+  d.inputSize = INPUT;
+  d.session = await ort.InferenceSession.create(url, { executionProviders: [backend] });
+  d.backend = backend;
+  return d;
+}
+
+async function ukur(detektor, fr) {
+  const t0 = performance.now();
+  const r = await detektor.detect(fr.source, fr.w, fr.h, CONF, IOU);
+  const ms = performance.now() - t0;
+  return { ms, det: r !== null, conf: r ? r.score : null };
+}
+
+async function infoGPU() {
+  try {
+    // adapter yang benar-benar dipakai ONNX Runtime Web bila tersedia, kalau tidak adapter bawaan browser
+    const a = (ort.env && ort.env.webgpu && ort.env.webgpu.adapter) ? await ort.env.webgpu.adapter : await navigator.gpu.requestAdapter();
+    if (!a) return null;
+    const i = a.info || (a.requestAdapterInfo ? await a.requestAdapterInfo() : {});
+    return { vendor: i.vendor, architecture: i.architecture, device: i.device, description: i.description };
+  } catch (e) { return null; }
+}
+
+(async function utama() {
+  try {
+    status("Mengambil daftar frame ...");
+    const manifest = await (await fetch("/frames/manifest.json")).json();
+    const frames = manifest.frames;
+
+    ort.env.wasm.wasmPaths = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/";
+    ort.env.wasm.numThreads = navigator.hardwareConcurrency || 4;
+    ort.env.wasm.simd = true;
+
+    // Kedua model harus memakai backend yang sama. Coba webgpu dulu seperti aplikasi; bila salah satu gagal, keduanya wasm.
+    status("Memuat kedua model ...");
+    const paksaWasm = new URLSearchParams(location.search).get("backend") === "wasm";   // opsi: uji di CPU
+    let backend = "webgpu", catatan = "", A, B;
+    try {
+      if (paksaWasm) throw new Error("dipilih manual (--backend wasm)");
+      A = await bikinDetektor(URL_A, "webgpu");
+      B = await bikinDetektor(URL_B, "webgpu");
+    } catch (err) {
+      catatan = "webgpu gagal (" + (err.message || err) + "), kedua model memakai wasm";
+      backend = "wasm";
+      A = await bikinDetektor(URL_A, "wasm");
+      B = await bikinDetektor(URL_B, "wasm");
+    }
+    $("info").textContent = "Backend: " + backend + (catatan ? " | " + catatan : "") + " | " + navigator.userAgent;
+
+    status("Pemanasan ...");
+    const pertama = prosesFrame(await muatFrame(frames[0].file));
+    for (let i = 0; i < PEMANASAN; i++) { await ukur(A, pertama); await ukur(B, pertama); }
+
+    const catat = [];
+    let gagal = 0, jumlahA = 0, jumlahB = 0, totalA = 0, totalB = 0;
+    const mulai = performance.now();
+    $("bar").max = frames.length;
+    for (let i = 0; i < frames.length; i++) {
+      let fr;
+      try {
+        fr = prosesFrame(await muatFrame(frames[i].file));
+      } catch (e) { gagal++; continue; }
+      const urutan = (i % 2 === 0) ? ["A", "B"] : ["B", "A"];   // urutan digilir supaya tidak ada yang selalu duluan
+      const rec = { id: frames[i].id };
+      for (const k of urutan) rec[k] = await ukur(k === "A" ? A : B, fr);
+      catat.push(rec);
+      jumlahA++; jumlahB++; totalA += rec.A.ms; totalB += rec.B.ms;
+      if (i % 10 === 0 || i === frames.length - 1) {
+        $("bar").value = i + 1;
+        $("nA").textContent = jumlahA; $("nB").textContent = jumlahB;
+        $("mA").textContent = (totalA / jumlahA).toFixed(1); $("mB").textContent = (totalB / jumlahB).toFixed(1);
+        status("Memproses frame " + (i + 1) + " dari " + frames.length);
+      }
+      if (i % 50 === 0 && i > 0) kirim("/progress", { selesai: i + 1, total: frames.length, rataA: totalA / jumlahA, rataB: totalB / jumlahB });
+    }
+
+    status("Selesai, mengirim hasil ke terminal ...");
+    await kirim("/hasil", {
+      backend, catatan, gagal_muat_frame: gagal,
+      userAgent: navigator.userAgent, hardwareConcurrency: navigator.hardwareConcurrency,
+      ortWeb: (ort.env && ort.env.versions && ort.env.versions.web) || null,
+      gpu: await infoGPU(), crossOriginIsolated: self.crossOriginIsolated,
+      lama_detik: (performance.now() - mulai) / 1000, catat
+    });
+    status("Selesai. Hasil sudah dikirim ke terminal; tab ini boleh ditutup.");
+  } catch (err) {
+    status("GAGAL: " + (err.message || err));
+    try { await kirim("/hasil", { error: String(err && err.message || err), userAgent: navigator.userAgent }); } catch (e) { /* abaikan */ }
+  }
+})();
+</script>
+</body>
+</html>

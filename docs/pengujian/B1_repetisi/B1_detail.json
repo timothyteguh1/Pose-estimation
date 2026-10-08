@@ -1,0 +1,1685 @@
+{
+  "keterangan": "MAE Pers. 12 = rata-rata |C_sistem - C| / C per video; per latihan; pada data tuning; protokol utama = video penuh dari detik 0 sampai akhir, tanpa countdown dan tanpa pemotongan; landmark dari CSV berlabel",
+  "set_parameter": {
+    "Set 1 (lama)": {
+      "squat": {
+        "prominence": 20,
+        "jarak": 0.6
+      },
+      "benchpress": {
+        "prominence": 28,
+        "jarak": 0.6
+      },
+      "deadlift": {
+        "prominence": 25,
+        "jarak": 1.0
+      }
+    },
+    "Set 2 (tengah)": {
+      "squat": {
+        "prominence": 16,
+        "jarak": 1.0
+      },
+      "benchpress": {
+        "prominence": 16,
+        "jarak": 1.0
+      },
+      "deadlift": {
+        "prominence": 16,
+        "jarak": 1.0
+      }
+    },
+    "Set 3 (sekarang)": {
+      "squat": {
+        "prominence": 12,
+        "jarak": 1.6
+      },
+      "benchpress": {
+        "prominence": 12,
+        "jarak": 1.6
+      },
+      "deadlift": {
+        "prominence": 14,
+        "jarak": 1.6
+      }
+    }
+  },
+  "set3_sama_dengan_kode": true,
+  "hasil": {
+    "squat": {
+      "Set 1 (lama)": {
+        "prominence": 20,
+        "jarak": 0.6,
+        "mae": 0.2820987654320988,
+        "n": 27,
+        "mae_P1": 0.2666666666666667,
+        "n_P1": 9,
+        "mae_P2_P3": 0.2898148148148148,
+        "n_P2_P3": 18,
+        "bias_rata2": -1.2222222222222223,
+        "per_video": [
+          {
+            "video": "squat_backbend_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 2
+          },
+          {
+            "video": "squat_backbend_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_backbend_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 3
+          },
+          {
+            "video": "squat_correct_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_backbend_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_backbend_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "squat_backbend_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 10
+          },
+          {
+            "video": "squat_correct_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_correct_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "squat_kneeinward_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_backbend_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 2
+          },
+          {
+            "video": "squat_backbend_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 3
+          },
+          {
+            "video": "squat_backbend_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_correct_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 8,
+            "sistem": 6
+          },
+          {
+            "video": "squat_kneeinward_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          }
+        ]
+      },
+      "Set 2 (tengah)": {
+        "prominence": 16,
+        "jarak": 1.0,
+        "mae": 0.24135802469135803,
+        "n": 27,
+        "mae_P1": 0.2222222222222222,
+        "n_P1": 9,
+        "mae_P2_P3": 0.25092592592592594,
+        "n_P2_P3": 18,
+        "bias_rata2": -1.0,
+        "per_video": [
+          {
+            "video": "squat_backbend_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 3
+          },
+          {
+            "video": "squat_backbend_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_backbend_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 3
+          },
+          {
+            "video": "squat_correct_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "squat_kneeinward_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_backbend_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "squat_backbend_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "squat_backbend_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 10
+          },
+          {
+            "video": "squat_correct_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_correct_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_kneeinward_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "squat_kneeinward_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_backbend_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 3
+          },
+          {
+            "video": "squat_backbend_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_backbend_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_correct_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 8,
+            "sistem": 6
+          },
+          {
+            "video": "squat_kneeinward_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          }
+        ]
+      },
+      "Set 3 (sekarang)": {
+        "prominence": 12,
+        "jarak": 1.6,
+        "mae": 0.22037037037037038,
+        "n": 27,
+        "mae_P1": 0.17777777777777778,
+        "n_P1": 9,
+        "mae_P2_P3": 0.24166666666666664,
+        "n_P2_P3": 18,
+        "bias_rata2": -0.8148148148148148,
+        "per_video": [
+          {
+            "video": "squat_backbend_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_backbend_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_backbend_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "squat_kneeinward_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_backbend_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "squat_backbend_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "squat_backbend_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "squat_correct_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_correct_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_kneeinward_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "squat_kneeinward_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "squat_kneeinward_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_backbend_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 3
+          },
+          {
+            "video": "squat_backbend_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_backbend_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_correct_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "squat_correct_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 8,
+            "sistem": 6
+          },
+          {
+            "video": "squat_kneeinward_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "squat_kneeinward_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          }
+        ]
+      }
+    },
+    "benchpress": {
+      "Set 1 (lama)": {
+        "prominence": 28,
+        "jarak": 0.6,
+        "mae": 0.2554673721340388,
+        "n": 27,
+        "mae_P1": 0.3809523809523809,
+        "n_P1": 9,
+        "mae_P2_P3": 0.19272486772486772,
+        "n_P2_P3": 18,
+        "bias_rata2": 0.25925925925925924,
+        "per_video": [
+          {
+            "video": "benchpress_armsspread_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 9,
+            "sistem": 11
+          },
+          {
+            "video": "benchpress_armsspread_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "benchpress_armsspread_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "benchpress_correct_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 9,
+            "sistem": 13
+          },
+          {
+            "video": "benchpress_correct_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 7,
+            "sistem": 10
+          },
+          {
+            "video": "benchpress_correct_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "benchpress_flatback_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 9,
+            "sistem": 12
+          },
+          {
+            "video": "benchpress_flatback_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 7,
+            "sistem": 10
+          },
+          {
+            "video": "benchpress_flatback_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 7,
+            "sistem": 11
+          },
+          {
+            "video": "benchpress_armsspread_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 3
+          },
+          {
+            "video": "benchpress_armsspread_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_armsspread_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_correct_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 7,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_armsspread_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_armsspread_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_armsspread_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_correct_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 4,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "benchpress_flatback_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 4,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_flatback_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          }
+        ]
+      },
+      "Set 2 (tengah)": {
+        "prominence": 16,
+        "jarak": 1.0,
+        "mae": 0.24997060552616107,
+        "n": 27,
+        "mae_P1": 0.43033509700176364,
+        "n_P1": 9,
+        "mae_P2_P3": 0.15978835978835979,
+        "n_P2_P3": 18,
+        "bias_rata2": 0.5925925925925926,
+        "per_video": [
+          {
+            "video": "benchpress_armsspread_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 9,
+            "sistem": 14
+          },
+          {
+            "video": "benchpress_armsspread_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "benchpress_armsspread_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 9
+          },
+          {
+            "video": "benchpress_correct_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 9,
+            "sistem": 12
+          },
+          {
+            "video": "benchpress_correct_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 7,
+            "sistem": 10
+          },
+          {
+            "video": "benchpress_correct_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 9
+          },
+          {
+            "video": "benchpress_flatback_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 9,
+            "sistem": 11
+          },
+          {
+            "video": "benchpress_flatback_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 7,
+            "sistem": 10
+          },
+          {
+            "video": "benchpress_flatback_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 7,
+            "sistem": 11
+          },
+          {
+            "video": "benchpress_armsspread_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_armsspread_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_armsspread_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_correct_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 7,
+            "sistem": 6
+          },
+          {
+            "video": "benchpress_flatback_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_armsspread_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_armsspread_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_armsspread_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_correct_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 4,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "benchpress_correct_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "benchpress_flatback_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 4,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          }
+        ]
+      },
+      "Set 3 (sekarang)": {
+        "prominence": 12,
+        "jarak": 1.6,
+        "mae": 0.1834215167548501,
+        "n": 27,
+        "mae_P1": 0.29365079365079366,
+        "n_P1": 9,
+        "mae_P2_P3": 0.12830687830687829,
+        "n_P2_P3": 18,
+        "bias_rata2": 0.25925925925925924,
+        "per_video": [
+          {
+            "video": "benchpress_armsspread_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 9,
+            "sistem": 9
+          },
+          {
+            "video": "benchpress_armsspread_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "benchpress_armsspread_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 9
+          },
+          {
+            "video": "benchpress_correct_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 9,
+            "sistem": 11
+          },
+          {
+            "video": "benchpress_correct_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 7,
+            "sistem": 10
+          },
+          {
+            "video": "benchpress_correct_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "benchpress_flatback_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 9,
+            "sistem": 8
+          },
+          {
+            "video": "benchpress_flatback_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 7,
+            "sistem": 9
+          },
+          {
+            "video": "benchpress_flatback_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 7,
+            "sistem": 10
+          },
+          {
+            "video": "benchpress_armsspread_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_armsspread_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_armsspread_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 7,
+            "sistem": 6
+          },
+          {
+            "video": "benchpress_flatback_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_armsspread_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_armsspread_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "benchpress_armsspread_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 4,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_correct_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "benchpress_correct_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "benchpress_flatback_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 4,
+            "sistem": 5
+          },
+          {
+            "video": "benchpress_flatback_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          }
+        ]
+      }
+    },
+    "deadlift": {
+      "Set 1 (lama)": {
+        "prominence": 25,
+        "jarak": 1.0,
+        "mae": 0.18086419753086422,
+        "n": 27,
+        "mae_P1": 0.25925925925925924,
+        "n_P1": 9,
+        "mae_P2_P3": 0.1416666666666667,
+        "n_P2_P3": 18,
+        "bias_rata2": 0.2222222222222222,
+        "per_video": [
+          {
+            "video": "deadlift_armsspread_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_armsspread_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_armsspread_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 9
+          },
+          {
+            "video": "deadlift_backround_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_backround_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_backround_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_correct_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_correct_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_correct_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_armsspread_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_armsspread_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_armsspread_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_backround_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_backround_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_backround_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 9
+          },
+          {
+            "video": "deadlift_correct_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_correct_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_correct_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_armsspread_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 4,
+            "sistem": 3
+          },
+          {
+            "video": "deadlift_armsspread_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_armsspread_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_backround_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_backround_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_backround_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_correct_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_correct_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_correct_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          }
+        ]
+      },
+      "Set 2 (tengah)": {
+        "prominence": 16,
+        "jarak": 1.0,
+        "mae": 0.23395061728395064,
+        "n": 27,
+        "mae_P1": 0.2962962962962963,
+        "n_P1": 9,
+        "mae_P2_P3": 0.2027777777777778,
+        "n_P2_P3": 18,
+        "bias_rata2": 0.5925925925925926,
+        "per_video": [
+          {
+            "video": "deadlift_armsspread_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_armsspread_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_armsspread_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 9
+          },
+          {
+            "video": "deadlift_backround_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_backround_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_backround_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_correct_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_correct_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_correct_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_armsspread_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_armsspread_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_armsspread_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_backround_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_backround_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_backround_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 10
+          },
+          {
+            "video": "deadlift_correct_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_correct_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_correct_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_armsspread_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 4,
+            "sistem": 3
+          },
+          {
+            "video": "deadlift_armsspread_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_armsspread_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_backround_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_backround_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_backround_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_correct_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_correct_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_correct_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          }
+        ]
+      },
+      "Set 3 (sekarang)": {
+        "prominence": 14,
+        "jarak": 1.6,
+        "mae": 0.1654320987654321,
+        "n": 27,
+        "mae_P1": 0.2222222222222222,
+        "n_P1": 9,
+        "mae_P2_P3": 0.13703703703703704,
+        "n_P2_P3": 18,
+        "bias_rata2": 0.2962962962962963,
+        "per_video": [
+          {
+            "video": "deadlift_armsspread_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_armsspread_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_armsspread_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 9
+          },
+          {
+            "video": "deadlift_backround_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_backround_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_backround_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_correct_p1_front_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_correct_p1_left45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 8
+          },
+          {
+            "video": "deadlift_correct_p1_right45_take01",
+            "p": 1,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_armsspread_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_armsspread_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_armsspread_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_backround_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_backround_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_backround_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 9
+          },
+          {
+            "video": "deadlift_correct_p2_front_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_correct_p2_left45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_correct_p2_right45_take01",
+            "p": 2,
+            "sebenarnya": 6,
+            "sistem": 7
+          },
+          {
+            "video": "deadlift_armsspread_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 4,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_armsspread_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 6
+          },
+          {
+            "video": "deadlift_armsspread_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_backround_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_backround_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_backround_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_correct_p3_front_take01",
+            "p": 3,
+            "sebenarnya": 6,
+            "sistem": 5
+          },
+          {
+            "video": "deadlift_correct_p3_left45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          },
+          {
+            "video": "deadlift_correct_p3_right45_take01",
+            "p": 3,
+            "sebenarnya": 5,
+            "sistem": 4
+          }
+        ]
+      }
+    }
+  },
+  "kepekaan_protokol_lain_MAE": {
+    "utama": {},
+    "lewati_5s": {
+      "squat": {
+        "Set 1 (lama)": 0.3370370370370371,
+        "Set 2 (tengah)": 0.31296296296296294,
+        "Set 3 (sekarang)": 0.2728395061728395
+      },
+      "benchpress": {
+        "Set 1 (lama)": 0.21137566137566136,
+        "Set 2 (tengah)": 0.18339212228101115,
+        "Set 3 (sekarang)": 0.10593768371546147
+      },
+      "deadlift": {
+        "Set 1 (lama)": 0.18641975308641975,
+        "Set 2 (tengah)": 0.18518518518518517,
+        "Set 3 (sekarang)": 0.17160493827160492
+      }
+    },
+    "countdown_selektif": {
+      "squat": {
+        "Set 1 (lama)": 0.2820987654320988,
+        "Set 2 (tengah)": 0.24135802469135803,
+        "Set 3 (sekarang)": 0.22037037037037038
+      },
+      "benchpress": {
+        "Set 1 (lama)": 0.20343915343915345,
+        "Set 2 (tengah)": 0.18868312757201644,
+        "Set 3 (sekarang)": 0.13036449147560256
+      },
+      "deadlift": {
+        "Set 1 (lama)": 0.14382716049382716,
+        "Set 2 (tengah)": 0.18456790123456793,
+        "Set 3 (sekarang)": 0.1469135802469136
+      }
+    },
+    "margin_3s": {
+      "squat": {
+        "Set 1 (lama)": 0.2820987654320988,
+        "Set 2 (tengah)": 0.24135802469135803,
+        "Set 3 (sekarang)": 0.22037037037037038
+      },
+      "benchpress": {
+        "Set 1 (lama)": 0.1584656084656085,
+        "Set 2 (tengah)": 0.12004703115814225,
+        "Set 3 (sekarang)": 0.12375073486184596
+      },
+      "deadlift": {
+        "Set 1 (lama)": 0.13765432098765432,
+        "Set 2 (tengah)": 0.17222222222222225,
+        "Set 3 (sekarang)": 0.12222222222222223
+      }
+    }
+  }
+}

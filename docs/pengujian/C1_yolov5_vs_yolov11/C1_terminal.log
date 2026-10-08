@@ -1,0 +1,50 @@
+PC: 12th Gen Intel(R) Core(TM) i5-12500H | 16 thread | Python 3.10.10
+81 video dataset; 1 frame tiap 2,0 detik; confidence 0,7, IoU NMS 0,45, input 640
+  frame diambil dari 10/81 video (96 frame)
+  frame diambil dari 20/81 video (211 frame)
+  frame diambil dari 30/81 video (322 frame)
+  frame diambil dari 40/81 video (454 frame)
+  frame diambil dari 50/81 video (548 frame)
+  frame diambil dari 60/81 video (697 frame)
+  frame diambil dari 70/81 video (850 frame)
+  frame diambil dari 80/81 video (958 frame)
+  frame diambil dari 81/81 video (968 frame)
+968 frame siap (1.2 menit sejak mulai)
+
+Server lokal siap: http://127.0.0.1:8701/c1_browser.html
+Buka alamat itu di browser (tab harus tetap terlihat sampai selesai).
+  browser: 51/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 28,1 ms
+  browser: 101/968 frame | rata-rata sementara YOLO11n 28,6 ms, YOLOv5nu 28,1 ms
+  browser: 151/968 frame | rata-rata sementara YOLO11n 28,6 ms, YOLOv5nu 28,2 ms
+  browser: 201/968 frame | rata-rata sementara YOLO11n 28,6 ms, YOLOv5nu 28,1 ms
+  browser: 251/968 frame | rata-rata sementara YOLO11n 28,6 ms, YOLOv5nu 28,0 ms
+  browser: 301/968 frame | rata-rata sementara YOLO11n 28,5 ms, YOLOv5nu 27,9 ms
+  browser: 351/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,8 ms
+  browser: 401/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,8 ms
+  browser: 451/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,8 ms
+  browser: 501/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,7 ms
+  browser: 551/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,8 ms
+  browser: 601/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,8 ms
+  browser: 651/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,8 ms
+  browser: 701/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,8 ms
+  browser: 751/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,8 ms
+  browser: 801/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,9 ms
+  browser: 851/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,9 ms
+  browser: 901/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,9 ms
+  browser: 951/968 frame | rata-rata sementara YOLO11n 28,4 ms, YOLOv5nu 27,9 ms
+
+Lingkungan uji: Chrome 154 | backend webgpu | GPU: nvidia ampere | ONNX Runtime Web 1.30.0 | cross-origin isolated: True
+
+Deteksi orang di browser, 968 frame dari 81 video dataset (input 640, confidence 0,7, frame sama untuk kedua model)
+                Model Waktu_rata2_ms Laju_deteksi_persen mAP50_95_resmi
+    YOLO11n (dipakai)           28,4                92,7           39,5
+YOLOv5nu (pembanding)           27,9                90,6           34,3
+mAP50_95_resmi = angka dokumentasi Ultralytics (COCO, 80 kelas), bukan hasil run ini.
+
+Selisih (YOLO11n dikurangi YOLOv5nu): waktu rata-rata 0,5 ms (berpasangan per frame 0,5 ms) | YOLO11n lebih cepat pada 50,0% frame | laju deteksi 2,1 poin
+
+Rincian (cadangan, tidak masuk tabel)
+  YOLO11n (dipakai)       waktu rata-rata 28,4 ms (median 30,5, p95 34,9, simpangan baku 5,1) | laju deteksi 92,7% (897/968) | confidence rata-rata 0,898
+  YOLOv5nu (pembanding)   waktu rata-rata 27,9 ms (median 29,5, p95 34,5, simpangan baku 5,2) | laju deteksi 90,6% (877/968) | confidence rata-rata 0,852
+
+Tersimpan: C:\Users\totit\Downloads\skripsi-postur-gym\docs\pengujian\C1_yolov5_vs_yolov11\C1_tabel.csv, C1_detail.json, C1_terminal.log  (run ini 2.5 menit)
