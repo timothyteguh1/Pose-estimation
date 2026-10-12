@@ -6,7 +6,7 @@ Tabel skenario: `D1_skenario.csv` (pemisah `;`, buka lewat Import di Sheets). Ko
 
 ## Mode yang diuji
 
-Hanya Upload Video, karena videonya bisa dipilih (benar, salah, tiga latihan) dan hasilnya bisa diulang. Upload Video adalah salah satu sumber video yang dirancang di 3.3.3.5. Panel hasil, hitungan repetisi, peringatan teks dan suara, serta ringkasan memakai kode tampilan yang sama dengan Kamera Live. Yang khusus Kamera Live (izin kamera, tombol Stop) tidak diuji di D1. Jika dosen memintanya, tambahkan satu skenario Kamera Live.
+Hanya Unggah Video, karena videonya bisa dipilih (benar, salah, tiga latihan) dan hasilnya bisa diulang. Unggah Video adalah salah satu sumber video yang dirancang di 3.3.3.5. Tampilan di atas video, hitungan repetisi, peringatan teks dan suara, serta ringkasan memakai kode tampilan yang sama dengan Kamera. Yang khusus Kamera (izin kamera, tombol Stop) tidak diuji di D1. Jika dosen memintanya, tambahkan satu skenario Kamera.
 
 7 skenario ini menutup semua keluaran sistem pada ruang lingkup poin 15: kotak dan skeleton (2, 3), klasifikasi postur (3, 6), teks dan suara peringatan (7), jumlah repetisi (4, 5), dan ringkasan dengan gambar (2).
 
@@ -19,6 +19,7 @@ Hanya Upload Video, karena videonya bisa dipilih (benar, salah, tiga latihan) da
   - video C: orang berdiri diam sekitar 15 detik (rekam sendiri),
   - satu video Bench Press dan satu video Deadlift (bebas).
 - Video A dan B dipilih agar tampilannya bisa diuji. Jika video tidak memicu hasil yang dimaksud, ganti videonya, bukan kriterianya.
+- Hitung mundur ada di bagian “Pengaturan” (nilai awal 5 detik). Ringkasan nilainya selalu tampil di judul bagian itu.
 - Simpan screenshot di folder `bukti/` dengan nama sesuai kolom `Bukti` (contoh `D1-02.png`).
 
 ## Cara mengisi
@@ -29,16 +30,16 @@ Hanya Upload Video, karena videonya bisa dipilih (benar, salah, tiga latihan) da
 - Aplikasi dibekukan: hasil yang tidak sesuai dicatat, tidak diperbaiki.
 - Kondisi di luar rancangan 3.3.3.5 sengaja tidak dimasukkan (izin kamera ditolak, server terputus, kamera tanpa orang). Bisa ditambah bila dosen meminta.
 
-## Teks peringatan yang benar (`src/app/warnings_content.py`)
+## Teks peringatan yang benar (`src/app/warnings_content.py`) dan nama di layar
 
-| Kelas | Teks |
-|---|---|
-| squat_kneeinward | Jaga lutut tetap sejajar ujung kaki, jangan sampai masuk ke dalam |
-| squat_backbend | Jaga punggung tetap tegak, jangan membungkuk ke depan |
-| deadlift_backround | Pertahankan punggung lurus/netral, jangan membulat |
-| deadlift_armsspread | Posisikan tangan selebar bahu, jangan terlalu lebar |
-| benchpress_flatback | Pertahankan sedikit lengkungan alami di punggung bawah, jangan menempel rata ke bench |
-| benchpress_armsspread | Jaga siku tidak terlalu melebar ke samping saat menurunkan beban |
+| Kelas | Nama di layar | Teks peringatan |
+|---|---|---|
+| squat_kneeinward | Lutut masuk ke dalam | Jaga lutut tetap sejajar ujung kaki, jangan sampai masuk ke dalam |
+| squat_backbend | Punggung membungkuk | Jaga punggung tetap tegak, jangan membungkuk ke depan |
+| deadlift_backround | Punggung membulat | Pertahankan punggung lurus/netral, jangan membulat |
+| deadlift_armsspread | Tangan terlalu lebar | Posisikan tangan selebar bahu, jangan terlalu lebar |
+| benchpress_flatback | Punggung terlalu rata | Pertahankan sedikit lengkungan alami di punggung bawah, jangan menempel rata ke bench |
+| benchpress_armsspread | Siku terlalu melebar | Jaga siku tidak terlalu melebar ke samping saat menurunkan beban |
 
 ## Catatan perangkat (isi saat tes)
 

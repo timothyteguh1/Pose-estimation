@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eksperimen Client-Side Pose</title>
+<title>Pemantau Postur</title>
+<link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -24,120 +25,210 @@
     --good-bg: rgba(52, 211, 153, 0.12);
     --bad: #F87171;
     --bad-bg: rgba(248, 113, 113, 0.12);
+    --hud: rgba(15, 20, 18, 0.78);
   }
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     font-family: 'Inter', -apple-system, sans-serif;
-    background: var(--bg); color: var(--text); margin: 0; padding: 20px 16px 40px;
+    background: var(--bg); color: var(--text); margin: 0; padding: 14px 12px 40px;
   }
-  .num, #repCount, #fps, #finalMetrics .num {
+  .num, #repCount .val, #fps, #finalMetrics .num {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
     font-variant-numeric: tabular-nums;
   }
+  .srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-  h1.appTitle { max-width: 1100px; margin: 0 auto 16px; font-size: 15px; font-weight: 600;
+  h1.appTitle { max-width: 1100px; margin: 0 auto 12px; font-size: 15px; font-weight: 600;
     letter-spacing: 0.02em; color: var(--muted); text-transform: uppercase; text-align: center; }
 
-  #toolbar { max-width: 1100px; margin: 0 auto 18px; background: var(--panel); border: 1px solid var(--border);
-    border-radius: 12px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; }
-  #toolbar .divider { width: 1px; align-self: stretch; background: var(--border); margin: 0 2px; }
-  #setup { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
-  #setup label { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
-  #setup input, #setup select, #setup button {
-    padding: 8px 12px; font-size: 14px; border-radius: 7px; border: 1px solid var(--border);
-    background: var(--panel-2); color: var(--text); font-family: inherit;
+  #setupCard { max-width: 1100px; margin: 0 auto 12px; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px; display: grid; gap: 14px; }
+  .field { display: grid; gap: 6px; align-content: start; }
+  .fieldLabel { font-size: 13px; font-weight: 600; color: var(--muted); }
+  #setupCard select, #setupCard input[type=number], #setupCard button, .fileBtn {
+    font-family: inherit; font-size: 16px; min-height: 44px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--panel-2); color: var(--text); padding: 0 14px;
   }
-  #setup button { cursor: pointer; font-weight: 500; border-color: var(--accent-dim); }
-  #setup button:hover:not(:disabled) { border-color: var(--accent); }
-  #setup button:disabled { opacity: 0.4; cursor: default; }
-  #connectBtn, #startUploadBtn { background: var(--accent-dim); color: #fff; }
-  #status { max-width: 1100px; margin: 0 auto 16px; text-align: center; padding: 4px; font-size: 13px; color: var(--muted); }
+  #setupCard button, .fileBtn { cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; }
+  #setupCard button:hover:not(:disabled), .fileBtn:hover { border-color: var(--accent); }
+  #setupCard button:disabled { opacity: 0.4; cursor: default; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .seg label { position: relative; display: block; }
+  .seg input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+  .seg span { display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--panel-2); font-size: 15px; font-weight: 500; }
+  .seg input:checked + span { background: var(--accent-dim); border-color: var(--accent); color: #fff; }
+  .seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  #setupCard #connectBtn, #setupCard #startUploadBtn { background: var(--accent-dim); border-color: var(--accent); color: #fff; font-weight: 600; flex: 1 1 130px; }
+  #setupCard #connectBtn:disabled, #setupCard #startUploadBtn:disabled { background: var(--panel-2); border-color: var(--border); color: var(--muted); }
+  #settings summary::before, #techInfo summary::before { content: "▸"; margin-right: 8px; color: var(--accent); }
+  #settings[open] summary::before, #techInfo[open] summary::before { content: "▾"; }
+  #settings summary::-webkit-details-marker, #techInfo summary::-webkit-details-marker { display: none; }
+  body.sesi #setupCard { padding: 10px 14px; }
+  body.sesi #setupCard > .field:not(.fieldStart), body.sesi #guide, body.sesi #settings { display: none; }
+  body.sesi .fieldStart .fieldLabel { display: none; }
+  .fileBtn { flex: 1 1 130px; }
+  #fileName { margin-top: 6px; font-size: 13px; color: var(--muted); word-break: break-all; }
+  #uploadPanel { display: none; }
+  #settings { font-size: 14px; color: var(--muted); }
+  #settings summary { cursor: pointer; min-height: 32px; display: flex; align-items: center; }
+  #settings label { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  #settings input { width: 72px; text-align: center; }
+  #guide { border-top: 1px solid var(--border); padding-top: 12px; font-size: 14px; color: var(--muted); }
+  #guide .guideTitle { font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  #guide ul { margin: 0; padding-left: 18px; display: grid; gap: 2px; }
 
-  #mainLayout { display: flex; flex-wrap: wrap; gap: 20px; max-width: 1100px; margin: 0 auto; align-items: flex-start; }
-  #videoCol { flex: 2 1 420px; min-width: 280px; }
-  #infoCol { flex: 1 1 300px; min-width: 240px; display: flex; flex-direction: column; gap: 14px; }
+  #notice { max-width: 1100px; margin: 0 auto 12px; text-align: center; font-size: 14px; color: var(--muted); min-height: 20px; }
+  #notice.err { color: var(--bad); }
+  #notice progress { display: block; width: 100%; height: 8px; margin-top: 6px; accent-color: var(--accent); }
 
-  #wrap { position: relative; aspect-ratio: 4 / 3; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+  #mainLayout { display: flex; flex-wrap: wrap; gap: 16px; max-width: 1100px; margin: 0 auto; align-items: flex-start; }
+  #videoCol { flex: 1 1 340px; min-width: 0; display: grid; gap: 10px; }
+  #infoCol { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+
+  #wrap { --ar: 0.5625; position: relative; width: min(100%, calc(max(320px, 100vh - 215px) * var(--ar))); aspect-ratio: var(--ar);
+    margin: 0 auto; background: #000; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+  @supports (height: 100dvh) { #wrap { width: min(100%, calc(max(320px, 100dvh - 215px) * var(--ar))); } }
+  #wrap.idle { aspect-ratio: auto; width: 100%; min-height: 150px; }
+  #wrap.idle video { display: none; }
   video, canvas.overlay { width: 100%; height: 100%; display: block; object-fit: contain; }
   canvas.overlay { position: absolute; top: 0; left: 0; pointer-events: none; }
-  #statsRow { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; font-size: 12px; }
-  #fps { color: var(--accent); font-weight: 600; }
-  #timing { color: var(--muted); text-align: right; }
 
-  #result { text-align: center; border: 1px solid var(--border); background: var(--panel); border-radius: 12px; padding: 20px 16px; }
-  #result .rep { font-size: 34px; font-weight: 700; color: var(--accent); }
-  #clsText { font-size: 18px; color: var(--muted); margin-top: 6px; }
-  #result .cls-ok { color: var(--good); font-size: 18px; margin-top: 6px; font-weight: 500; }
-  #result .cls-warn { color: var(--bad); font-size: 18px; margin-top: 6px; font-weight: 500; }
-  #progressWrap { text-align: center; }
-  #progressWrap progress { width: 100%; }
+  #result { position: absolute; inset: 0; pointer-events: none; display: flex; flex-direction: column; padding: 10px; gap: 8px; }
+  #repCount { align-self: flex-start; background: var(--hud); border: 1px solid var(--border); border-radius: 12px;
+    padding: 6px 12px; font-size: 14px; font-weight: 600; color: var(--muted); }
+  #repCount .val { font-size: 26px; font-weight: 700; color: var(--accent); margin-left: 4px; }
+  #clsText { margin-top: auto; border-radius: 12px; padding: 8px 10px; background: var(--hud); border: 1px solid var(--border);
+    text-align: center; font-size: 14px; color: var(--muted); }
+  #clsText .vt { display: block; font-size: 17px; font-weight: 700; color: var(--text); }
+  #clsText .vd { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.3; color: var(--text); }
+  #clsText .vm { display: block; margin-top: 3px; font-size: 11px; color: var(--muted); }
+  #clsText.cls-warn { background: rgba(127, 29, 29, 0.8); border-color: var(--bad); }
+  #clsText.cls-ok { background: rgba(6, 78, 59, 0.8); border-color: var(--good); }
+  #clsText.cls-count { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%); margin: 0;
+    background: transparent; border: none; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8); }
+  #clsText.cls-count .cn { display: block; font-family: 'Space Grotesk', 'Inter', sans-serif; font-size: 96px;
+    font-weight: 700; line-height: 1; color: var(--text); }
+  #clsText.cls-count .cl { display: block; font-size: 16px; color: var(--text); }
+  #wrap.idle #result { justify-content: center; align-items: center; }
+  #wrap.idle #clsText { margin: 0; }
+  #wrap.replay #clsText { margin-bottom: 52px; }
+
+  #progressWrap { text-align: center; font-size: 13px; color: var(--muted); }
+  #progressWrap progress { width: 100%; accent-color: var(--accent); }
+  #techInfo { border: 1px solid var(--border); background: var(--panel); border-radius: 12px; padding: 6px 12px; font-size: 13px; color: var(--muted); }
+  #techInfo summary { cursor: pointer; min-height: 32px; display: flex; align-items: center; }
+  #status { margin: 4px 0 8px; line-height: 1.4; word-break: break-word; }
+  #statsRow { display: flex; flex-direction: column; gap: 4px; font-size: 12px; padding-bottom: 6px; }
+  #fps { color: var(--accent); font-weight: 600; }
+
   #summary { display: none; }
-  #summary .item { position: relative; border: 1px solid var(--border); background: var(--panel); border-radius: 9px;
-    padding: 9px 12px 9px 20px; font-size: 13px; text-align: left; line-height: 1.4; }
-  #summary .item::before { content: ""; position: absolute; left: 9px; top: 14px; width: 7px; height: 7px; border-radius: 50%; }
-  #summary .item.warn::before { background: var(--bad); }
-  #summary .item.ok::before { background: var(--good); }
-  #finalSummary { display: none; border: 1px solid var(--border); background: var(--panel); border-radius: 12px; padding: 18px 16px; }
-  #finalSummary h3 { text-align: center; margin: 0 0 14px; font-size: 15px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em; }
-  #finalMetrics { display: flex; justify-content: space-around; margin-bottom: 14px; }
-  #finalMetrics div { text-align: center; }
-  #finalMetrics .num { font-size: 28px; font-weight: 700; color: var(--accent); display: block; }
-  #finalGroups { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-  .groupCard { width: 140px; border: 1px solid var(--border); background: var(--panel-2); border-radius: 10px;
-    padding: 8px; text-align: center; font-size: 12px; }
-  .groupCard img { width: 100%; border-radius: 6px; display: block; margin-bottom: 6px; }
+  #finalSummary { display: none; border: 1px solid var(--border); background: var(--panel); border-radius: 14px; padding: 16px 14px; }
+  #finalSummary h3 { text-align: center; margin: 0 0 12px; font-size: 15px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em; }
+  #finalMetrics { display: flex; justify-content: space-around; margin-bottom: 8px; }
+  #finalMetrics div { text-align: center; font-size: 14px; }
+  #finalMetrics .num { font-size: 32px; font-weight: 700; color: var(--accent); display: block; }
+  #finalNote { text-align: center; font-size: 12px; color: var(--muted); margin: 0 0 12px; }
+  #finalVerdict { text-align: center; font-size: 16px; font-weight: 600; margin: 0 0 14px; }
+  #finalVerdict:empty { display: none; }
+  #finalGroups { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .groupCard { border: 1px solid var(--border); background: var(--panel-2); border-radius: 12px; padding: 10px;
+    font-size: 13px; display: grid; gap: 4px; align-content: start; }
+  .groupCard img { width: auto; max-width: 100%; max-height: 380px; margin: 0 auto 4px; border-radius: 8px; display: block; }
+  .groupCard .gTitle { font-size: 15px; font-weight: 600; }
+  .groupCard .gKey { font-size: 11px; color: var(--muted); }
+  .groupCard .gAdvice { font-size: 13px; line-height: 1.35; }
   .groupCard.warn { border-color: var(--bad); background: var(--bad-bg); }
   .groupCard.ok { border-color: var(--good); background: var(--good-bg); }
-  #uploadPanel { display: none; }
+  .gNote { grid-column: 1 / -1; text-align: center; font-size: 12px; color: var(--muted); margin: 0; }
+
+  @media (min-width: 900px) {
+    body { padding: 20px 16px 40px; }
+    #setupCard { grid-template-columns: 1fr 1fr 1.4fr; align-items: start; }
+    #settings, #guide { grid-column: 1 / -1; }
+    body.sesi #setupCard { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 <h1 class="appTitle">Pemantau Postur</h1>
-<div id="toolbar">
-  <div id="setup">
-    <label><input type="radio" name="mode" value="live" checked> Kamera Live</label>
-    <label><input type="radio" name="mode" value="upload"> Upload Video</label>
+
+<section id="setupCard">
+  <div class="field">
+    <label class="fieldLabel" for="exercise">1. Pilih latihan</label>
     <select id="exercise">
       <option value="squat">Squat</option>
       <option value="benchpress">Bench Press</option>
       <option value="deadlift">Deadlift</option>
     </select>
-    <label>Countdown: <input type="number" id="countdownInput" value="5" min="0" max="30" step="1" style="width:50px;"> detik</label>
   </div>
-  <div class="divider"></div>
-  <div id="setup">
-    <span id="livePanel">
-      <button id="connectBtn" disabled>Hubungkan ke backend</button>
-      <button id="stopLiveBtn" disabled>Stop</button>
-    </span>
-    <span id="uploadPanel">
-      <input type="file" id="videoFile" accept="video/*">
-      <button id="startUploadBtn" disabled>Mulai Analisis</button>
-    </span>
+  <div class="field">
+    <span class="fieldLabel">2. Pilih sumber</span>
+    <div class="seg">
+      <label><input type="radio" name="mode" value="live" checked><span>Kamera</span></label>
+      <label><input type="radio" name="mode" value="upload"><span>Unggah Video</span></label>
+    </div>
   </div>
-</div>
-<div id="status">Belum jalan.</div>
+  <div class="field fieldStart">
+    <span class="fieldLabel">3. Mulai</span>
+    <div id="livePanel">
+      <div class="row">
+        <button id="connectBtn" disabled>Mulai Kamera</button>
+        <button id="stopLiveBtn" disabled>Stop</button>
+      </div>
+    </div>
+    <div id="uploadPanel">
+      <div class="row">
+        <input type="file" id="videoFile" accept="video/*" class="srOnly">
+        <label for="videoFile" class="fileBtn">Pilih Video</label>
+        <button id="startUploadBtn" disabled>Mulai Analisis</button>
+      </div>
+      <div id="fileName">Belum ada video dipilih</div>
+    </div>
+  </div>
+  <details id="settings">
+    <summary id="settingsSummary">Pengaturan · hitung mundur 5 detik</summary>
+    <label>Hitung mundur sebelum mulai <input type="number" id="countdownInput" value="5" min="0" max="30" step="1"> detik</label>
+  </details>
+  <div id="guide">
+    <div class="guideTitle">Sebelum mulai</div>
+    <ul>
+      <li>Seluruh badan terlihat, dari kepala sampai kaki.</li>
+      <li>Kamera di sisi diagonal sekitar 45° atau dari depan.</li>
+      <li>Hanya satu orang di dalam bingkai.</li>
+    </ul>
+  </div>
+</section>
+<div id="notice"></div>
 <div id="mainLayout">
   <div id="videoCol">
-    <div id="wrap">
+    <div id="wrap" class="idle">
       <video id="video" autoplay playsinline muted></video>
       <canvas id="overlay" class="overlay"></canvas>
+      <div id="result">
+        <div id="repCount">Repetisi -</div>
+        <div id="clsText">Pilih latihan dan sumber, lalu tekan Mulai.</div>
+      </div>
     </div>
-    <div id="statsRow">
-      <div id="fps"></div>
-      <div id="timing"></div>
-    </div>
+    <div id="progressWrap"></div>
+    <details id="techInfo">
+      <summary>Info teknis</summary>
+      <div id="status">Belum jalan.</div>
+      <div id="statsRow">
+        <div id="fps"></div>
+        <div id="timing"></div>
+      </div>
+    </details>
   </div>
   <div id="infoCol">
-    <div id="progressWrap"></div>
-    <div id="result">
-      <div class="rep" id="repCount">Repetisi: -</div>
-      <div id="clsText">Menunggu koneksi backend...</div>
-    </div>
     <div id="summary"></div>
     <div id="finalSummary">
       <h3>Ringkasan Sesi</h3>
       <div id="finalMetrics"></div>
+      <p id="finalNote"></p>
+      <p id="finalVerdict"></p>
       <div id="finalGroups"></div>
     </div>
   </div>
@@ -171,12 +262,110 @@ const resultEl = document.getElementById("result");
 const finalSummaryEl = document.getElementById("finalSummary");
 const finalMetricsEl = document.getElementById("finalMetrics");
 const finalGroupsEl = document.getElementById("finalGroups");
+const noticeEl = document.getElementById("notice");
+const techInfoEl = document.getElementById("techInfo");
+const fileNameEl = document.getElementById("fileName");
+const finalNoteEl = document.getElementById("finalNote");
+const finalVerdictEl = document.getElementById("finalVerdict");
+
+const MISTAKE_NAMES = {
+  squat_backbend: "Punggung membungkuk",
+  squat_kneeinward: "Lutut masuk ke dalam",
+  deadlift_backround: "Punggung membulat",
+  deadlift_armsspread: "Tangan terlalu lebar",
+  benchpress_flatback: "Punggung terlalu rata",
+  benchpress_armsspread: "Siku terlalu melebar",
+};
+let showCropBox = false;
+let appReady = false;
+
+function friendlyName(key) {
+  if (!key) return "Belum cukup data";
+  if (key.includes("correct")) return "Postur benar";
+  return MISTAKE_NAMES[key] || key;
+}
+
+function textSpan(className, text) {
+  const s = document.createElement("span");
+  s.className = className;
+  s.textContent = text;
+  return s;
+}
+
+let hudRepHtml = "";
+let hudClsHtml = "";
+let hudClsClass = "";
+
+function htmlOf(children) {
+  const box = document.createElement("div");
+  box.replaceChildren(...children);
+  return box.innerHTML;
+}
+
+function writeRep(html) {
+  if (html === hudRepHtml) return;
+  repCountEl.innerHTML = html;
+  hudRepHtml = html;
+}
+
+function writeCls(html, className) {
+  if (html === hudClsHtml && className === hudClsClass) return;
+  clsTextEl.innerHTML = html;
+  clsTextEl.className = className;
+  hudClsHtml = html;
+  hudClsClass = className;
+}
+
+function setRep(value) {
+  writeRep(htmlOf([textSpan("lbl", "Repetisi"), " ", textSpan("val", String(value))]));
+}
+
+function setPlain(text, className = "") {
+  writeCls(htmlOf([text]), className);
+}
+
+function setCountdown(seconds) {
+  writeCls(htmlOf([textSpan("cl", "Bersiap..."), " ", textSpan("cn", String(seconds)), " ", textSpan("cl", "detik")]), "cls-count");
+}
+
+function setVerdict(kind, title, advice, meta) {
+  const parts = [textSpan("vt", title)];
+  if (advice) parts.push(textSpan("vd", advice));
+  parts.push(textSpan("vm", meta));
+  writeCls(htmlOf(parts), kind);
+}
+
+function setNotice(text, isError = false) {
+  noticeEl.className = isError ? "err" : "";
+  noticeEl.textContent = text;
+}
+
+function setLoadStep(done, text) {
+  noticeEl.className = "";
+  const bar = document.createElement("progress");
+  bar.max = 4;
+  bar.value = done;
+  noticeEl.replaceChildren(text, bar);
+}
+
+function activateVideoArea() {
+  wrapEl.style.setProperty("--ar", String(video.videoWidth / video.videoHeight));
+  wrapEl.classList.remove("idle", "replay");
+  document.body.classList.add("sesi");
+  window.scrollTo(0, 0);
+}
+
+techInfoEl.addEventListener("toggle", () => { showCropBox = techInfoEl.open; });
 
 const TRAINING_FPS = 30.0;
 const countdownInputEl = document.getElementById("countdownInput");
 function getCountdownSec() {
   return parseFloat(countdownInputEl.value) || 0;
 }
+const settingsSummaryEl = document.getElementById("settingsSummary");
+countdownInputEl.addEventListener("input", () => {
+  settingsSummaryEl.textContent = `Pengaturan · hitung mundur ${getCountdownSec()} detik`;
+});
 
 let yolo = null;
 let poseLandmarker = null;
@@ -230,7 +419,18 @@ let running = false;
 const sessionLog = [];
 let lastRepCount = 0;
 
-let cycleEvidence = { angle: null, dataUrl: null };
+const THUMB_W = 480;
+const THUMB_MIN_GAP_MS = 250;
+const MIN_EVENT_GAP_MS = 1600;
+const PHASE_GATE_TOP_FRAC = 0.3;
+let cycleThumbs = [];
+let cycleAngles = { min: null, max: null };
+let lastThumbMs = 0;
+
+function resetCycleEvidence() {
+  cycleThumbs = [];
+  cycleAngles = { min: null, max: null };
+}
 
 // Preview upload: skeleton per-frame yg sudah dihitung saat pemrosesan
 // disimpan di sini, lalu digambar ULANG (bukan dihitung ulang) saat video
@@ -242,18 +442,50 @@ let replayRafId = null;
 const snapCanvas = document.createElement("canvas");
 const snapCtx = snapCanvas.getContext("2d");
 
-function captureSnapshot() {
-  snapCanvas.width = video.videoWidth;
-  snapCanvas.height = video.videoHeight;
-  snapCtx.drawImage(video, 0, 0, snapCanvas.width, snapCanvas.height);
-  snapCtx.drawImage(canvas, 0, 0, snapCanvas.width, snapCanvas.height);
-  return snapCanvas.toDataURL("image/jpeg", 0.7);
+function captureThumb() {
+  const vw = video.videoWidth, vh = video.videoHeight;
+  if (!vw || !vh) return null;
+  const w = Math.min(THUMB_W, vw);
+  const h = Math.max(1, Math.round((w * vh) / vw));
+  snapCanvas.width = w;
+  snapCanvas.height = h;
+  snapCtx.drawImage(video, 0, 0, w, h);
+  snapCtx.drawImage(canvas, 0, 0, w, h);
+  return snapCanvas.toDataURL("image/jpeg", 0.75);
 }
 
 function displayName(className) {
   if (!className) return null;
   const idx = className.lastIndexOf("_");
   return idx === -1 ? className : className.slice(0, idx);
+}
+
+function considerEvidence(msg) {
+  if (msg.countdown_remaining !== null && msg.countdown_remaining !== undefined) return;
+  const a = msg.primary_angle;
+  const key = displayName(msg.predicted_class);
+  const conf = msg.confidence;
+  if (a === null || a === undefined || !key || conf === null || conf === undefined) return;
+  if (cycleAngles.min === null || a < cycleAngles.min) cycleAngles.min = a;
+  if (cycleAngles.max === null || a > cycleAngles.max) cycleAngles.max = a;
+  const now = performance.now();
+  if (now - lastThumbMs < THUMB_MIN_GAP_MS) return;
+  const dataUrl = captureThumb();
+  if (!dataUrl) return;
+  lastThumbMs = now;
+  cycleThumbs.push({ key, conf, angle: a, dataUrl });
+}
+
+function pickEvidence(cycleClass) {
+  const key = displayName(cycleClass);
+  const cocok = cycleThumbs.filter((t) => t.key === key);
+  if (!cocok.length) return { dataUrl: null, conf: null };
+  const batas = cycleAngles.min + (cycleAngles.max - cycleAngles.min) * (1 - PHASE_GATE_TOP_FRAC);
+  const bawah = cocok.filter((t) => t.angle <= batas);
+  const dipilih = bawah.length
+    ? bawah.reduce((x, y) => (y.conf > x.conf ? y : x))
+    : cocok.reduce((x, y) => (y.angle < x.angle ? y : x));
+  return { dataUrl: dipilih.dataUrl, conf: dipilih.conf };
 }
 
 function renderSummary() {
@@ -266,38 +498,52 @@ function renderSummary() {
 
 function renderFinalSummary() {
   finalMetricsEl.innerHTML = `
-    <div><div class="num">${lastRepCount}</div>Total repetisi</div>
-    <div><div class="num">${sessionLog.length}</div>Siklus dianalisis</div>
+    <div><div class="num">${lastRepCount}</div>Repetisi</div>
+    <div><div class="num">${sessionLog.length}</div>Siklus dinilai</div>
   `;
+  finalNoteEl.textContent = "Satu repetisi biasanya terdiri dari dua siklus: satu gerakan turun dan satu naik.";
 
   const confirmed = sessionLog.filter((e) => e.class);
   const nUnconfirmed = sessionLog.length - confirmed.length;
+  const nCorrect = confirmed.filter((e) => !e.warning).length;
+  finalVerdictEl.textContent = confirmed.length ? `${nCorrect} dari ${confirmed.length} siklus benar` : "";
 
   if (confirmed.length === 0) {
-    finalGroupsEl.innerHTML = `<p>Belum ada siklus dengan data cukup untuk diklasifikasi.</p>`;
+    finalGroupsEl.innerHTML = `<p class="gNote">Belum ada siklus dengan data cukup untuk diklasifikasi.</p>`;
   } else {
     const groups = {};
     const order = [];
     for (const entry of confirmed) {
       const key = displayName(entry.class);
       if (!(key in groups)) {
-        groups[key] = { segs: [], warning: entry.warning, image: entry.snapshot };
+        groups[key] = { segs: [], warning: entry.warning, image: null, conf: -1, lastAt: null };
         order.push(key);
       }
-      groups[key].segs.push(entry.rep_no);
+      const g = groups[key];
+      if (g.lastAt === null || entry.at - g.lastAt >= MIN_EVENT_GAP_MS) g.segs.push(entry.rep_no);
+      g.lastAt = entry.at;
+      const conf = entry.snapConf ?? -1;
+      if (entry.snapshot && (!g.image || conf > g.conf)) {
+        g.conf = conf;
+        g.image = entry.snapshot;
+      }
     }
-    finalGroupsEl.innerHTML = order.map((key) => {
+    const ordered = order.slice().sort((a, b) => (groups[b].warning ? 1 : 0) - (groups[a].warning ? 1 : 0));
+    finalGroupsEl.innerHTML = ordered.map((key) => {
       const g = groups[key];
       const warnClass = g.warning ? "warn" : "ok";
-      const img = g.image ? `<img src="${g.image}">` : "";
-      return `<div class="groupCard ${warnClass}">${img}<div>Siklus ${g.segs.join(", ")}</div><div>${key}</div>${g.warning ? `<div>${g.warning}</div>` : "<div>Postur benar</div>"}</div>`;
+      const siklus = g.segs.join(", ");
+      const img = g.image ? `<img src="${g.image}" alt="Foto siklus ${siklus}">` : "";
+      const advice = g.warning ? `<div class="gAdvice">${g.warning}</div>` : "";
+      return `<div class="groupCard ${warnClass}">${img}<div class="gTitle">${g.warning ? friendlyName(key) : "Postur benar"}</div><div class="gKey">${key} · siklus ${siklus}</div>${advice}</div>`;
     }).join("");
     if (nUnconfirmed) {
-      finalGroupsEl.innerHTML += `<p style="width:100%;text-align:center;font-size:12px;">(${nUnconfirmed} siklus lain datanya kurang, tidak ditampilkan)</p>`;
+      finalGroupsEl.innerHTML += `<p class="gNote">${nUnconfirmed} siklus lain datanya kurang, tidak ditampilkan.</p>`;
     }
   }
 
   finalSummaryEl.style.display = "block";
+  finalSummaryEl.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 for (const r of modeRadios) {
@@ -319,15 +565,18 @@ for (const r of modeRadios) {
     video.onseeked = null;
     video.controls = false;
     wrapEl.style.display = "";
-    repCountEl.textContent = "Repetisi: -";
-    clsTextEl.textContent = "Menunggu koneksi backend...";
-    clsTextEl.className = "";
+    wrapEl.classList.add("idle");
+    wrapEl.classList.remove("replay");
+    document.body.classList.remove("sesi");
+    setRep("-");
+    setPlain("Pilih latihan dan sumber, lalu tekan Mulai.");
+    if (appReady) setNotice("Siap. Pilih latihan dan sumber, lalu tekan Mulai.");
     summaryEl.innerHTML = "";
     sessionLog.length = 0;
     lastRepCount = 0;
     mode = e.target.value;
-    uploadPanel.style.display = mode === "upload" ? "inline" : "none";
-    livePanelEl.style.display = mode === "live" ? "inline" : "none";
+    uploadPanel.style.display = mode === "upload" ? "block" : "none";
+    livePanelEl.style.display = mode === "live" ? "block" : "none";
     finalSummaryEl.style.display = "none";
     progressWrapEl.innerHTML = "";
   };
@@ -356,7 +605,10 @@ function maybePlayWarningAudio(entry, prevEntry) {
   // yg SAMA (backbend lagi), bukan peringatan baru, jadi jangan bunyi lagi.
   const key = displayName(entry.class);
   const prevKey = prevEntry ? displayName(prevEntry.class) : null;
-  if (prevKey !== null && prevKey === key) return;
+  if (prevKey !== null && prevKey === key && prevEntry.alerted) {
+    entry.alerted = true;
+    return;
+  }
   if (!key || key.includes("correct")) return;
   const now = performance.now();
   if (now - lastAudioAtMs < 3000) return;
@@ -369,7 +621,8 @@ function maybePlayWarningAudio(entry, prevEntry) {
     currentAudioEl.currentTime = 0;
   }
   currentAudioEl = new Audio(`audio/${key}.mp3`);
-  currentAudioEl.play().catch((err) => console.warn("Audio peringatan gagal diputar:", err.message));
+  currentAudioEl.play().then(() => { entry.alerted = true; })
+    .catch((err) => console.warn("Audio peringatan gagal diputar:", err.message));
 }
 
 let localCountdownTimer = null;
@@ -378,15 +631,14 @@ function startLocalCountdown(countdownSec) {
   stopLocalCountdown();
   if (!countdownSec || countdownSec <= 0) return;
   const deadline = performance.now() + countdownSec * 1000;
-  clsTextEl.textContent = `Bersiap... ${Math.ceil(countdownSec)} detik`;
-  clsTextEl.className = "";
+  setCountdown(Math.ceil(countdownSec));
   localCountdownTimer = setInterval(() => {
     const remain = (deadline - performance.now()) / 1000;
     if (remain <= 0) {
       stopLocalCountdown();
       return;
     }
-    clsTextEl.textContent = `Bersiap... ${Math.ceil(remain)} detik`;
+    setCountdown(Math.ceil(remain));
   }, 200);
 }
 
@@ -403,40 +655,33 @@ function handleResultMessage(msg) {
   // sebenarnya bukan wall-clock browser).
   stopLocalCountdown();
   lastRepCount = msg.rep_count;
-  repCountEl.textContent = `Repetisi: ${msg.rep_count}`;
+  setRep(msg.rep_count);
 
-  if (msg.primary_angle !== null && msg.primary_angle !== undefined) {
-    if (cycleEvidence.angle === null || msg.primary_angle < cycleEvidence.angle) {
-      cycleEvidence = { angle: msg.primary_angle, dataUrl: captureSnapshot() };
-    }
-  }
+  considerEvidence(msg);
 
   if (msg.cycle_result) {
     const prevEntry = sessionLog.length > 0 ? sessionLog[sessionLog.length - 1] : null;
-    sessionLog.push({ ...msg.cycle_result, snapshot: cycleEvidence.dataUrl });
-    maybePlayWarningAudio(msg.cycle_result, prevEntry);
-    cycleEvidence = { angle: null, dataUrl: null };
-    renderSummary();
+    const bukti = pickEvidence(msg.cycle_result.class);
+    const entry = { ...msg.cycle_result, snapshot: bukti.dataUrl, snapConf: bukti.conf, at: performance.now() };
+    sessionLog.push(entry);
+    maybePlayWarningAudio(entry, prevEntry);
+    resetCycleEvidence();
   }
 
   if (msg.countdown_remaining !== null && msg.countdown_remaining !== undefined) {
-    clsTextEl.textContent = `Bersiap... ${Math.ceil(msg.countdown_remaining)} detik`;
-    clsTextEl.className = "";
+    setCountdown(Math.ceil(msg.countdown_remaining));
   } else if (sessionLog.length === 0) {
-    clsTextEl.textContent = "Menganalisis siklus gerakan pertama...";
-    clsTextEl.className = "";
+    setPlain("Menganalisis siklus gerakan pertama...");
   } else {
     const last = sessionLog[sessionLog.length - 1];
-    const label = displayName(last.class) || "tidak cukup yakin";
+    const key = displayName(last.class);
+    const meta = key ? `Siklus ${last.rep_no} · ${key}` : `Siklus ${last.rep_no}`;
     if (last.warning) {
-      clsTextEl.textContent = `Siklus ${last.rep_no}: ${label} -- ${last.warning}`;
-      clsTextEl.className = "cls-warn";
+      setVerdict("cls-warn", friendlyName(key), last.warning, meta);
     } else if (last.class) {
-      clsTextEl.textContent = `Siklus ${last.rep_no}: ${label}`;
-      clsTextEl.className = "cls-ok";
+      setVerdict("cls-ok", "Postur benar", "", meta);
     } else {
-      clsTextEl.textContent = `Siklus ${last.rep_no}: model kurang yakin (data kurang)`;
-      clsTextEl.className = "";
+      setVerdict("", "Belum cukup data", "Data siklus ini belum cukup untuk dinilai.", meta);
     }
   }
 }
@@ -447,8 +692,8 @@ function ensureSocketOpen() {
     const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
     ws = new WebSocket(`${proto}//${window.location.host}`);
     ws.onopen = () => resolve();
-    ws.onerror = (err) => { clsTextEl.textContent = "Error koneksi backend."; reject(err); };
-    ws.onclose = () => { wsReady = false; clsTextEl.textContent = "Backend terputus."; };
+    ws.onerror = (err) => { setPlain("Tidak bisa terhubung ke server."); reject(err); };
+    ws.onclose = () => { wsReady = false; setPlain("Koneksi ke server terputus."); };
   });
 }
 
@@ -462,7 +707,7 @@ async function startFreshSession(exercise, countdownSec) {
   video.controls = false;
   wrapEl.style.display = "";
   wsReady = false;
-  clsTextEl.textContent = "Menghubungkan ke backend...";
+  setPlain("Menghubungkan ke server...");
   await ensureSocketOpen();
   await new Promise((resolve) => {
     ws.onmessage = (ev) => {
@@ -472,13 +717,14 @@ async function startFreshSession(exercise, countdownSec) {
         sessionStartMs = null;
         lastSendMs = null;
         sessionLog.length = 0;
-        cycleEvidence = { angle: null, dataUrl: null };
+        resetCycleEvidence();
         lastRepCount = 0;
         renderSummary();
         finalSummaryEl.style.display = "none";
         finalMetricsEl.innerHTML = "";
         finalGroupsEl.innerHTML = "";
-        clsTextEl.textContent = "Backend siap.";
+        setRep("-");
+        setPlain("Server siap.");
         ws.onmessage = (ev2) => handleResultMessage(JSON.parse(ev2.data));
         resolve();
       }
@@ -493,15 +739,17 @@ const LOAD_RETRY_DELAY_MS = 2000;
 // Model YOLO+MediaPipe ukurannya puluhan MB -- kalau koneksi lambat/putus
 // sesaat, panggilan load() bisa gagal/timeout. Daripada diam (kelihatan
 // "gak muncul apa-apa"), coba ulang otomatis dengan status yang kelihatan.
-async function loadWithRetry(loadFn, label) {
+async function loadWithRetry(loadFn, label, step, friendly) {
   for (let attempt = 1; attempt <= LOAD_MAX_ATTEMPTS; attempt++) {
     statusEl.textContent = `Memuat ${label}... (percobaan ke-${attempt}/${LOAD_MAX_ATTEMPTS})`;
+    setLoadStep(step - 1, `${friendly} (${step} dari 4)...`);
     try {
       return await loadFn();
     } catch (err) {
       console.error(`${label} gagal dimuat (percobaan ${attempt}):`, err);
       if (attempt === LOAD_MAX_ATTEMPTS) {
         statusEl.textContent = `Gagal memuat ${label} setelah ${LOAD_MAX_ATTEMPTS}x percobaan (${err.message}). Cek koneksi internet, lalu refresh halaman.`;
+        setNotice("Gagal memuat model. Periksa koneksi internet, lalu muat ulang halaman.", true);
         throw err;
       }
       await new Promise((resolve) => setTimeout(resolve, LOAD_RETRY_DELAY_MS));
@@ -515,11 +763,11 @@ async function setup() {
 
   // 640px = resolusi efektif YOLO arsitektur utama; deteksi cuma tiap YOLO_REDETECT_EVERY frame.
   yolo = new YoloDetector();
-  await loadWithRetry(() => yolo.load("models/yolo11n_640.onnx", 640), "model YOLO");
+  await loadWithRetry(() => yolo.load("models/yolo11n_640.onnx", 640), "model YOLO", 1, "Memuat model deteksi orang");
 
   const vision = await loadWithRetry(
     () => FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"),
-    "runtime MediaPipe"
+    "runtime MediaPipe", 2, "Memuat mesin pose"
   );
   let poseBackend;
   await loadWithRetry(async () => {
@@ -542,12 +790,24 @@ async function setup() {
       });
       poseBackend = `CPU (fallback, GPU gagal: ${err.message})`;
     }
-  }, "model MediaPipe");
+  }, "model MediaPipe", 3, "Memuat model pose");
 
+  statusEl.textContent = "Memanaskan model...";
+  setLoadStep(3, "Menyiapkan model (4 dari 4)...");
+  await warmUpModels();
   statusEl.textContent = `Model siap. (YOLO backend=${yolo.backend} | MediaPipe backend=${poseBackend})`;
   await startFreshSession(exerciseSel.value, getCountdownSec());
+  setPlain("Pilih latihan dan sumber, lalu tekan Mulai.");
+  setNotice("Siap. Pilih latihan dan sumber, lalu tekan Mulai.");
+  appReady = true;
   connectBtn.disabled = false;
-  startUploadBtn.disabled = false;
+  startUploadBtn.disabled = !videoFileInput.files.length;
+};
+
+videoFileInput.onchange = () => {
+  const file = videoFileInput.files[0];
+  fileNameEl.textContent = file ? file.name : "Belum ada video dipilih";
+  if (appReady && !running) startUploadBtn.disabled = !file;
 };
 
 connectBtn.onclick = async () => {
@@ -557,14 +817,17 @@ connectBtn.onclick = async () => {
     await startFreshSession(exerciseSel.value, getCountdownSec());
     finalSummaryEl.style.display = "none";
     if (mode === "live") {
+      setPlain("Menyiapkan kamera...");
+      setNotice("Menyiapkan kamera...");
       await startCamera();
-      startLocalCountdown(getCountdownSec());
+      setNotice("Kamera aktif. Tekan Stop untuk mengakhiri sesi.");
       stopLiveBtn.disabled = false;
     } else {
       connectBtn.disabled = false;
     }
   } catch (err) {
     statusEl.textContent = "Error: " + err.message;
+    setNotice("Terjadi kendala: " + err.message, true);
     connectBtn.disabled = false;
   }
 };
@@ -580,6 +843,10 @@ stopLiveBtn.onclick = () => {
   canvas.width = 0;
   canvas.height = 0;
   statusEl.textContent = "Sesi live dihentikan.";
+  setNotice("Sesi dihentikan.");
+  setPlain("Sesi dihentikan.");
+  wrapEl.classList.add("idle");
+  document.body.classList.remove("sesi");
   stopLiveBtn.disabled = true;
   connectBtn.disabled = false;
   renderFinalSummary();
@@ -598,11 +865,16 @@ startUploadBtn.onclick = async () => {
   video.muted = true;
   video.controls = false;
   await new Promise((resolve) => { video.onloadedmetadata = resolve; });
+  video.pause();
+  activateVideoArea();
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
+  progressWrapEl.innerHTML = "<div>Menyiapkan video...</div>";
+  setNotice("Menganalisis video...");
+  await warmUpUpload();
   sessionStartMs = null;
   sessionLog.length = 0;
-  cycleEvidence = { angle: null, dataUrl: null };
+  resetCycleEvidence();
   replayFrames = [];
   cachedDet = null;
   framesSinceDetect = 0;
@@ -625,6 +897,41 @@ function seekTo(timeSec) {
   });
 }
 
+async function warmUpUpload() {
+  try {
+    await seekTo(video.duration / 2);
+    await processCurrentVideoFrame();
+    await processCurrentVideoFrame();
+    await seekTo(0);
+  } catch (err) {
+    console.warn("Pemanasan model gagal:", err);
+  }
+  video.onseeked = null;
+  cachedDet = null;
+  framesSinceDetect = 0;
+  lastDrawState = null;
+  frameTimes.length = 0;
+  frameCount = 0;
+  timingLog.yoloAll = []; timingLog.yoloReal = []; timingLog.crop = []; timingLog.pose = [];
+  lastTime = performance.now();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+async function warmUpModels() {
+  const blank = document.createElement("canvas");
+  blank.width = 640;
+  blank.height = 640;
+  const blankCtx = blank.getContext("2d");
+  blankCtx.fillStyle = "#808080";
+  blankCtx.fillRect(0, 0, 640, 640);
+  try {
+    await yolo.detect(blank, 640, 640, 0.7, 0.45);
+    poseLandmarker.detectForVideo(blank, performance.now());
+  } catch (err) {
+    console.warn("Pemanasan model gagal:", err);
+  }
+}
+
 function findNearestReplayIdx(vt) {
   if (replayFrames.length === 0) return -1;
   let lo = 0, hi = replayFrames.length - 1;
@@ -641,6 +948,9 @@ async function finishUpload() {
   video.onended = null;
   progressWrapEl.innerHTML = "";
   statusEl.textContent = "Analisis video selesai.";
+  setNotice("Analisis selesai. Lihat ringkasan sesi.");
+  wrapEl.classList.add("replay");
+  document.body.classList.remove("sesi");
   startUploadBtn.disabled = false;
   renderFinalSummary();
 
@@ -666,6 +976,7 @@ async function startCamera() {
   });
   video.srcObject = stream;
   await new Promise((resolve) => { video.onloadedmetadata = resolve; });
+  activateVideoArea();
   video.play();
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
@@ -691,17 +1002,20 @@ async function loopBody() {
     replayFrames.push({
       vt: video.currentTime,
       draw: lastDrawState,
-      rep: repCountEl.textContent,
-      cls: clsTextEl.textContent,
-      clsClass: clsTextEl.className,
+      rep: hudRepHtml,
+      cls: hudClsHtml,
+      clsClass: hudClsClass,
     });
   }
 
   const nowMs = performance.now();
   const sendIntervalMs = 1000 / TRAINING_FPS;
-  if (wsReady && ws && ws.readyState === WebSocket.OPEN && frameTimes.length >= FPS_WINDOW
+  if (wsReady && ws && ws.readyState === WebSocket.OPEN && (mode === "upload" || frameTimes.length >= FPS_WINDOW)
       && (lastSendMs === null || nowMs - lastSendMs >= sendIntervalMs)) {
-    if (sessionStartMs === null) sessionStartMs = performance.now();
+    if (sessionStartMs === null) {
+      sessionStartMs = performance.now();
+      if (mode === "live") startLocalCountdown(getCountdownSec());
+    }
     lastSendMs = nowMs;
     const t = (nowMs - sessionStartMs) / 1000.0;
     ws.send(JSON.stringify({ type: "landmarks", landmarks: landmarksForBackend, t, fps: TRAINING_FPS }));
@@ -739,7 +1053,7 @@ function drawOverlay(state) {
       }
     }
   }
-  if (cropW) {
+  if (cropW && showCropBox) {
     ctx.strokeStyle = "#3c3cff";
     ctx.lineWidth = 1;
     ctx.strokeRect(cx1 * dispScale, cy1 * dispScale, cropW * dispScale, cropH * dispScale);
@@ -757,9 +1071,8 @@ function drawOverlay(state) {
 function applyReplayState(entry) {
   drawOverlay(entry ? entry.draw : null);
   if (!entry) return;
-  repCountEl.textContent = entry.rep;
-  clsTextEl.textContent = entry.cls;
-  clsTextEl.className = entry.clsClass;
+  writeRep(entry.rep);
+  writeCls(entry.cls, entry.clsClass);
 }
 
 function startReplayLoop() {
@@ -846,9 +1159,11 @@ async function processCurrentVideoFrame(mediapipeTimestampMs = null) {
           }
         }
       }
-      ctx.strokeStyle = "#3c3cff";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(cx1 * dispScale, cy1 * dispScale, cropW * dispScale, cropH * dispScale);
+      if (showCropBox) {
+        ctx.strokeStyle = "#3c3cff";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(cx1 * dispScale, cy1 * dispScale, cropW * dispScale, cropH * dispScale);
+      }
     }
     ctx.strokeStyle = "#ffff3c";
     ctx.lineWidth = 2;
