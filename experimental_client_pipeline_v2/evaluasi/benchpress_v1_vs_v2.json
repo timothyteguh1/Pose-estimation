@@ -1,0 +1,619 @@
+{
+  "exercise": "benchpress",
+  "classes": [
+    "benchpress_armsspread_concentric",
+    "benchpress_armsspread_eccentric",
+    "benchpress_correct_concentric",
+    "benchpress_correct_eccentric",
+    "benchpress_flatback_concentric",
+    "benchpress_flatback_eccentric"
+  ],
+  "split_70_30": {
+    "v1": {
+      "accuracy": 0.9159528907922913,
+      "precision_weighted": 0.922060082978766,
+      "recall_weighted": 0.9159528907922913,
+      "f1_weighted": 0.9147904223222006,
+      "classification_report": {
+        "benchpress_armsspread_concentric": {
+          "precision": 0.8469387755102041,
+          "recall": 0.991044776119403,
+          "f1-score": 0.9133425034387895,
+          "support": 335.0
+        },
+        "benchpress_armsspread_eccentric": {
+          "precision": 0.9820359281437125,
+          "recall": 0.7192982456140351,
+          "f1-score": 0.8303797468354431,
+          "support": 228.0
+        },
+        "benchpress_correct_concentric": {
+          "precision": 0.9577922077922078,
+          "recall": 0.9899328859060402,
+          "f1-score": 0.9735973597359735,
+          "support": 298.0
+        },
+        "benchpress_correct_eccentric": {
+          "precision": 0.8524590163934426,
+          "recall": 0.9420289855072463,
+          "f1-score": 0.8950086058519794,
+          "support": 276.0
+        },
+        "benchpress_flatback_concentric": {
+          "precision": 0.9890510948905109,
+          "recall": 0.9003322259136213,
+          "f1-score": 0.9426086956521739,
+          "support": 301.0
+        },
+        "benchpress_flatback_eccentric": {
+          "precision": 0.9218009478672986,
+          "recall": 0.9046511627906977,
+          "f1-score": 0.9131455399061034,
+          "support": 430.0
+        },
+        "accuracy": 0.9159528907922913,
+        "macro avg": {
+          "precision": 0.9250129950995628,
+          "recall": 0.9078813803085074,
+          "f1-score": 0.9113470752367437,
+          "support": 1868.0
+        },
+        "weighted avg": {
+          "precision": 0.922060082978766,
+          "recall": 0.9159528907922913,
+          "f1-score": 0.9147904223222006,
+          "support": 1868.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          332,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          60,
+          164,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          295,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          260,
+          0,
+          16
+        ],
+        [
+          0,
+          0,
+          13,
+          0,
+          271,
+          17
+        ],
+        [
+          0,
+          0,
+          0,
+          41,
+          0,
+          389
+        ]
+      ]
+    },
+    "v2": {
+      "accuracy": 0.9159528907922913,
+      "precision_weighted": 0.9200814081755881,
+      "recall_weighted": 0.9159528907922913,
+      "f1_weighted": 0.9152280797799418,
+      "classification_report": {
+        "benchpress_armsspread_concentric": {
+          "precision": 0.9405099150141643,
+          "recall": 0.991044776119403,
+          "f1-score": 0.9651162790697675,
+          "support": 335.0
+        },
+        "benchpress_armsspread_eccentric": {
+          "precision": 0.9825581395348837,
+          "recall": 0.7412280701754386,
+          "f1-score": 0.845,
+          "support": 228.0
+        },
+        "benchpress_correct_concentric": {
+          "precision": 0.9662162162162162,
+          "recall": 0.959731543624161,
+          "f1-score": 0.962962962962963,
+          "support": 298.0
+        },
+        "benchpress_correct_eccentric": {
+          "precision": 0.8637873754152824,
+          "recall": 0.9420289855072463,
+          "f1-score": 0.901213171577123,
+          "support": 276.0
+        },
+        "benchpress_flatback_concentric": {
+          "precision": 0.9649122807017544,
+          "recall": 0.9136212624584718,
+          "f1-score": 0.9385665529010239,
+          "support": 301.0
+        },
+        "benchpress_flatback_eccentric": {
+          "precision": 0.8438177874186551,
+          "recall": 0.9046511627906977,
+          "f1-score": 0.8731762065095399,
+          "support": 430.0
+        },
+        "accuracy": 0.9159528907922913,
+        "macro avg": {
+          "precision": 0.9269669523834927,
+          "recall": 0.9087176334459031,
+          "f1-score": 0.9143391955034029,
+          "support": 1868.0
+        },
+        "weighted avg": {
+          "precision": 0.9200814081755881,
+          "recall": 0.9159528907922913,
+          "f1-score": 0.9152280797799418,
+          "support": 1868.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          332,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          21,
+          169,
+          0,
+          0,
+          0,
+          38
+        ],
+        [
+          0,
+          0,
+          286,
+          0,
+          10,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          260,
+          0,
+          16
+        ],
+        [
+          0,
+          0,
+          10,
+          0,
+          275,
+          16
+        ],
+        [
+          0,
+          0,
+          0,
+          41,
+          0,
+          389
+        ]
+      ]
+    },
+    "perubahan_per_kelas": [
+      {
+        "kelas": "benchpress_correct_concentric",
+        "support": 298,
+        "precision_v1": 0.9578,
+        "precision_v2": 0.9662,
+        "recall_v1": 0.9899,
+        "recall_v2": 0.9597,
+        "selisih_recall": -0.0302,
+        "f1_v1": 0.9736,
+        "f1_v2": 0.963,
+        "selisih_f1": -0.0106
+      },
+      {
+        "kelas": "benchpress_armsspread_concentric",
+        "support": 335,
+        "precision_v1": 0.8469,
+        "precision_v2": 0.9405,
+        "recall_v1": 0.991,
+        "recall_v2": 0.991,
+        "selisih_recall": 0.0,
+        "f1_v1": 0.9133,
+        "f1_v2": 0.9651,
+        "selisih_f1": 0.0518
+      },
+      {
+        "kelas": "benchpress_correct_eccentric",
+        "support": 276,
+        "precision_v1": 0.8525,
+        "precision_v2": 0.8638,
+        "recall_v1": 0.942,
+        "recall_v2": 0.942,
+        "selisih_recall": 0.0,
+        "f1_v1": 0.895,
+        "f1_v2": 0.9012,
+        "selisih_f1": 0.0062
+      },
+      {
+        "kelas": "benchpress_flatback_eccentric",
+        "support": 430,
+        "precision_v1": 0.9218,
+        "precision_v2": 0.8438,
+        "recall_v1": 0.9047,
+        "recall_v2": 0.9047,
+        "selisih_recall": 0.0,
+        "f1_v1": 0.9131,
+        "f1_v2": 0.8732,
+        "selisih_f1": -0.04
+      },
+      {
+        "kelas": "benchpress_flatback_concentric",
+        "support": 301,
+        "precision_v1": 0.9891,
+        "precision_v2": 0.9649,
+        "recall_v1": 0.9003,
+        "recall_v2": 0.9136,
+        "selisih_recall": 0.0133,
+        "f1_v1": 0.9426,
+        "f1_v2": 0.9386,
+        "selisih_f1": -0.004
+      },
+      {
+        "kelas": "benchpress_armsspread_eccentric",
+        "support": 228,
+        "precision_v1": 0.982,
+        "precision_v2": 0.9826,
+        "recall_v1": 0.7193,
+        "recall_v2": 0.7412,
+        "selisih_recall": 0.0219,
+        "f1_v1": 0.8304,
+        "f1_v2": 0.845,
+        "selisih_f1": 0.0146
+      }
+    ],
+    "ringkasan": {
+      "kelas_recall_turun": 1,
+      "kelas_recall_naik": 2,
+      "jumlah_turun": -0.03,
+      "jumlah_naik": 0.035
+    }
+  },
+  "lopo": {
+    "v1": {
+      "f1_weighted_rata_rata": 0.4096,
+      "sd_antar_seed": 0.0129,
+      "f1_weighted_per_partisipan": {
+        "P1": 0.3305,
+        "P2": 0.4876,
+        "P3": 0.4108
+      },
+      "catatan": "classification_report dan confusion_matrix = gabungan semua partisipan yang ditahan, seed 42",
+      "accuracy": 0.44105351170568563,
+      "precision_weighted": 0.45515054643946934,
+      "recall_weighted": 0.44105351170568563,
+      "f1_weighted": 0.43032624525581703,
+      "classification_report": {
+        "benchpress_armsspread_concentric": {
+          "precision": 0.5653245686113394,
+          "recall": 0.54733492442323,
+          "f1-score": 0.5561843168957155,
+          "support": 1257.0
+        },
+        "benchpress_armsspread_eccentric": {
+          "precision": 0.4138232720909886,
+          "recall": 0.5,
+          "f1-score": 0.4528482527525131,
+          "support": 946.0
+        },
+        "benchpress_correct_concentric": {
+          "precision": 0.6327586206896552,
+          "recall": 0.2799389778794813,
+          "f1-score": 0.3881544156530936,
+          "support": 1311.0
+        },
+        "benchpress_correct_eccentric": {
+          "precision": 0.2205056179775281,
+          "recall": 0.15213178294573643,
+          "f1-score": 0.18004587155963303,
+          "support": 1032.0
+        },
+        "benchpress_flatback_concentric": {
+          "precision": 0.4416277518345564,
+          "recall": 0.5595942519019442,
+          "f1-score": 0.49366144668158085,
+          "support": 1183.0
+        },
+        "benchpress_flatback_eccentric": {
+          "precision": 0.4039506172839506,
+          "recall": 0.5653075328265377,
+          "f1-score": 0.47119815668202764,
+          "support": 1447.0
+        },
+        "accuracy": 0.44105351170568563,
+        "macro avg": {
+          "precision": 0.4463317414146697,
+          "recall": 0.43405124499615494,
+          "f1-score": 0.4236820767040939,
+          "support": 7176.0
+        },
+        "weighted avg": {
+          "precision": 0.45515054643946934,
+          "recall": 0.44105351170568563,
+          "f1-score": 0.43032624525581703,
+          "support": 7176.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          688,
+          370,
+          0,
+          0,
+          199,
+          0
+        ],
+        [
+          256,
+          473,
+          0,
+          18,
+          0,
+          199
+        ],
+        [
+          112,
+          106,
+          367,
+          13,
+          624,
+          89
+        ],
+        [
+          0,
+          29,
+          0,
+          157,
+          3,
+          843
+        ],
+        [
+          154,
+          72,
+          192,
+          27,
+          662,
+          76
+        ],
+        [
+          7,
+          93,
+          21,
+          497,
+          11,
+          818
+        ]
+      ]
+    },
+    "v2": {
+      "f1_weighted_rata_rata": 0.5087,
+      "sd_antar_seed": 0.01,
+      "f1_weighted_per_partisipan": {
+        "P1": 0.3973,
+        "P2": 0.5491,
+        "P3": 0.5798
+      },
+      "catatan": "classification_report dan confusion_matrix = gabungan semua partisipan yang ditahan, seed 42",
+      "accuracy": 0.5582497212931996,
+      "precision_weighted": 0.5782453327625998,
+      "recall_weighted": 0.5582497212931996,
+      "f1_weighted": 0.5412142023625777,
+      "classification_report": {
+        "benchpress_armsspread_concentric": {
+          "precision": 0.6518456375838926,
+          "recall": 0.6181384248210023,
+          "f1-score": 0.6345447121273988,
+          "support": 1257.0
+        },
+        "benchpress_armsspread_eccentric": {
+          "precision": 0.47309236947791167,
+          "recall": 0.6226215644820295,
+          "f1-score": 0.5376540392514833,
+          "support": 946.0
+        },
+        "benchpress_correct_concentric": {
+          "precision": 0.7650375939849624,
+          "recall": 0.3104500381388253,
+          "f1-score": 0.44167118827997826,
+          "support": 1311.0
+        },
+        "benchpress_correct_eccentric": {
+          "precision": 0.4158878504672897,
+          "recall": 0.25872093023255816,
+          "f1-score": 0.31899641577060933,
+          "support": 1032.0
+        },
+        "benchpress_flatback_concentric": {
+          "precision": 0.5494437577255872,
+          "recall": 0.7514792899408284,
+          "f1-score": 0.6347732952516958,
+          "support": 1183.0
+        },
+        "benchpress_flatback_eccentric": {
+          "precision": 0.5531587057010786,
+          "recall": 0.7442985487214927,
+          "f1-score": 0.6346493812610489,
+          "support": 1447.0
+        },
+        "accuracy": 0.5582497212931996,
+        "macro avg": {
+          "precision": 0.5680776524901204,
+          "recall": 0.5509514660561228,
+          "f1-score": 0.5337148386570357,
+          "support": 7176.0
+        },
+        "weighted avg": {
+          "precision": 0.5782453327625998,
+          "recall": 0.5582497212931996,
+          "f1-score": 0.5412142023625777,
+          "support": 7176.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          777,
+          426,
+          35,
+          0,
+          18,
+          1
+        ],
+        [
+          218,
+          589,
+          0,
+          49,
+          1,
+          89
+        ],
+        [
+          141,
+          98,
+          407,
+          42,
+          558,
+          65
+        ],
+        [
+          0,
+          0,
+          0,
+          267,
+          109,
+          656
+        ],
+        [
+          55,
+          78,
+          82,
+          20,
+          889,
+          59
+        ],
+        [
+          1,
+          54,
+          8,
+          264,
+          43,
+          1077
+        ]
+      ]
+    },
+    "perubahan_per_kelas": [
+      {
+        "kelas": "benchpress_correct_concentric",
+        "support": 1311,
+        "precision_v1": 0.6328,
+        "precision_v2": 0.765,
+        "recall_v1": 0.2799,
+        "recall_v2": 0.3105,
+        "selisih_recall": 0.0305,
+        "f1_v1": 0.3882,
+        "f1_v2": 0.4417,
+        "selisih_f1": 0.0535
+      },
+      {
+        "kelas": "benchpress_armsspread_concentric",
+        "support": 1257,
+        "precision_v1": 0.5653,
+        "precision_v2": 0.6518,
+        "recall_v1": 0.5473,
+        "recall_v2": 0.6181,
+        "selisih_recall": 0.0708,
+        "f1_v1": 0.5562,
+        "f1_v2": 0.6345,
+        "selisih_f1": 0.0784
+      },
+      {
+        "kelas": "benchpress_correct_eccentric",
+        "support": 1032,
+        "precision_v1": 0.2205,
+        "precision_v2": 0.4159,
+        "recall_v1": 0.1521,
+        "recall_v2": 0.2587,
+        "selisih_recall": 0.1066,
+        "f1_v1": 0.18,
+        "f1_v2": 0.319,
+        "selisih_f1": 0.139
+      },
+      {
+        "kelas": "benchpress_armsspread_eccentric",
+        "support": 946,
+        "precision_v1": 0.4138,
+        "precision_v2": 0.4731,
+        "recall_v1": 0.5,
+        "recall_v2": 0.6226,
+        "selisih_recall": 0.1226,
+        "f1_v1": 0.4528,
+        "f1_v2": 0.5377,
+        "selisih_f1": 0.0848
+      },
+      {
+        "kelas": "benchpress_flatback_eccentric",
+        "support": 1447,
+        "precision_v1": 0.404,
+        "precision_v2": 0.5532,
+        "recall_v1": 0.5653,
+        "recall_v2": 0.7443,
+        "selisih_recall": 0.179,
+        "f1_v1": 0.4712,
+        "f1_v2": 0.6346,
+        "selisih_f1": 0.1635
+      },
+      {
+        "kelas": "benchpress_flatback_concentric",
+        "support": 1183,
+        "precision_v1": 0.4416,
+        "precision_v2": 0.5494,
+        "recall_v1": 0.5596,
+        "recall_v2": 0.7515,
+        "selisih_recall": 0.1919,
+        "f1_v1": 0.4937,
+        "f1_v2": 0.6348,
+        "selisih_f1": 0.1411
+      }
+    ],
+    "ringkasan": {
+      "kelas_recall_turun": 0,
+      "kelas_recall_naik": 6,
+      "jumlah_turun": 0,
+      "jumlah_naik": 0.701
+    }
+  }
+}

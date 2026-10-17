@@ -418,6 +418,8 @@ let running = false;
 
 const sessionLog = [];
 let lastRepCount = 0;
+let sentCount = 0;
+let recvCount = 0;
 
 const THUMB_W = 480;
 const THUMB_MIN_GAP_MS = 250;
@@ -650,6 +652,7 @@ function stopLocalCountdown() {
 }
 
 function handleResultMessage(msg) {
+  recvCount++;
   // Pesan asli dari backend sdh datang -- timer lokal (perkiraan) gak dipakai lagi,
   // countdown_remaining dari backend yg jadi acuan (lebih akurat, dari waktu video
   // sebenarnya bukan wall-clock browser).
@@ -719,6 +722,8 @@ async function startFreshSession(exercise, countdownSec) {
         sessionLog.length = 0;
         resetCycleEvidence();
         lastRepCount = 0;
+        sentCount = 0;
+        recvCount = 0;
         renderSummary();
         finalSummaryEl.style.display = "none";
         finalMetricsEl.innerHTML = "";
@@ -942,10 +947,26 @@ function findNearestReplayIdx(vt) {
   return lo;
 }
 
+// Balasan server bisa tertinggal dari video; ringkasan menunggu supaya repetisi/siklus terakhir tidak terpotong.
+async function waitForReplies(maxMs = 60000, stallMs = 10000) {
+  const start = performance.now();
+  let lastRecv = recvCount;
+  let lastProgress = start;
+  while (recvCount < sentCount) {
+    const now = performance.now();
+    if (recvCount !== lastRecv) { lastRecv = recvCount; lastProgress = now; }
+    if (now - lastProgress > stallMs || now - start > maxMs || !ws || ws.readyState !== WebSocket.OPEN) break;
+    progressWrapEl.innerHTML = `<div>Menunggu hasil terakhir dari server... (${sentCount - recvCount} pesan)</div>`;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+}
+
 async function finishUpload() {
   running = false;
   video.ontimeupdate = null;
   video.onended = null;
+  setNotice("Menunggu hasil terakhir dari server...");
+  await waitForReplies();
   progressWrapEl.innerHTML = "";
   statusEl.textContent = "Analisis video selesai.";
   setNotice("Analisis selesai. Lihat ringkasan sesi.");
@@ -1019,6 +1040,7 @@ async function loopBody() {
     lastSendMs = nowMs;
     const t = (nowMs - sessionStartMs) / 1000.0;
     ws.send(JSON.stringify({ type: "landmarks", landmarks: landmarksForBackend, t, fps: TRAINING_FPS }));
+    sentCount++;
   }
 }
 
