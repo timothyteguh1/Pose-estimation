@@ -273,8 +273,8 @@ const MISTAKE_NAMES = {
   squat_kneeinward: "Lutut masuk ke dalam",
   deadlift_backround: "Punggung membulat",
   deadlift_armsspread: "Tangan terlalu lebar",
-  benchpress_flatback: "Punggung terlalu rata",
-  benchpress_armsspread: "Siku terlalu melebar",
+  benchpress_headbacklift: "Kepala dan punggung terangkat",
+  benchpress_armsspread: "Tangan terlalu lebar",
 };
 let showCropBox = false;
 let appReady = false;
@@ -503,7 +503,7 @@ function renderFinalSummary() {
     <div><div class="num">${lastRepCount}</div>Repetisi</div>
     <div><div class="num">${sessionLog.length}</div>Siklus dinilai</div>
   `;
-  finalNoteEl.textContent = "Satu repetisi biasanya terdiri dari dua siklus: satu gerakan turun dan satu naik.";
+  finalNoteEl.textContent = "Repetisi dan siklus dihitung oleh dua modul terpisah, sehingga jumlahnya bisa berbeda.";
 
   const confirmed = sessionLog.filter((e) => e.class);
   const nUnconfirmed = sessionLog.length - confirmed.length;

@@ -89,11 +89,12 @@ dalam 1 take). Karena itu `posture_class` sekarang JADI BAGIAN nama file:
 `posture_class` pakai slug singkat, satu-satunya nilai valid per exercise:
 - squat: `correct`, `kneeinward`, `backbend`
 - deadlift: `correct`, `backround`, `armsspread`
-- benchpress: `correct`, `flatback`, `armsspread`
-  (kelas ke-2 diganti dari "back arch"/excessive arch ke "flat back" --
-  berdasarkan konsultasi PT di Derich Fitness Gym, bab 8.2: excessive arch
-  jarang terjadi di lapangan, flat back lebih representatif sebagai
-  kesalahan postur yang sering ditemui)
+- benchpress: `correct`, `headbacklift`, `armsspread`
+  (kelas ke-2 semula "back arch"/excessive arch (Ko et al.), lalu diganti ke "flat back"
+  berdasarkan konsultasi PT di Derich Fitness Gym (bab 8.2 proposal): excessive arch jarang
+  terjadi di lapangan. Pada bimbingan 16 Okt 2026, setelah video PT ditinjau, kelas dinamai
+  ulang "head and back lift" (kepala dan punggung atas terangkat dari bench); slug `headbacklift`.
+  Proposal PDF yang mengikat tetap menulis "flat back".)
 
 Contoh: `squat_correct_p1_left45_take01.mp4`,
 `squat_kneeinward_p1_left45_take02.mp4`.
@@ -141,7 +142,7 @@ exercise. WAJIB dipakai persis seperti ini saat labeling (bukan diganti istilah 
 |---|---|---|---|
 | Squat | correct posture | knee inward | back bend |
 | Deadlift | correct posture | back round | arms spread |
-| Bench press | correct posture | flat back | arms spread |
+| Bench press | correct posture | head and back lift | arms spread |
 
 Masing-masing dari 9 kombinasi (3 exercise x 3 postur) dipecah lagi ke fase
 Konsentrik (gerakan naik) dan Eksentrik (gerakan turun) -> 18 kelas total.

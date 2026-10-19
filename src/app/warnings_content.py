@@ -15,8 +15,8 @@ WARNING_MESSAGES = {
     "squat_backbend": "Jaga punggung tetap tegak, jangan membungkuk ke depan",
     "deadlift_backround": "Pertahankan punggung lurus/netral, jangan membulat",
     "deadlift_armsspread": "Posisikan tangan selebar bahu, jangan terlalu lebar",
-    "benchpress_flatback": "Pertahankan sedikit lengkungan alami di punggung bawah, jangan menempel rata ke bench",
-    "benchpress_armsspread": "Jaga siku tidak terlalu melebar ke samping saat menurunkan beban",
+    "benchpress_headbacklift": "Jaga kepala dan punggung tetap menempel di bench, jangan terangkat",
+    "benchpress_armsspread": "Jaga pegangan tangan tidak terlalu lebar",
 }
 
 

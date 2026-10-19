@@ -33,11 +33,13 @@ Beda: `feat_cols` di `*_feature_config.json` (132 kolom `coord_mean_*` dibuang).
 ## Berkas model (sha256, 16 karakter awal)
 
     squat_rf.pkl                    927baf3a640fa9f4
-    benchpress_rf.pkl               b5226fbd664c7726
+    benchpress_rf.pkl               6edb17a3401376aa
     deadlift_rf.pkl                 fe22f16c05dcc31c
     squat_feature_config.json       d0ac95110426b942
     benchpress_feature_config.json  79bdd1ceb9996247
     deadlift_feature_config.json    9330670ead6ba82c
+
+Catatan 17 Okt 2026: `benchpress_rf.pkl` dilatih ulang setelah kelas bench flat back dinamai ulang `headbacklift`. Hanya nama kelas yang berubah: struktur pohon, scaler, hiperparameter, probabilitas, dan prediksi identik dengan berkas sebelumnya (hash lama `b5226fbd664c7726`). Berkas model dan konfigurasi lain tidak berubah.
 
 ## Hasil offline (dasar pengujian E2 v2)
 

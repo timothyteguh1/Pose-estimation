@@ -5,8 +5,8 @@
     "benchpress_armsspread_eccentric",
     "benchpress_correct_concentric",
     "benchpress_correct_eccentric",
-    "benchpress_flatback_concentric",
-    "benchpress_flatback_eccentric"
+    "benchpress_headbacklift_concentric",
+    "benchpress_headbacklift_eccentric"
   ],
   "split_70_30": {
     "v1": {
@@ -39,13 +39,13 @@
           "f1-score": 0.8950086058519794,
           "support": 276.0
         },
-        "benchpress_flatback_concentric": {
+        "benchpress_headbacklift_concentric": {
           "precision": 0.9890510948905109,
           "recall": 0.9003322259136213,
           "f1-score": 0.9426086956521739,
           "support": 301.0
         },
-        "benchpress_flatback_eccentric": {
+        "benchpress_headbacklift_eccentric": {
           "precision": 0.9218009478672986,
           "recall": 0.9046511627906977,
           "f1-score": 0.9131455399061034,
@@ -146,13 +146,13 @@
           "f1-score": 0.901213171577123,
           "support": 276.0
         },
-        "benchpress_flatback_concentric": {
+        "benchpress_headbacklift_concentric": {
           "precision": 0.9649122807017544,
           "recall": 0.9136212624584718,
           "f1-score": 0.9385665529010239,
           "support": 301.0
         },
-        "benchpress_flatback_eccentric": {
+        "benchpress_headbacklift_eccentric": {
           "precision": 0.8438177874186551,
           "recall": 0.9046511627906977,
           "f1-score": 0.8731762065095399,
@@ -261,7 +261,7 @@
         "selisih_f1": 0.0062
       },
       {
-        "kelas": "benchpress_flatback_eccentric",
+        "kelas": "benchpress_headbacklift_eccentric",
         "support": 430,
         "precision_v1": 0.9218,
         "precision_v2": 0.8438,
@@ -273,7 +273,7 @@
         "selisih_f1": -0.04
       },
       {
-        "kelas": "benchpress_flatback_concentric",
+        "kelas": "benchpress_headbacklift_concentric",
         "support": 301,
         "precision_v1": 0.9891,
         "precision_v2": 0.9649,
@@ -343,13 +343,13 @@
           "f1-score": 0.18004587155963303,
           "support": 1032.0
         },
-        "benchpress_flatback_concentric": {
+        "benchpress_headbacklift_concentric": {
           "precision": 0.4416277518345564,
           "recall": 0.5595942519019442,
           "f1-score": 0.49366144668158085,
           "support": 1183.0
         },
-        "benchpress_flatback_eccentric": {
+        "benchpress_headbacklift_eccentric": {
           "precision": 0.4039506172839506,
           "recall": 0.5653075328265377,
           "f1-score": 0.47119815668202764,
@@ -458,13 +458,13 @@
           "f1-score": 0.31899641577060933,
           "support": 1032.0
         },
-        "benchpress_flatback_concentric": {
+        "benchpress_headbacklift_concentric": {
           "precision": 0.5494437577255872,
           "recall": 0.7514792899408284,
           "f1-score": 0.6347732952516958,
           "support": 1183.0
         },
-        "benchpress_flatback_eccentric": {
+        "benchpress_headbacklift_eccentric": {
           "precision": 0.5531587057010786,
           "recall": 0.7442985487214927,
           "f1-score": 0.6346493812610489,
@@ -585,7 +585,7 @@
         "selisih_f1": 0.0848
       },
       {
-        "kelas": "benchpress_flatback_eccentric",
+        "kelas": "benchpress_headbacklift_eccentric",
         "support": 1447,
         "precision_v1": 0.404,
         "precision_v2": 0.5532,
@@ -597,7 +597,7 @@
         "selisih_f1": 0.1635
       },
       {
-        "kelas": "benchpress_flatback_concentric",
+        "kelas": "benchpress_headbacklift_concentric",
         "support": 1183,
         "precision_v1": 0.4416,
         "precision_v2": 0.5494,

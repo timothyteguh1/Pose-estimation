@@ -38,8 +38,8 @@ Hanya Unggah Video, karena videonya bisa dipilih (benar, salah, tiga latihan) da
 | squat_backbend | Punggung membungkuk | Jaga punggung tetap tegak, jangan membungkuk ke depan |
 | deadlift_backround | Punggung membulat | Pertahankan punggung lurus/netral, jangan membulat |
 | deadlift_armsspread | Tangan terlalu lebar | Posisikan tangan selebar bahu, jangan terlalu lebar |
-| benchpress_flatback | Punggung terlalu rata | Pertahankan sedikit lengkungan alami di punggung bawah, jangan menempel rata ke bench |
-| benchpress_armsspread | Siku terlalu melebar | Jaga siku tidak terlalu melebar ke samping saat menurunkan beban |
+| benchpress_headbacklift | Kepala dan punggung terangkat | Jaga kepala dan punggung tetap menempel di bench, jangan terangkat |
+| benchpress_armsspread | Tangan terlalu lebar | Jaga pegangan tangan tidak terlalu lebar |
 
 ## Catatan perangkat (isi saat tes)
 

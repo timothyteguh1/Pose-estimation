@@ -18,10 +18,10 @@ Tabel: `E2_tabel.csv` (pemisah `;`, buka lewat Import di Sheets). Satu baris = s
 
 ## Cara menulis urutan
 
-- `B` berarti benar. Kesalahan ditulis dengan nama kelas tanpa awalan latihan: `kneeinward`, `backbend`, `backround`, `armsspread`, `flatback`.
+- `B` berarti benar. Kesalahan ditulis dengan nama kelas tanpa awalan latihan: `kneeinward`, `backbend`, `backround`, `armsspread`, `headbacklift`.
 - Contoh 5 repetisi: `B B B kneeinward backbend`.
 - Satu repetisi satu kata. Jika dua siklusnya berbeda, tulis `a/b`.
-- Jika jumlah repetisi sistem dan GT berbeda, tandai agar urutannya tetap sejajar: `–` untuk repetisi yang terlewat sistem, `+` di depan kata untuk repetisi yang berlebih (contoh `B B B +B flatback B`).
+- Jika jumlah repetisi sistem dan GT berbeda, tandai agar urutannya tetap sejajar: `–` untuk repetisi yang terlewat sistem, `+` di depan kata untuk repetisi yang berlebih (contoh `B B B +B headbacklift B`).
 
 ## Cara menjalankan
 

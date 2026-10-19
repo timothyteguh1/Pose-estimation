@@ -36,3 +36,7 @@ Hanya model yang berbeda. Sama untuk keduanya: frame yang persis sama (dipakai b
 - YOLOv5nu adalah varian Ultralytics dari YOLOv5 (tanpa anchor), bukan repositori YOLOv5 asli yang dipakai Ko et al.
 - Waktu adalah waktu browser di PC ini (lihat baris "Lingkungan uji" di terminal), bukan di HP, dan bergantung pada PC serta beban saat run.
 - Ini perbandingan dua detektor. Bukan uji "dengan YOLO atau tanpa YOLO" dan bukan uji akurasi klasifikasi.
+
+## Catatan penamaan ulang (17 Okt 2026)
+
+Nama video dataset memuat nama kelas. Kelas bench flat back dinamai ulang `headbacklift`, sehingga nama video di `C1_detail.json`, `C1_tabel.csv`, dan `C1_terminal.log` ikut diganti. Angka tidak berubah dan C1 tidak dijalankan ulang.

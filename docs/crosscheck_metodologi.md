@@ -82,7 +82,7 @@
 | 18 kelas granular sejak awal labeling (bukan digabung belakangan) | ✅ | `src/extraction/filename_parser.py` (posture_class), `label_phase.py` (phase) |
 | Auto-detect titik balik (draft) + review manual | ✅ bab 8.3.1 (manual review) | `src/extraction/label_phase.py` (`find_turning_points`, `run_interactive_review`) |
 | `camera_angle` metadata wajib per sample | ✅ ruang lingkup #4 (kebutuhan split Model A/B) | `filename_parser.py`, kolom `camera_angle` di semua CSV |
-| Kelas benchpress: "flat back" (bukan "back arch") | 🔧 revisi PT-consultation, DIDOKUMENTASIKAN bab 8.2 (excessive arch jarang ditemui di lapangan) | `docs/project_context.md:89-96` |
+| Kelas benchpress ke-2: "head and back lift" (semula "flat back", awalnya "back arch") | 🔧 revisi PT-consultation (bab 8.2), dinamai ulang setelah video PT ditinjau pada bimbingan 16 Okt 2026 | `docs/project_context.md:89-100` |
 
 ---
 

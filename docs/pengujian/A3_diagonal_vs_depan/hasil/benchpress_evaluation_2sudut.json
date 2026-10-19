@@ -11,8 +11,8 @@
     "benchpress_armsspread_eccentric",
     "benchpress_correct_concentric",
     "benchpress_correct_eccentric",
-    "benchpress_flatback_concentric",
-    "benchpress_flatback_eccentric"
+    "benchpress_headbacklift_concentric",
+    "benchpress_headbacklift_eccentric"
   ],
   "hyperparameters": {
     "n_estimators": 100,
@@ -56,13 +56,13 @@
         "f1-score": 0.9385964912280702,
         "support": 230.0
       },
-      "benchpress_flatback_concentric": {
+      "benchpress_headbacklift_concentric": {
         "precision": 0.9939759036144579,
         "recall": 0.8638743455497382,
         "f1-score": 0.9243697478991597,
         "support": 191.0
       },
-      "benchpress_flatback_eccentric": {
+      "benchpress_headbacklift_eccentric": {
         "precision": 0.8682170542635659,
         "recall": 0.9491525423728814,
         "f1-score": 0.9068825910931175,
@@ -169,13 +169,13 @@
         "f1-score": 0.852589641434263,
         "support": 276.0
       },
-      "benchpress_flatback_concentric": {
+      "benchpress_headbacklift_concentric": {
         "precision": 0.7215189873417721,
         "recall": 0.7574750830564784,
         "f1-score": 0.7390599675850891,
         "support": 301.0
       },
-      "benchpress_flatback_eccentric": {
+      "benchpress_headbacklift_eccentric": {
         "precision": 0.6490683229813664,
         "recall": 0.9720930232558139,
         "f1-score": 0.7783985102420855,

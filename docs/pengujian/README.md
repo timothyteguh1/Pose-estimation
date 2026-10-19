@@ -32,3 +32,7 @@ Skrip hanya membaca model dan data proyek; model dan data tidak berubah.
 - Rumus sama dengan buku: F1 Pers. 11 (weighted dan macro), MAE Pers. 12.
 - Satu angka resmi per hasil; angka pembanding diberi label jelas.
 - Catat sumber tiap angka (file dan tanggal) di tab Log pada Sheets.
+
+## Catatan penamaan ulang (17 Okt 2026)
+
+Kelas bench flat back dinamai ulang `headbacklift` (Head and Back Lift). Yang berubah hanya nama. Model dilatih ulang dengan data, parameter, dan seed yang sama, dan prediksinya terbukti identik dengan model lama. A1-A4 dan B1 dijalankan ulang dan angkanya sama. C1 tidak dijalankan ulang (waktu inferensi di browser berubah tiap jalan); hanya nama video di berkas hasilnya yang diganti.

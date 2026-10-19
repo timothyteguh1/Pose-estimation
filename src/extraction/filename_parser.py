@@ -13,7 +13,7 @@ CAMERA_ANGLES = {"left45", "right45", "front"}
 POSTURE_CLASSES_BY_EXERCISE = {
     "squat": {"correct", "kneeinward", "backbend"},
     "deadlift": {"correct", "backround", "armsspread"},
-    "benchpress": {"correct", "flatback", "armsspread"},
+    "benchpress": {"correct", "headbacklift", "armsspread"},
 }
 
 _FILENAME_RE = re.compile(
