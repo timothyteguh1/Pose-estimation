@@ -55,7 +55,7 @@ def find_videos(inputs):
 
 
 TASKS_API_MODEL_PATH = (
-    REPO_ROOT / "experimental_client_pipeline" / "models" / "pose_landmarker_full.task"
+    REPO_ROOT / "client_pipeline" / "models" / "pose_landmarker_full.task"
 )
 
 
@@ -80,7 +80,7 @@ def extract_one_video(video_path, min_detection_confidence, min_tracking_confide
       sama persis dgn Ko et al. dan src/app/live_pipeline.py.
     - "tasks": mediapipe.tasks.python.vision.PoseLandmarker (model
       pose_landmarker_full.task), sama dgn yg dipakai browser/JS di
-      experimental_client_pipeline (Tasks API tidak punya versi Legacy utk
+      client_pipeline (Tasks API tidak punya versi Legacy utk
       browser) -- dipakai utk bangun dataset training KHUSUS arsitektur
       client-side itu, supaya train/inference konsisten satu varian
       MediaPipe (bukan dilatih dari Legacy tapi di-infer pakai Tasks API)."""

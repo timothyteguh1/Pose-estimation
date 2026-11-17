@@ -1,4 +1,4 @@
-"""Menjalankan aplikasi arsitektur baru (experimental_client_pipeline) dengan model v2.
+"""Menjalankan aplikasi arsitektur baru (client_pipeline) dengan model v2.
 
 Kode aplikasi tidak disalin dan tidak diubah: app.py dan landmark_pipeline.py dipakai
 dari folder utama, hanya folder model dan port yang diganti.
@@ -14,7 +14,7 @@ from pathlib import Path
 sys.dont_write_bytecode = True
 
 HERE = Path(__file__).resolve().parent
-MAIN = HERE.parent / "experimental_client_pipeline"
+MAIN = HERE.parent / "client_pipeline"
 MODELS_V2 = HERE / "models"
 N_FITUR_V2 = 231  # 165 sudut + 66 koordinat relatif
 PORT_V2 = int(sys.argv[1]) if len(sys.argv) > 1 else 8601

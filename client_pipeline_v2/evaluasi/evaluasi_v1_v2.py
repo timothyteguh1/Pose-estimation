@@ -26,7 +26,7 @@ from src.features.augmentation import flip_horizontal  # noqa: E402
 from src.features.build_dataset import META_COLUMNS  # noqa: E402
 from src.training.train_model import plot_confusion_matrix  # noqa: E402
 
-UTAMA = REPO / "experimental_client_pipeline"
+UTAMA = REPO / "client_pipeline"
 MODELS_V2 = HERE.parent / "models"
 SPLIT = UTAMA / "data" / "windowed_features" / "splits"
 EXERCISES = ("squat", "benchpress", "deadlift")

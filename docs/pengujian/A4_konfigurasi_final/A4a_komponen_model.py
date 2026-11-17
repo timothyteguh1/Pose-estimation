@@ -9,7 +9,7 @@ Dua kolom hasil, F1 weighted pada 6 kelas per latihan:
   70:30  test split 70:30 per run (test yang sama dengan A1)
   LOPO   rata-rata tiga lipatan: satu partisipan ditahan sebagai uji, dua lainnya untuk melatih
 
-Hanya membaca data dan model di experimental_client_pipeline; tidak ada berkas proyek yang diubah.
+Hanya membaca data dan model di client_pipeline; tidak ada berkas proyek yang diubah.
 Normalisasi Min-Max sudut berasal dari split 70:30 dan tidak dihitung ulang per lipatan LOPO (berlaku sama untuk keempat varian).
 Jalankan dari akar proyek:  venv\\Scripts\\python docs\\pengujian\\A4_konfigurasi_final\\A4a_komponen_model.py
 """
@@ -31,7 +31,7 @@ sys.path.insert(0, str(REPO))
 from src.features.augmentation import flip_horizontal
 from src.features.build_dataset import META_COLUMNS
 
-EXP = REPO / "experimental_client_pipeline"
+EXP = REPO / "client_pipeline"
 SPLIT = EXP / "data" / "windowed_features" / "splits"
 LATIHAN = {"squat": "Squat", "benchpress": "Bench press", "deadlift": "Deadlift"}
 # nama varian, koordinat relatif, flip data latih, min_samples_leaf

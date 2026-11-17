@@ -15,7 +15,7 @@ membaca model dan data proyek; model proyek tidak berubah.
 
 - **Model 2 sudut**: RF yang sama dengan produksi (100 pohon, `min_samples_leaf` 4, balanced, seed 42), dilatih hanya dari
   window left45 dan right45 (window latih asli squat 4.422, bench press 3.921, deadlift 5.290).
-- **Model 3 sudut** = model final (A1), tidak diuji ulang. Pembandingnya `experimental_client_pipeline/models/*_evaluation.json`.
+- **Model 3 sudut** = model final (A1), tidak diuji ulang. Pembandingnya `client_pipeline/models/*_evaluation.json`.
 - Model 2 sudut diuji dua cara:
   - `uji_diagonal`: hanya left45 + right45. Jumlah per sudut ada di `camera_angle_uji` (front = 0).
   - `uji_data_lengkap`: seluruh test split 3 sudut (2.477 / 1.868 / 3.087), sama dengan test A1, jadi bisa dibandingkan

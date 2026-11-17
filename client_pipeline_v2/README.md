@@ -1,6 +1,6 @@
-# experimental_client_pipeline_v2
+# client_pipeline_v2
 
-Model v2 untuk arsitektur baru (`experimental_client_pipeline/`), supaya v1 dan v2 bisa dijalankan berdampingan dan dibandingkan.
+Model v2 untuk sistem utama (`client_pipeline/`), supaya v1 dan v2 bisa dijalankan berdampingan dan dibandingkan.
 
 Satu-satunya beda dari model utama: 132 fitur koordinat rata-rata landmark (absolut) tidak masuk ke Random Forest. Fitur klasifikasi menjadi 165 sudut + 66 koordinat relatif = 231 fitur.
 
@@ -12,7 +12,7 @@ Dibekukan 12 Oktober 2026 sebagai solusi tanpa data partisipan tambahan. Berkas 
 
 Dari root proyek:
 
-    venv\Scripts\python.exe experimental_client_pipeline_v2\run_v2.py
+    venv\Scripts\python.exe client_pipeline_v2\run_v2.py
 
 - v2 di http://localhost:8601. Aplikasi utama (model v1) di http://localhost:8600. Port lain: `run_v2.py 8602`.
 - Terminal harus mencetak `Model v2 aktif (231 fitur ...)`.
@@ -20,7 +20,7 @@ Dari root proyek:
 
 ## Isi run_v2.py
 
-Kode aplikasi tidak disalin dan tidak diubah: `app.py` dan `landmark_pipeline.py` dipakai langsung dari `experimental_client_pipeline/`. `run_v2.py` hanya (1) mengarahkan folder model ke `models/` di sini, (2) memeriksa tiap model benar-benar 231 fitur, (3) mengganti port. Folder utama dan aplikasi lama (`app.py` di root) tidak disentuh.
+Kode aplikasi tidak disalin dan tidak diubah: `app.py` dan `landmark_pipeline.py` dipakai langsung dari `client_pipeline/`. `run_v2.py` hanya (1) mengarahkan folder model ke `models/` di sini, (2) memeriksa tiap model benar-benar 231 fitur, (3) mengganti port. Folder utama dan aplikasi lama (`app.py` di root) tidak disentuh.
 
 ## Sama dan beda dengan model utama
 

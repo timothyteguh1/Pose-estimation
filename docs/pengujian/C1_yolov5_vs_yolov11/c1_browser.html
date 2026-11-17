@@ -77,7 +77,8 @@ async function ukur(detektor, fr) {
   const t0 = performance.now();
   const r = await detektor.detect(fr.source, fr.w, fr.h, CONF, IOU);
   const ms = performance.now() - t0;
-  return { ms, det: r !== null, conf: r ? r.score : null };
+  return { ms, det: r !== null, conf: r ? r.score : null,
+           box: r ? [r.box[0] / fr.w, r.box[1] / fr.h, r.box[2] / fr.w, r.box[3] / fr.h] : null };   // kotak, koordinat 0-1
 }
 
 async function infoGPU() {

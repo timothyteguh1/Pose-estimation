@@ -7,15 +7,19 @@ frame diperkecil ke sisi panjang 720 seperti di aplikasi, pemanasan dulu, urutan
 
 Alur: skrip ini (1) mengekspor YOLOv5nu ke ONNX dengan pengaturan yang sama dengan model aplikasi bila belum ada,
 (2) mengambil 1 frame tiap beberapa detik dari 81 video dataset (video HEVC tidak selalu bisa diputar browser, jadi frame
-diambil dengan OpenCV), (3) menyalakan server lokal dan membuka halaman uji c1_browser.html, (4) menunggu hasil dari
-browser, lalu mencetak tabel di terminal dan menyimpan CSV, JSON, dan log.
+diambil dengan OpenCV), (3) membuka jendela pelabelan kotak bila C1_kotak_sebenarnya.json belum lengkap, (4) menyalakan
+server lokal dan membuka halaman uji c1_browser.html, (5) menunggu hasil dari browser, lalu mencetak tabel di terminal dan
+menyimpan CSV, JSON, dan log.
 
 Waktu inferensi = waktu satu panggilan detect() di browser (praproses + inferensi + pascaproses), seperti "YOLO nyata" di
-aplikasi. Ketepatan deteksi = laju deteksi (persen frame yang orangnya terdeteksi pada confidence 0,7), bukan precision
-atau recall, karena kotak sebenarnya tidak ada. mAP50-95 resmi (COCO, 80 kelas) dari dokumentasi Ultralytics dicantumkan
-sebagai pembanding; angka itu bukan hasil run ini.
-Hanya membaca video dan model; keluaran: C1_tabel.csv, C1_detail.json, C1_terminal.log.
-Jalankan dari akar proyek:  venv\\Scripts\\python docs\\pengujian\\C1_yolov5_vs_yolov11\\C1_yolo.py
+aplikasi. Ketepatan deteksi = persen frame yang kotak orangnya tepat (IoU >= 0,5) terhadap kotak sebenarnya yang digambar
+peneliti pada 90 frame (10 per latihan x sudut kamera), memakai kotak confidence tertinggi seperti di aplikasi. Kotak
+digambar sebelum hasil model dilihat dan disimpan di C1_kotak_sebenarnya.json; pelabelan cukup sekali, run berikutnya
+memakai berkas itu. Logika kotak ada di C1_kotak.py.
+Opsi --ganti-tanpa-orang: frame berlabel "tidak ada orang" diganti frame acak lain dari sel yang sama (seed 43) sampai tiap sel
+punya 10 frame berorang; hanya frame baru yang dilabeli.
+Keluaran: C1_tabel.csv, C1_detail.json, C1_terminal.log (dan C1_kotak_sebenarnya.json).
+Jalankan dari akar proyek:  venv\\Scripts\\python docs\\pengujian\\C1_yolov5_vs_yolov11\\C1_yolo.py --browser chrome
 """
 import argparse
 import glob
@@ -37,10 +41,12 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+import C1_kotak as kotak
+
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 sys.path.insert(0, str(REPO))
-FRONTEND = REPO / "experimental_client_pipeline" / "webapp" / "frontend"
+FRONTEND = REPO / "client_pipeline" / "webapp" / "frontend"
 
 MODEL_A, MODEL_B = "YOLO11n (dipakai)", "YOLOv5nu (pembanding)"
 ONNX_A = FRONTEND / "models" / "yolo11n_640.onnx"
@@ -52,10 +58,7 @@ CONF, IOU, IMGSZ = 0.7, 0.45, 640
 BROWSER_EXE = {"chrome": r"C:\Program Files\Google\Chrome\Application\chrome.exe",
                "edge": r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"}
 
-# Angka resmi (bukan hasil run ini): dokumentasi Ultralytics, COCO (80 kelas), input 640.
-REFERENSI = {MODEL_A: {"mAP50_95": 39.5, "CPU_ONNX_ms": 56.1, "GFLOPs": 6.5, "parameter_juta": 2.6},
-             MODEL_B: {"mAP50_95": 34.3, "CPU_ONNX_ms": 73.6, "GFLOPs": 7.7, "parameter_juta": 2.6}}
-SUMBER_REFERENSI = "docs.ultralytics.com/models/yolo11 dan docs.ultralytics.com/models/yolov5, diakses 5 Okt 2026"
+GT_PATH = HERE / "C1_kotak_sebenarnya.json"
 
 HASIL = {"data": None, "terhubung": False}
 SELESAI = threading.Event()
@@ -239,6 +242,11 @@ def main():
                     help="auto = webgpu bila ada (seperti aplikasi); wasm = paksa CPU (opsional, run kedua)")
     ap.add_argument("--no-open", action="store_true", help="jangan buka browser otomatis (buka URL sendiri)")
     ap.add_argument("--simpan-frame", action="store_true", help="jangan hapus folder frame sementara")
+    ap.add_argument("--per-sel", type=int, default=10, help="frame berlabel per latihan x sudut kamera (default 10, total 90)")
+    ap.add_argument("--tanpa-ketepatan", action="store_true", help="hanya waktu dan laju deteksi, tanpa pelabelan kotak")
+    ap.add_argument("--gt", default=str(GT_PATH), help="berkas kotak sebenarnya (default C1_kotak_sebenarnya.json di folder ini)")
+    ap.add_argument("--ganti-tanpa-orang", action="store_true",
+                    help="frame berlabel 'tidak ada orang' diganti frame acak lain dari sel yang sama sampai tiap sel punya --per-sel frame berorang")
     args = ap.parse_args()
 
     out = Path(args.out)
@@ -278,6 +286,14 @@ def selesai_main(args, out, mulai):
     FRAMES_DIR = Path(tempfile.gettempdir()) / "C1_frames"
     frames = ekstrak(videos, args.detik, FRAMES_DIR)
     print(f"{len(frames)} frame siap ({(time.time() - mulai) / 60:.1f} menit sejak mulai)", flush=True)
+
+    gt = None
+    if not args.tanpa_ketepatan:
+        gt = kotak.siapkan_gt(frames, FRAMES_DIR, Path(args.gt), args.per_sel, ganti=args.ganti_tanpa_orang)
+        if gt is None:
+            if not args.simpan_frame:
+                shutil.rmtree(FRAMES_DIR, ignore_errors=True)
+            return
 
     server = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
     threading.Thread(target=server.serve_forever, daemon=True).start()
@@ -324,12 +340,14 @@ def selesai_main(args, out, mulai):
     gpu_teks = " ".join(str(gpu.get(k)) for k in ("vendor", "architecture", "description") if gpu.get(k)) or "tidak tersedia"
     browser = versi_browser(data.get("userAgent"))
 
-    tabel = pd.DataFrame([{
-        "Model": nama,
-        "Waktu_rata2_ms": kom(semua[nama]["waktu_rata2_ms"]),
-        "Laju_deteksi_persen": kom(semua[nama]["laju_deteksi_persen"]),
-        "mAP50_95_resmi": kom(REFERENSI[nama]["mAP50_95"]),
-    } for nama in (MODEL_A, MODEL_B)])
+    ket = kotak.hitung(catat, meta, gt, {"A": MODEL_A, "B": MODEL_B}) if gt else None
+    baris = []
+    for nama in (MODEL_A, MODEL_B):
+        b_tabel = {"Model": nama, "Waktu_rata2_ms": kom(semua[nama]["waktu_rata2_ms"])}
+        if ket:
+            b_tabel["Kotak_tepat_persen"] = kom(ket[nama]["persen"])
+        baris.append(b_tabel)
+    tabel = pd.DataFrame(baris)
     tabel.to_csv(out / "C1_tabel.csv", index=False, sep=";", encoding="utf-8-sig")
 
     print(f"\nLingkungan uji: {browser} | backend {data.get('backend')} | GPU: {gpu_teks} | ONNX Runtime Web {data.get('ortWeb')} "
@@ -340,11 +358,14 @@ def selesai_main(args, out, mulai):
           f"(input {IMGSZ}, confidence {kom(CONF)}, frame sama untuk kedua model)")
     with pd.option_context("display.width", 200):
         print(tabel.to_string(index=False))
-    print("mAP50_95_resmi = angka dokumentasi Ultralytics (COCO, 80 kelas), bukan hasil run ini.")
+    if ket:
+        kotak.cetak(ket)
 
-    print(f"\nSelisih (YOLO11n dikurangi YOLOv5nu): waktu rata-rata {kom(a['waktu_rata2_ms'] - b['waktu_rata2_ms'])} ms "
-          f"(berpasangan per frame {kom(float(selisih.mean()))} ms) | YOLO11n lebih cepat pada {kom(a_lebih_cepat)}% frame | "
-          f"laju deteksi {kom(a['laju_deteksi_persen'] - b['laju_deteksi_persen'])} poin")
+    teks_selisih = (f"\nSelisih (YOLO11n dikurangi YOLOv5nu): waktu rata-rata {kom(a['waktu_rata2_ms'] - b['waktu_rata2_ms'])} ms "
+                    f"(berpasangan per frame {kom(float(selisih.mean()))} ms) | YOLO11n lebih cepat pada {kom(a_lebih_cepat)}% frame")
+    if ket:
+        teks_selisih += f" | kotak tepat {kom(ket[MODEL_A]['persen'] - ket[MODEL_B]['persen'])} poin"
+    print(teks_selisih)
     print("\nRincian (cadangan, tidak masuk tabel)")
     for nama in (MODEL_A, MODEL_B):
         s = semua[nama]
@@ -357,24 +378,26 @@ def selesai_main(args, out, mulai):
     with open(out / "C1_detail.json", "w", encoding="utf-8") as f:
         json.dump({
             "keterangan": "Uji di browser: frame sama untuk kedua model, backend sama, kode deteksi aplikasi (yolo.js). Waktu = satu panggilan "
-                          "detect() (praproses + inferensi + pascaproses). Laju deteksi = persen frame dengan minimal satu orang terdeteksi pada "
-                          "confidence 0,7 (bukan precision atau recall). mAP resmi dari dokumentasi Ultralytics (80 kelas COCO).",
+                          "detect() (praproses + inferensi + pascaproses). Ketepatan = persen frame dengan kotak confidence tertinggi yang "
+                          "IoU >= 0,5 terhadap kotak sebenarnya (digambar peneliti pada frame berlabel). Laju deteksi (persen frame dengan "
+                          "minimal satu orang terdeteksi) hanya cadangan.",
             "pengaturan": {"video": len(videos), "detik_antar_frame": args.detik, "frame": len(catat), "confidence": CONF,
-                           "iou_nms": IOU, "input": IMGSZ, "sisi_panjang_maks_px": 720,
+                           "iou_nms": IOU, "input": IMGSZ, "sisi_panjang_maks_px": 720, "ganti_tanpa_orang": args.ganti_tanpa_orang,
                            "model": {MODEL_A: {"berkas": str(ONNX_A.relative_to(REPO)), "ukuran_byte": ONNX_A.stat().st_size},
                                      MODEL_B: {"berkas": str(ONNX_B.relative_to(REPO)), "ukuran_byte": ONNX_B.stat().st_size}}},
             "lingkungan": {"pc_cpu": cpu, "thread": os.cpu_count(), "browser": browser, "user_agent": data.get("userAgent"),
                            "backend": data.get("backend"), "catatan_backend": data.get("catatan"), "gpu": gpu,
                            "onnxruntime_web": data.get("ortWeb"), "cross_origin_isolated": data.get("crossOriginIsolated"),
                            "hardwareConcurrency_browser": data.get("hardwareConcurrency")},
-            "referensi_resmi": {**REFERENSI, "sumber": SUMBER_REFERENSI},
             "hasil": semua,
+            "ketepatan": ket,
             "berpasangan": {"selisih_rata2_ms_A_kurang_B": float(selisih.mean()), "YOLO11n_lebih_cepat_persen_frame": a_lebih_cepat},
             "gagal_muat_frame": data.get("gagal_muat_frame", 0),
             "lama_di_browser_detik": data.get("lama_detik"),
             "per_frame": [{"id": r["id"], "video": meta[r["id"]]["video"], "t": meta[r["id"]]["t"],
                            "A_ms": r["A"]["ms"], "B_ms": r["B"]["ms"], "A_terdeteksi": r["A"]["det"], "B_terdeteksi": r["B"]["det"],
-                           "A_conf": r["A"]["conf"], "B_conf": r["B"]["conf"]} for r in catat],
+                           "A_conf": r["A"]["conf"], "B_conf": r["B"]["conf"],
+                           "A_box": r["A"].get("box"), "B_box": r["B"].get("box")} for r in catat],
         }, f, ensure_ascii=False, indent=2)
     print(f"\nTersimpan: {out / 'C1_tabel.csv'}, C1_detail.json, C1_terminal.log  (run ini {(time.time() - mulai) / 60:.1f} menit)")
 

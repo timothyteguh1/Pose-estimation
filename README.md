@@ -6,14 +6,14 @@ Mitra: Derich Fitness Gym
 Aplikasi web yang menilai postur squat, bench press, dan deadlift dari video atau
 kamera, menghitung repetisi, lalu memberi peringatan teks + suara kalau postur salah.
 
-Sistem yang dipakai sekarang ada di folder `experimental_client_pipeline/` (arsitektur baru).
+Sistem utama (yang dibahas di buku) ada di folder `client_pipeline/`.
 Repo referensi Ko et al. (2024) hanya dipelajari, tidak dikopi.
 Ringkasan lengkap ada di `docs/project_context.md`.
 
 ## Peta folder
 
 - `data/raw_videos/` — video mentah (`{squat,benchpress,deadlift}/pN/{postur}/`) dan `testing/` untuk video uji
-- `experimental_client_pipeline/` — **sistem yang aktif**
+- `client_pipeline/` — **sistem utama**
   - `scripts/` — `extract_landmarks.py`, `migrate_labels.py`, `build_dataset.py`, `train_model.py`
   - `data/extracted_landmarks/` — hasil ekstraksi pose (CSV)
   - `data/labeled/` — CSV yang sudah dilabel fase (dipakai untuk bikin dataset)
@@ -73,12 +73,12 @@ venv\Scripts\python.exe -m pip install websockets
 ### 1. Ekstrak pose dari video
 
 ```powershell
-venv\Scripts\python.exe experimental_client_pipeline\scripts\extract_landmarks.py data\raw_videos\squat
-venv\Scripts\python.exe experimental_client_pipeline\scripts\extract_landmarks.py data\raw_videos\benchpress
-venv\Scripts\python.exe experimental_client_pipeline\scripts\extract_landmarks.py data\raw_videos\deadlift
+venv\Scripts\python.exe client_pipeline\scripts\extract_landmarks.py data\raw_videos\squat
+venv\Scripts\python.exe client_pipeline\scripts\extract_landmarks.py data\raw_videos\benchpress
+venv\Scripts\python.exe client_pipeline\scripts\extract_landmarks.py data\raw_videos\deadlift
 ```
 
-Hasil masuk ke `experimental_client_pipeline\data\extracted_landmarks\`. CSV yang sudah ada
+Hasil masuk ke `client_pipeline\data\extracted_landmarks\`. CSV yang sudah ada
 dilewati. Tambah `--force` kalau mau ekstrak ulang.
 Nama file video harus mengikuti pola `{latihan}_{postur}_p{N}_{sudut}_take01.mp4`.
 
@@ -87,14 +87,14 @@ Nama file video harus mengikuti pola `{latihan}_{postur}_p{N}_{sudut}_take01.mp4
 Untuk video P1-P3, label lama sudah digabung ke data baru. Tidak perlu diulang, kecuali habis ekstrak ulang:
 
 ```powershell
-venv\Scripts\python.exe experimental_client_pipeline\scripts\migrate_labels.py data\raw_videos\squat data\raw_videos\benchpress data\raw_videos\deadlift
+venv\Scripts\python.exe client_pipeline\scripts\migrate_labels.py data\raw_videos\squat data\raw_videos\benchpress data\raw_videos\deadlift
 ```
 
 Untuk video baru, label manual pakai satu CSV atau satu folder:
 
 ```powershell
-venv\Scripts\python.exe src\extraction\label_phase.py experimental_client_pipeline\data\extracted_landmarks\squat\p4\correct\squat_correct_p4_left45_take01.csv
-venv\Scripts\python.exe src\extraction\label_batch.py experimental_client_pipeline\data\extracted_landmarks\squat\p4\correct
+venv\Scripts\python.exe src\extraction\label_phase.py client_pipeline\data\extracted_landmarks\squat\p4\correct\squat_correct_p4_left45_take01.csv
+venv\Scripts\python.exe src\extraction\label_batch.py client_pipeline\data\extracted_landmarks\squat\p4\correct
 ```
 
 Kontrol saat playback: `space` play/pause (pertama kali = tandai mulai gerakan), `u`/`d` tandai
@@ -103,33 +103,33 @@ naik/turun, `e` buang, `r` ikut auto, `,` `.` mundur/maju 1 frame, `s` simpan, `
 Setelah semua CSV di folder itu selesai dilabel, salin ke folder `labeled` (struktur folder sama):
 
 ```powershell
-Copy-Item experimental_client_pipeline\data\extracted_landmarks\squat\p4 -Destination experimental_client_pipeline\data\labeled\squat\p4 -Recurse
+Copy-Item client_pipeline\data\extracted_landmarks\squat\p4 -Destination client_pipeline\data\labeled\squat\p4 -Recurse
 ```
 
 ### 3. Bikin dataset
 
 ```powershell
-venv\Scripts\python.exe experimental_client_pipeline\scripts\build_dataset.py squat --window-sec 0.5 --coord-relative --flip-augment
-venv\Scripts\python.exe experimental_client_pipeline\scripts\build_dataset.py benchpress --window-sec 0.5 --coord-relative --flip-augment
-venv\Scripts\python.exe experimental_client_pipeline\scripts\build_dataset.py deadlift --window-sec 0.5 --coord-relative --flip-augment
+venv\Scripts\python.exe client_pipeline\scripts\build_dataset.py squat --window-sec 0.5 --coord-relative --flip-augment
+venv\Scripts\python.exe client_pipeline\scripts\build_dataset.py benchpress --window-sec 0.5 --coord-relative --flip-augment
+venv\Scripts\python.exe client_pipeline\scripts\build_dataset.py deadlift --window-sec 0.5 --coord-relative --flip-augment
 ```
 
 ### 4. Latih model
 
 ```powershell
-venv\Scripts\python.exe experimental_client_pipeline\scripts\train_model.py squat --min-samples-leaf 4
-venv\Scripts\python.exe experimental_client_pipeline\scripts\train_model.py benchpress --min-samples-leaf 4
-venv\Scripts\python.exe experimental_client_pipeline\scripts\train_model.py deadlift --min-samples-leaf 4
+venv\Scripts\python.exe client_pipeline\scripts\train_model.py squat --min-samples-leaf 4
+venv\Scripts\python.exe client_pipeline\scripts\train_model.py benchpress --min-samples-leaf 4
+venv\Scripts\python.exe client_pipeline\scripts\train_model.py deadlift --min-samples-leaf 4
 ```
 
-Hasil di `experimental_client_pipeline\models\`: `*_rf.pkl`, `*_evaluation.json`, `*_confusion_matrix.png`.
+Hasil di `client_pipeline\models\`: `*_rf.pkl`, `*_evaluation.json`, `*_confusion_matrix.png`.
 Tiap kali training, jalankan `build_dataset.py` dulu. Training menghapus file scaler sementara,
 jadi kalau dijalankan dua kali berturut-turut tanpa build ulang akan error.
 
 ### 5. Jalankan aplikasi web
 
 ```powershell
-venv\Scripts\python.exe experimental_client_pipeline\webapp\app.py
+venv\Scripts\python.exe client_pipeline\webapp\app.py
 ```
 
 Lalu buka browser ke http://localhost:8600

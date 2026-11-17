@@ -13,7 +13,7 @@ from src.features.build_dataset import META_COLUMNS
 from src.features.joint_angles import JOINT_ANGLE_TRIPLES, NECK_ANGLE_TRIPLES
 
 SCR = Path(__file__).resolve().parent
-EXP = REPO / "experimental_client_pipeline"; SPLIT = EXP / "data" / "windowed_features" / "splits"
+EXP = REPO / "client_pipeline"; SPLIT = EXP / "data" / "windowed_features" / "splits"
 LATIHAN = ["squat", "benchpress", "deadlift"]
 ANGLM = set()
 for a, b, c in list(JOINT_ANGLE_TRIPLES.values()) + list(NECK_ANGLE_TRIPLES):

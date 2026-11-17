@@ -1,0 +1,61 @@
+PC: 12th Gen Intel(R) Core(TM) i5-12500H | 16 thread | Python 3.10.10
+81 video dataset; 1 frame tiap 2,0 detik; confidence 0,7, IoU NMS 0,45, input 640
+  frame diambil dari 10/81 video (96 frame)
+  frame diambil dari 20/81 video (211 frame)
+  frame diambil dari 30/81 video (322 frame)
+  frame diambil dari 40/81 video (454 frame)
+  frame diambil dari 50/81 video (548 frame)
+  frame diambil dari 60/81 video (697 frame)
+  frame diambil dari 70/81 video (850 frame)
+  frame diambil dari 80/81 video (958 frame)
+  frame diambil dari 81/81 video (968 frame)
+968 frame siap (1.2 menit sejak mulai)
+Pelabelan kotak: 6 dari 90 frame sudah berlabel.
+
+Gambar kotak BADAN orang yang berlatih saja: kepala sampai kaki dan sampai ujung lengan. Barbel, plate, rak, dan bangku TIDAK ikut, walau menonjol jauh keluar dari badan. Bila ada bagian tubuh keluar frame, kotak sampai tepi frame. Orang di latar belakang diabaikan; bila orang yang berlatih tidak terlihat sama sekali, tekan N.
+Tombol: ENTER atau A = mulai gambar (seret mouse, lalu ENTER atau SPASI; C = batal) | N = tidak ada orang | S = lewati | Q = simpan dan keluar.
+Jendela bisa muncul di belakang jendela lain; cek taskbar. Hasil tersimpan tiap satu frame, jadi boleh berhenti kapan saja.
+
+Server lokal siap: http://127.0.0.1:8701/c1_browser.html
+Membuka browser. Biarkan tab terlihat sampai selesai (jangan diminimalkan).
+  browser: 51/968 frame | rata-rata sementara YOLO11n 28,0 ms, YOLOv5nu 27,5 ms
+  browser: 101/968 frame | rata-rata sementara YOLO11n 33,2 ms, YOLOv5nu 32,8 ms
+  browser: 151/968 frame | rata-rata sementara YOLO11n 34,5 ms, YOLOv5nu 34,1 ms
+  browser: 201/968 frame | rata-rata sementara YOLO11n 35,2 ms, YOLOv5nu 34,7 ms
+  browser: 251/968 frame | rata-rata sementara YOLO11n 35,5 ms, YOLOv5nu 35,1 ms
+  browser: 301/968 frame | rata-rata sementara YOLO11n 35,7 ms, YOLOv5nu 35,3 ms
+  browser: 351/968 frame | rata-rata sementara YOLO11n 35,9 ms, YOLOv5nu 35,4 ms
+  browser: 401/968 frame | rata-rata sementara YOLO11n 35,2 ms, YOLOv5nu 34,8 ms
+  browser: 451/968 frame | rata-rata sementara YOLO11n 34,6 ms, YOLOv5nu 34,2 ms
+  browser: 501/968 frame | rata-rata sementara YOLO11n 34,1 ms, YOLOv5nu 33,7 ms
+  browser: 551/968 frame | rata-rata sementara YOLO11n 33,7 ms, YOLOv5nu 33,3 ms
+  browser: 601/968 frame | rata-rata sementara YOLO11n 33,3 ms, YOLOv5nu 32,9 ms
+  browser: 651/968 frame | rata-rata sementara YOLO11n 33,0 ms, YOLOv5nu 32,6 ms
+  browser: 701/968 frame | rata-rata sementara YOLO11n 32,8 ms, YOLOv5nu 32,3 ms
+  browser: 751/968 frame | rata-rata sementara YOLO11n 32,5 ms, YOLOv5nu 32,1 ms
+  browser: 801/968 frame | rata-rata sementara YOLO11n 32,3 ms, YOLOv5nu 31,9 ms
+  browser: 851/968 frame | rata-rata sementara YOLO11n 32,1 ms, YOLOv5nu 31,7 ms
+  browser: 901/968 frame | rata-rata sementara YOLO11n 32,0 ms, YOLOv5nu 31,6 ms
+  browser: 951/968 frame | rata-rata sementara YOLO11n 31,8 ms, YOLOv5nu 31,4 ms
+
+Lingkungan uji: Chrome 155 | backend webgpu | GPU: nvidia ampere | ONNX Runtime Web 1.30.0 | cross-origin isolated: True
+
+Deteksi orang di browser, 968 frame dari 81 video dataset (input 640, confidence 0,7, frame sama untuk kedua model)
+                Model Waktu_rata2_ms Kotak_tepat_persen
+    YOLO11n (dipakai)           31,8               97,6
+YOLOv5nu (pembanding)           31,4               96,4
+
+Ketepatan kotak orang (IoU >= 0,50, kotak confidence tertinggi, kotak sebenarnya digambar peneliti)
+  YOLO11n (dipakai)       kotak tepat 82/84 = 97,6% (95% CI 91,7-99,3) | rata-rata IoU 0,861 | tanpa deteksi 2 | kotak salah 0 | kotak pada orang lain di frame tanpa orang yang berlatih 1/6
+    per latihan: benchpress 29/29, deadlift 25/25, squat 28/30
+  YOLOv5nu (pembanding)   kotak tepat 81/84 = 96,4% (95% CI 90,0-98,8) | rata-rata IoU 0,842 | tanpa deteksi 2 | kotak salah 1 | kotak pada orang lain di frame tanpa orang yang berlatih 1/6
+    per latihan: benchpress 28/29, deadlift 25/25, squat 28/30
+  Berpasangan (frame yang sama): keduanya tepat 80 | hanya YOLO11n 2 | hanya YOLOv5nu 1 | keduanya gagal 1
+
+Selisih (YOLO11n dikurangi YOLOv5nu): waktu rata-rata 0,4 ms (berpasangan per frame 0,4 ms) | YOLO11n lebih cepat pada 50,0% frame | kotak tepat 1,2 poin
+
+Rincian (cadangan, tidak masuk tabel)
+  YOLO11n (dipakai)       waktu rata-rata 31,8 ms (median 32,9, p95 43,6, simpangan baku 6,7) | laju deteksi 92,7% (897/968) | confidence rata-rata 0,898
+  YOLOv5nu (pembanding)   waktu rata-rata 31,4 ms (median 32,6, p95 44,1, simpangan baku 6,8) | laju deteksi 90,6% (877/968) | confidence rata-rata 0,852
+
+Tersimpan: C:\Users\totit\Downloads\skripsi-postur-gym\docs\pengujian\C1_yolov5_vs_yolov11\C1_tabel.csv, C1_detail.json, C1_terminal.log  (run ini 9.5 menit)

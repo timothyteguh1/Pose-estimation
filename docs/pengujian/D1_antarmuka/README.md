@@ -2,32 +2,39 @@
 
 Tujuan: memeriksa apakah tampilan dan fitur aplikasi bekerja sesuai rancangan Subbab 3.3.3.5 (Gambar 3.6 sampai 3.8). Ini bukan uji akurasi. Akurasi model ada di A1-A4, B1, C1, dan E2.
 
-Tabel skenario: `D1_skenario.csv` (pemisah `;`, buka lewat Import di Sheets). Kolom `Hasil_pengujian`, `Status`, dan `Bukti` diisi saat tes.
+Tabel skenario: `D1_skenario.csv` (pemisah `;`, buka lewat Import di Google Sheets). Berkas ini hanya memuat skenario. Hasil, status, dan bukti diisi di dokumen terpisah (Sheets hasil impor CSV ini), bukan di berkas ini.
 
 ## Mode yang diuji
 
-Hanya Unggah Video, karena videonya bisa dipilih (benar, salah, tiga latihan) dan hasilnya bisa diulang. Unggah Video adalah salah satu sumber video yang dirancang di 3.3.3.5. Tampilan di atas video, hitungan repetisi, peringatan teks dan suara, serta ringkasan memakai kode tampilan yang sama dengan Kamera. Yang khusus Kamera (izin kamera, tombol Stop) tidak diuji di D1. Jika dosen memintanya, tambahkan satu skenario Kamera.
+Kamera langsung adalah mode utama (skenario 1 sampai 6) karena itu cara aplikasi dipakai sebenarnya. Unggah Video diuji pada satu skenario (7), karena 3.3.3.5 juga merancangnya sebagai sumber video. Kelas yang muncul bergantung pada keluaran sistem, jadi kriteria menilai tampilannya terhadap keluaran itu, bukan ketepatan klasifikasinya.
 
-7 skenario ini menutup semua keluaran sistem pada ruang lingkup poin 15: kotak dan skeleton (2, 3), klasifikasi postur (3, 6), teks dan suara peringatan (7), jumlah repetisi (4, 5), dan ringkasan dengan gambar (2).
+7 skenario ini menutup semua keluaran sistem pada ruang lingkup poin 15: kotak dan skeleton (2), klasifikasi postur (3), teks dan suara peringatan (6), jumlah repetisi (4), dan ringkasan dengan gambar (2, 6). Kolom Modul memakai nama modul di Subbab 3.3.3.
 
 ## Persiapan
 
-- Satu HP untuk semua skenario. Catat tipe HP, browser dan versinya, jaringan, alamat aplikasi, dan tanggal uji di bawah.
-- Lima video di galeri HP:
-  - video A: squat yang memuat kesalahan postur dan memicu peringatan,
-  - video B: postur benar yang hasilnya "correct",
-  - video C: orang berdiri diam sekitar 15 detik (rekam sendiri),
-  - satu video Bench Press dan satu video Deadlift (bebas).
-- Video A dan B dipilih agar tampilannya bisa diuji. Jika video tidak memicu hasil yang dimaksud, ganti videonya, bukan kriterianya.
-- Hitung mundur ada di bagian “Pengaturan” (nilai awal 5 detik). Ringkasan nilainya selalu tampil di judul bagian itu.
-- Simpan screenshot di folder `bukti/` dengan nama sesuai kolom `Bukti` (contoh `D1-02.png`).
+- Satu HP untuk semua skenario. Pasang di penyangga atau tripod dengan kamera depan. Seluruh badan terlihat dari kepala sampai kaki, sudut diagonal sekitar 45° atau dari depan, hanya satu orang di bingkai. Volume HP menyala.
+- Satu orang peraga (peneliti atau pelatih).
+- Dua video di galeri HP untuk skenario 7: satu video bench press dan satu video deadlift (bebas).
+- Hitung mundur ada di bagian “Pengaturan” (nilai awal 5 detik). Skenario 2 dan 6 memakai 3 detik.
+- Catat tipe HP, browser dan versinya, jaringan, alamat aplikasi, dan tanggal uji di bagian paling bawah.
 
-## Cara mengisi
+## Sesi
+
+Satu sesi dipakai untuk beberapa skenario supaya cepat. Skenario 1 tidak butuh sesi. Jalannya sekitar 4 kali.
+
+| Sesi | Isi | Skenario |
+|---|---|---|
+| K1 | Kamera, Squat, hitung mundur 3 detik. Setelah hitung mundur berdiri diam sekitar 10 detik, lalu 5 repetisi dengan postur benar. Stop, lihat ringkasan, muat ulang halaman. | 2, 3, 4, 5 |
+| K2 | Kamera, Squat, hitung mundur 3 detik. 5 repetisi dengan lutut sengaja masuk ke dalam. Stop. | 6 |
+| U1 | Unggah Video: satu video bench press, lalu satu video deadlift. | 7 |
+
+## Cara mengisi (di dokumen hasil)
 
 - `Hasil_pengujian`: tulis yang terlihat apa adanya.
 - `Status`: Berhasil / Sebagian / Tidak berhasil. Jika bukan Berhasil, tulis penyebab singkat di `Hasil_pengujian`.
-- Satu sesi dipakai untuk beberapa skenario: sesi video A untuk skenario 2, 3, 4, 7. Jadi jalannya sekitar 6 kali.
+- `Bukti`: screenshot dengan nama sesuai kolom `Bukti` (contoh `D1-02.png`). Simpan di luar repositori karena memuat wajah, dan jangan di-commit.
 - Aplikasi dibekukan: hasil yang tidak sesuai dicatat, tidak diperbaiki.
+- Jika gerakan tidak memicu hasil yang dimaksud (skenario 5 dan 6), ulangi gerakan. Kriterianya tidak diubah.
 - Kondisi di luar rancangan 3.3.3.5 sengaja tidak dimasukkan (izin kamera ditolak, server terputus, kamera tanpa orang). Bisa ditambah bila dosen meminta.
 
 ## Teks peringatan yang benar (`src/app/warnings_content.py`) dan nama di layar

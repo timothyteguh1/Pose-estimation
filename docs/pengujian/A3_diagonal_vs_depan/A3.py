@@ -19,7 +19,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_recall_fscore_support
 
 HERE = Path(__file__).resolve().parent
-EXP = HERE.parents[2] / "experimental_client_pipeline"
+EXP = HERE.parents[2] / "client_pipeline"
 SPLIT = EXP / "data" / "windowed_features" / "splits"
 HASIL = HERE / "hasil"
 LATIHAN = {"squat": "Squat", "benchpress": "Bench press", "deadlift": "Deadlift"}

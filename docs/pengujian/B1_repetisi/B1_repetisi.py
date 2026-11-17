@@ -1,6 +1,6 @@
 """B1: akurasi hitungan repetisi (MAE Pers. 12) untuk tiga set parameter, pada data tuning.
 
-Data: 81 video P1-P3 (27 per latihan) dari CSV berlabel di experimental_client_pipeline/data/labeled. CSV itu sudah
+Data: 81 video P1-P3 (27 per latihan) dari CSV berlabel di client_pipeline/data/labeled. CSV itu sudah
 berisi landmark tiap frame dan label fase, jadi tidak ada ekstraksi ulang. Hitungan repetisi memakai OnlineRepCounter
 produksi (smoothing 5, cosine 0,70). Jalur live di browser (YOLO ONNX) diuji pada E2, bukan di sini.
 
@@ -34,7 +34,7 @@ sys.path.insert(0, str(REPO))
 from src.app.rep_counter import OnlineRepCounter, REP_COUNTING_PARAMS
 from src.features.joint_angles import POSE_LANDMARK_NAMES, compute_frame_angles, primary_angle_for_frame
 
-LABELED = REPO / "experimental_client_pipeline" / "data" / "labeled"
+LABELED = REPO / "client_pipeline" / "data" / "labeled"
 LATIHAN = {"squat": "Squat", "benchpress": "Bench_press", "deadlift": "Deadlift"}
 VISIBILITY, COSINE = 0.6, 0.70
 KOLOM_LANDMARK = [f"{n}_{a}" for n in POSE_LANDMARK_NAMES for a in "xyzv"]

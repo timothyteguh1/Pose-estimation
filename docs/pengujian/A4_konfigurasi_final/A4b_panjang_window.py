@@ -36,7 +36,7 @@ from src.features.build_dataset import META_COLUMNS
 
 warnings.filterwarnings("ignore", category=pd.errors.PerformanceWarning)
 
-EXP = REPO / "experimental_client_pipeline"
+EXP = REPO / "client_pipeline"
 SPLIT_PROD = EXP / "data" / "windowed_features" / "splits"
 KERJA = Path(tempfile.gettempdir()) / "A4b_kerja"
 LATIHAN = {"squat": "Squat", "benchpress": "Bench press", "deadlift": "Deadlift"}

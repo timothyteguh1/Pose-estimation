@@ -53,7 +53,7 @@ def migrate_one(video_path, dry_run=False):
         return None
     if not new_path.exists():
         print(f"[skip] {video_path.name}: hasil ekstraksi Tasks belum ada ({new_path}) -- "
-              f"jalankan extract_landmarks.py (folder experimental_client_pipeline/scripts/) dulu")
+              f"jalankan extract_landmarks.py (folder client_pipeline/scripts/) dulu")
         return None
 
     old_df = pd.read_csv(old_path)

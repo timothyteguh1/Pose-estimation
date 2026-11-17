@@ -30,7 +30,7 @@ import src.features.window_scaler  # noqa: F401  (agar pickle model bisa dibuka)
 from src.features import build_dataset as bd
 from src.features.build_dataset import META_COLUMNS
 
-EXP = REPO / "experimental_client_pipeline"
+EXP = REPO / "client_pipeline"
 SPLIT_WINDOW = EXP / "data" / "windowed_features" / "splits"
 KERJA = Path(tempfile.gettempdir()) / "A2_perframe_kerja"
 LATIHAN = {"squat": "Squat", "benchpress": "Bench press", "deadlift": "Deadlift"}

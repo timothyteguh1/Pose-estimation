@@ -11,12 +11,10 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MODELS_DIR = REPO_ROOT / "models"
-DEFAULT_WEIGHTS = MODELS_DIR / "yolo11n.pt"  # varian "nano" -- paling cepat, cocok real-time
-COCO_PERSON_CLASS = 0
+DEFAULT_WEIGHTS = MODELS_DIR / "yolo11n.pt"  # varian nano
+COCO_PERSON_CLASS = 0 # maksdnya orang 
 
-# Rasio lebar:tinggi video training kita (1080x1920, portrait) -- target
-# tetap di expand_bbox(), bukan dihitung dari kamera live (bisa beda rasio
-# dari HP training).
+# Rasio lebar:tinggi video training kita (1080x1920, portrait)
 TRAINING_VIDEO_ASPECT_RATIO = 1080 / 1920
 
 

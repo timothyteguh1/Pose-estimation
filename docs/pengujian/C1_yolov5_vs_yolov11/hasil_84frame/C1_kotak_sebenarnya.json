@@ -1,0 +1,1142 @@
+{
+ "seed": 42,
+ "per_sel": 10,
+ "dipilih": [
+  {
+   "video": "benchpress_armsspread_p1_left45_take01.mp4",
+   "t": 9.0
+  },
+  {
+   "video": "squat_kneeinward_p3_right45_take01.mp4",
+   "t": 4.99
+  },
+  {
+   "video": "benchpress_armsspread_p1_front_take01.mp4",
+   "t": 28.99
+  },
+  {
+   "video": "benchpress_headbacklift_p1_left45_take01.mp4",
+   "t": 9.0
+  },
+  {
+   "video": "deadlift_correct_p1_front_take01.mp4",
+   "t": 32.99
+  },
+  {
+   "video": "deadlift_armsspread_p1_right45_take01.mp4",
+   "t": 23.0
+  },
+  {
+   "video": "squat_correct_p1_front_take01.mp4",
+   "t": 1.0
+  },
+  {
+   "video": "squat_kneeinward_p2_right45_take01.mp4",
+   "t": 19.0
+  },
+  {
+   "video": "squat_kneeinward_p1_right45_take01.mp4",
+   "t": 11.0
+  },
+  {
+   "video": "deadlift_correct_p1_left45_take01.mp4",
+   "t": 30.99
+  },
+  {
+   "video": "benchpress_correct_p3_right45_take01.mp4",
+   "t": 23.0
+  },
+  {
+   "video": "benchpress_headbacklift_p1_right45_take01.mp4",
+   "t": 32.99
+  },
+  {
+   "video": "benchpress_armsspread_p1_left45_take01.mp4",
+   "t": 22.99
+  },
+  {
+   "video": "squat_backbend_p3_right45_take01.mp4",
+   "t": 17.0
+  },
+  {
+   "video": "benchpress_armsspread_p1_front_take01.mp4",
+   "t": 7.0
+  },
+  {
+   "video": "benchpress_armsspread_p3_front_take01.mp4",
+   "t": 11.0
+  },
+  {
+   "video": "benchpress_correct_p3_left45_take01.mp4",
+   "t": 19.0
+  },
+  {
+   "video": "squat_backbend_p2_front_take01.mp4",
+   "t": 3.0
+  },
+  {
+   "video": "deadlift_backround_p1_front_take01.mp4",
+   "t": 34.99
+  },
+  {
+   "video": "deadlift_backround_p2_right45_take01.mp4",
+   "t": 12.99
+  },
+  {
+   "video": "deadlift_correct_p3_left45_take01.mp4",
+   "t": 19.0
+  },
+  {
+   "video": "deadlift_armsspread_p1_front_take01.mp4",
+   "t": 1.0
+  },
+  {
+   "video": "deadlift_correct_p2_right45_take01.mp4",
+   "t": 17.0
+  },
+  {
+   "video": "deadlift_backround_p1_front_take01.mp4",
+   "t": 28.99
+  },
+  {
+   "video": "deadlift_correct_p1_right45_take01.mp4",
+   "t": 11.0
+  },
+  {
+   "video": "squat_correct_p2_left45_take01.mp4",
+   "t": 19.0
+  },
+  {
+   "video": "deadlift_armsspread_p3_right45_take01.mp4",
+   "t": 1.0
+  },
+  {
+   "video": "squat_correct_p2_left45_take01.mp4",
+   "t": 15.0
+  },
+  {
+   "video": "benchpress_headbacklift_p1_left45_take01.mp4",
+   "t": 20.99
+  },
+  {
+   "video": "squat_kneeinward_p3_front_take01.mp4",
+   "t": 6.98
+  },
+  {
+   "video": "deadlift_armsspread_p1_left45_take01.mp4",
+   "t": 24.99
+  },
+  {
+   "video": "benchpress_armsspread_p1_right45_take01.mp4",
+   "t": 7.0
+  },
+  {
+   "video": "squat_kneeinward_p2_front_take01.mp4",
+   "t": 19.0
+  },
+  {
+   "video": "squat_backbend_p2_front_take01.mp4",
+   "t": 7.0
+  },
+  {
+   "video": "benchpress_headbacklift_p1_front_take01.mp4",
+   "t": 22.99
+  },
+  {
+   "video": "benchpress_armsspread_p1_left45_take01.mp4",
+   "t": 7.0
+  },
+  {
+   "video": "squat_correct_p2_left45_take01.mp4",
+   "t": 21.0
+  },
+  {
+   "video": "squat_correct_p1_right45_take01.mp4",
+   "t": 1.0
+  },
+  {
+   "video": "deadlift_armsspread_p2_left45_take01.mp4",
+   "t": 5.0
+  },
+  {
+   "video": "deadlift_armsspread_p1_left45_take01.mp4",
+   "t": 26.99
+  },
+  {
+   "video": "benchpress_headbacklift_p2_right45_take01.mp4",
+   "t": 3.0
+  },
+  {
+   "video": "squat_kneeinward_p3_left45_take01.mp4",
+   "t": 13.0
+  },
+  {
+   "video": "deadlift_correct_p1_front_take01.mp4",
+   "t": 17.0
+  },
+  {
+   "video": "squat_kneeinward_p1_front_take01.mp4",
+   "t": 15.0
+  },
+  {
+   "video": "deadlift_armsspread_p2_left45_take01.mp4",
+   "t": 21.0
+  },
+  {
+   "video": "benchpress_headbacklift_p3_left45_take01.mp4",
+   "t": 6.98
+  },
+  {
+   "video": "squat_kneeinward_p3_left45_take01.mp4",
+   "t": 5.0
+  },
+  {
+   "video": "benchpress_headbacklift_p2_front_take01.mp4",
+   "t": 1.0
+  },
+  {
+   "video": "squat_kneeinward_p2_right45_take01.mp4",
+   "t": 9.0
+  },
+  {
+   "video": "benchpress_headbacklift_p2_front_take01.mp4",
+   "t": 17.0
+  },
+  {
+   "video": "squat_backbend_p2_right45_take01.mp4",
+   "t": 23.0
+  },
+  {
+   "video": "benchpress_armsspread_p3_front_take01.mp4",
+   "t": 17.0
+  },
+  {
+   "video": "squat_backbend_p1_front_take01.mp4",
+   "t": 11.0
+  },
+  {
+   "video": "deadlift_armsspread_p3_front_take01.mp4",
+   "t": 7.0
+  },
+  {
+   "video": "squat_backbend_p2_left45_take01.mp4",
+   "t": 23.0
+  },
+  {
+   "video": "benchpress_correct_p2_left45_take01.mp4",
+   "t": 15.0
+  },
+  {
+   "video": "benchpress_armsspread_p2_right45_take01.mp4",
+   "t": 21.0
+  },
+  {
+   "video": "benchpress_headbacklift_p1_right45_take01.mp4",
+   "t": 21.0
+  },
+  {
+   "video": "squat_backbend_p2_front_take01.mp4",
+   "t": 31.0
+  },
+  {
+   "video": "deadlift_armsspread_p2_right45_take01.mp4",
+   "t": 3.0
+  },
+  {
+   "video": "squat_backbend_p1_right45_take01.mp4",
+   "t": 19.0
+  },
+  {
+   "video": "deadlift_armsspread_p2_front_take01.mp4",
+   "t": 5.0
+  },
+  {
+   "video": "deadlift_armsspread_p1_left45_take01.mp4",
+   "t": 23.0
+  },
+  {
+   "video": "squat_backbend_p3_front_take01.mp4",
+   "t": 9.0
+  },
+  {
+   "video": "deadlift_backround_p3_front_take01.mp4",
+   "t": 7.0
+  },
+  {
+   "video": "benchpress_armsspread_p3_left45_take01.mp4",
+   "t": 7.0
+  },
+  {
+   "video": "deadlift_correct_p2_front_take01.mp4",
+   "t": 9.0
+  },
+  {
+   "video": "benchpress_armsspread_p3_left45_take01.mp4",
+   "t": 11.0
+  },
+  {
+   "video": "deadlift_backround_p2_right45_take01.mp4",
+   "t": 29.0
+  },
+  {
+   "video": "deadlift_correct_p1_right45_take01.mp4",
+   "t": 1.0
+  },
+  {
+   "video": "squat_backbend_p1_front_take01.mp4",
+   "t": 17.0
+  },
+  {
+   "video": "squat_correct_p2_left45_take01.mp4",
+   "t": 17.0
+  },
+  {
+   "video": "squat_backbend_p3_left45_take01.mp4",
+   "t": 9.0
+  },
+  {
+   "video": "squat_kneeinward_p1_left45_take01.mp4",
+   "t": 1.0
+  },
+  {
+   "video": "benchpress_correct_p3_right45_take01.mp4",
+   "t": 19.0
+  },
+  {
+   "video": "benchpress_armsspread_p1_front_take01.mp4",
+   "t": 26.99
+  },
+  {
+   "video": "squat_kneeinward_p2_right45_take01.mp4",
+   "t": 17.0
+  },
+  {
+   "video": "deadlift_backround_p3_right45_take01.mp4",
+   "t": 11.0
+  },
+  {
+   "video": "deadlift_backround_p1_left45_take01.mp4",
+   "t": 3.0
+  },
+  {
+   "video": "benchpress_correct_p1_front_take01.mp4",
+   "t": 5.0
+  },
+  {
+   "video": "benchpress_armsspread_p3_right45_take01.mp4",
+   "t": 5.0
+  },
+  {
+   "video": "benchpress_armsspread_p2_front_take01.mp4",
+   "t": 1.0
+  },
+  {
+   "video": "deadlift_armsspread_p3_left45_take01.mp4",
+   "t": 13.0
+  },
+  {
+   "video": "benchpress_correct_p2_right45_take01.mp4",
+   "t": 7.0
+  },
+  {
+   "video": "squat_correct_p1_left45_take01.mp4",
+   "t": 11.0
+  },
+  {
+   "video": "squat_kneeinward_p3_right45_take01.mp4",
+   "t": 9.01
+  },
+  {
+   "video": "deadlift_correct_p2_front_take01.mp4",
+   "t": 25.0
+  },
+  {
+   "video": "deadlift_backround_p1_left45_take01.mp4",
+   "t": 13.0
+  },
+  {
+   "video": "deadlift_correct_p1_right45_take01.mp4",
+   "t": 3.0
+  },
+  {
+   "video": "benchpress_headbacklift_p1_right45_take01.mp4",
+   "t": 9.0
+  }
+ ],
+ "kotak": {
+  "deadlift_correct_p1_front_take01.mp4|32.99": {
+   "ada_orang": false
+  },
+  "benchpress_headbacklift_p1_right45_take01.mp4|32.99": {
+   "ada_orang": false
+  },
+  "deadlift_backround_p1_front_take01.mp4|34.99": {
+   "ada_orang": false
+  },
+  "deadlift_armsspread_p1_front_take01.mp4|1.0": {
+   "ada_orang": false
+  },
+  "deadlift_correct_p1_right45_take01.mp4|1.0": {
+   "ada_orang": false
+  },
+  "deadlift_correct_p1_right45_take01.mp4|3.0": {
+   "ada_orang": false
+  },
+  "benchpress_armsspread_p1_left45_take01.mp4|9.0": {
+   "ada_orang": true,
+   "box": [
+    0.0,
+    0.33789,
+    1.0,
+    1.0
+   ]
+  },
+  "squat_kneeinward_p3_right45_take01.mp4|4.99": {
+   "ada_orang": true,
+   "box": [
+    0.16105,
+    0.24316,
+    0.7191,
+    0.82526
+   ]
+  },
+  "benchpress_armsspread_p1_front_take01.mp4|28.99": {
+   "ada_orang": true,
+   "box": [
+    0.06367,
+    0.33895,
+    0.91386,
+    0.96
+   ]
+  },
+  "benchpress_headbacklift_p1_left45_take01.mp4|9.0": {
+   "ada_orang": true,
+   "box": [
+    0.17416,
+    0.33053,
+    1.0,
+    1.0
+   ]
+  },
+  "deadlift_armsspread_p1_right45_take01.mp4|23.0": {
+   "ada_orang": true,
+   "box": [
+    0.11985,
+    0.24316,
+    0.77154,
+    0.89579
+   ]
+  },
+  "squat_correct_p1_front_take01.mp4|1.0": {
+   "ada_orang": true,
+   "box": [
+    0.11798,
+    0.51263,
+    0.81273,
+    0.96526
+   ]
+  },
+  "squat_kneeinward_p2_right45_take01.mp4|19.0": {
+   "ada_orang": true,
+   "box": [
+    0.14232,
+    0.28316,
+    0.79026,
+    0.99263
+   ]
+  },
+  "squat_kneeinward_p1_right45_take01.mp4|11.0": {
+   "ada_orang": true,
+   "box": [
+    0.1573,
+    0.27579,
+    0.76217,
+    0.96947
+   ]
+  },
+  "deadlift_correct_p1_left45_take01.mp4|30.99": {
+   "ada_orang": true,
+   "box": [
+    0.00562,
+    0.24842,
+    0.51685,
+    1.0
+   ]
+  },
+  "benchpress_correct_p3_right45_take01.mp4|23.0": {
+   "ada_orang": true,
+   "box": [
+    0.02434,
+    0.37579,
+    0.8015,
+    0.94
+   ]
+  },
+  "benchpress_armsspread_p1_left45_take01.mp4|22.99": {
+   "ada_orang": true,
+   "box": [
+    0.00187,
+    0.33263,
+    0.99625,
+    0.99474
+   ]
+  },
+  "squat_backbend_p3_right45_take01.mp4|17.0": {
+   "ada_orang": true,
+   "box": [
+    0.30899,
+    0.27895,
+    0.85955,
+    0.98
+   ]
+  },
+  "benchpress_armsspread_p1_front_take01.mp4|7.0": {
+   "ada_orang": true,
+   "box": [
+    0.16854,
+    0.35368,
+    0.86891,
+    0.92105
+   ]
+  },
+  "benchpress_armsspread_p3_front_take01.mp4|11.0": {
+   "ada_orang": true,
+   "box": [
+    0.22097,
+    0.36632,
+    0.85393,
+    0.98316
+   ]
+  },
+  "benchpress_correct_p3_left45_take01.mp4|19.0": {
+   "ada_orang": true,
+   "box": [
+    0.26966,
+    0.47789,
+    0.98315,
+    0.96211
+   ]
+  },
+  "squat_backbend_p2_front_take01.mp4|3.0": {
+   "ada_orang": true,
+   "box": [
+    0.04682,
+    0.42737,
+    0.92697,
+    0.94211
+   ]
+  },
+  "deadlift_backround_p2_right45_take01.mp4|12.99": {
+   "ada_orang": true,
+   "box": [
+    0.23034,
+    0.25158,
+    0.74532,
+    0.90105
+   ]
+  },
+  "deadlift_correct_p3_left45_take01.mp4|19.0": {
+   "ada_orang": true,
+   "box": [
+    0.32584,
+    0.32105,
+    0.7809,
+    0.88
+   ]
+  },
+  "deadlift_correct_p2_right45_take01.mp4|17.0": {
+   "ada_orang": true,
+   "box": [
+    0.25468,
+    0.34316,
+    0.72472,
+    0.88
+   ]
+  },
+  "deadlift_backround_p1_front_take01.mp4|28.99": {
+   "ada_orang": true,
+   "box": [
+    0.2809,
+    0.46947,
+    0.70787,
+    0.93789
+   ]
+  },
+  "deadlift_correct_p1_right45_take01.mp4|11.0": {
+   "ada_orang": true,
+   "box": [
+    0.25843,
+    0.48211,
+    0.69288,
+    0.93053
+   ]
+  },
+  "squat_correct_p2_left45_take01.mp4|19.0": {
+   "ada_orang": true,
+   "box": [
+    0.2191,
+    0.48737,
+    0.88577,
+    0.93053
+   ]
+  },
+  "deadlift_armsspread_p3_right45_take01.mp4|1.0": {
+   "ada_orang": true,
+   "box": [
+    0.2603,
+    0.31789,
+    0.80712,
+    0.88526
+   ]
+  },
+  "squat_correct_p2_left45_take01.mp4|15.0": {
+   "ada_orang": true,
+   "box": [
+    0.21723,
+    0.47474,
+    0.8839,
+    0.92737
+   ]
+  },
+  "benchpress_headbacklift_p1_left45_take01.mp4|20.99": {
+   "ada_orang": true,
+   "box": [
+    0.17416,
+    0.4,
+    1.0,
+    1.0
+   ]
+  },
+  "squat_kneeinward_p3_front_take01.mp4|6.98": {
+   "ada_orang": true,
+   "box": [
+    0.20974,
+    0.48737,
+    0.73596,
+    0.93579
+   ]
+  },
+  "deadlift_armsspread_p1_left45_take01.mp4|24.99": {
+   "ada_orang": true,
+   "box": [
+    0.15543,
+    0.52211,
+    0.77154,
+    0.89263
+   ]
+  },
+  "benchpress_armsspread_p1_right45_take01.mp4|7.0": {
+   "ada_orang": true,
+   "box": [
+    0.04307,
+    0.32632,
+    0.75655,
+    0.99053
+   ]
+  },
+  "squat_kneeinward_p2_front_take01.mp4|19.0": {
+   "ada_orang": true,
+   "box": [
+    0.03558,
+    0.23368,
+    1.0,
+    0.95474
+   ]
+  },
+  "squat_backbend_p2_front_take01.mp4|7.0": {
+   "ada_orang": true,
+   "box": [
+    0.04682,
+    0.22842,
+    0.94382,
+    0.94842
+   ]
+  },
+  "benchpress_headbacklift_p1_front_take01.mp4|22.99": {
+   "ada_orang": true,
+   "box": [
+    0.11049,
+    0.29368,
+    0.93071,
+    0.95263
+   ]
+  },
+  "benchpress_armsspread_p1_left45_take01.mp4|7.0": {
+   "ada_orang": true,
+   "box": [
+    0.00375,
+    0.36105,
+    0.98689,
+    1.0
+   ]
+  },
+  "squat_correct_p2_left45_take01.mp4|21.0": {
+   "ada_orang": true,
+   "box": [
+    0.19288,
+    0.23158,
+    0.85955,
+    0.93053
+   ]
+  },
+  "squat_correct_p1_right45_take01.mp4|1.0": {
+   "ada_orang": true,
+   "box": [
+    0.15918,
+    0.48316,
+    0.78277,
+    0.93263
+   ]
+  },
+  "deadlift_armsspread_p2_left45_take01.mp4|5.0": {
+   "ada_orang": true,
+   "box": [
+    0.18539,
+    0.25368,
+    0.75094,
+    0.87263
+   ]
+  },
+  "deadlift_armsspread_p1_left45_take01.mp4|26.99": {
+   "ada_orang": true,
+   "box": [
+    0.15356,
+    0.24421,
+    0.75468,
+    0.90737
+   ]
+  },
+  "benchpress_headbacklift_p2_right45_take01.mp4|3.0": {
+   "ada_orang": true,
+   "box": [
+    0.12734,
+    0.30105,
+    0.93258,
+    0.93053
+   ]
+  },
+  "squat_kneeinward_p3_left45_take01.mp4|13.0": {
+   "ada_orang": true,
+   "box": [
+    0.25843,
+    0.28421,
+    0.77715,
+    0.92526
+   ]
+  },
+  "deadlift_correct_p1_front_take01.mp4|17.0": {
+   "ada_orang": true,
+   "box": [
+    0.25468,
+    0.50737,
+    0.71161,
+    0.93579
+   ]
+  },
+  "squat_kneeinward_p1_front_take01.mp4|15.0": {
+   "ada_orang": true,
+   "box": [
+    0.16105,
+    0.33368,
+    0.85206,
+    0.98316
+   ]
+  },
+  "deadlift_armsspread_p2_left45_take01.mp4|21.0": {
+   "ada_orang": true,
+   "box": [
+    0.13858,
+    0.25895,
+    0.75843,
+    0.90316
+   ]
+  },
+  "benchpress_headbacklift_p3_left45_take01.mp4|6.98": {
+   "ada_orang": true,
+   "box": [
+    0.22097,
+    0.4,
+    0.88951,
+    0.86842
+   ]
+  },
+  "squat_kneeinward_p3_left45_take01.mp4|5.0": {
+   "ada_orang": true,
+   "box": [
+    0.29588,
+    0.44,
+    0.7809,
+    0.91053
+   ]
+  },
+  "benchpress_headbacklift_p2_front_take01.mp4|1.0": {
+   "ada_orang": true,
+   "box": [
+    0.13483,
+    0.49263,
+    0.85581,
+    0.99789
+   ]
+  },
+  "squat_kneeinward_p2_right45_take01.mp4|9.0": {
+   "ada_orang": true,
+   "box": [
+    0.11236,
+    0.51263,
+    0.76966,
+    0.99789
+   ]
+  },
+  "benchpress_headbacklift_p2_front_take01.mp4|17.0": {
+   "ada_orang": true,
+   "box": [
+    0.14045,
+    0.37579,
+    0.84082,
+    1.0
+   ]
+  },
+  "squat_backbend_p2_right45_take01.mp4|23.0": {
+   "ada_orang": true,
+   "box": [
+    0.02434,
+    0.55789,
+    0.82959,
+    0.99474
+   ]
+  },
+  "benchpress_armsspread_p3_front_take01.mp4|17.0": {
+   "ada_orang": true,
+   "box": [
+    0.20787,
+    0.35053,
+    0.88951,
+    0.98316
+   ]
+  },
+  "squat_backbend_p1_front_take01.mp4|11.0": {
+   "ada_orang": true,
+   "box": [
+    0.16854,
+    0.27368,
+    0.84644,
+    0.97263
+   ]
+  },
+  "deadlift_armsspread_p3_front_take01.mp4|7.0": {
+   "ada_orang": true,
+   "box": [
+    0.16105,
+    0.26842,
+    0.79401,
+    0.90105
+   ]
+  },
+  "squat_backbend_p2_left45_take01.mp4|23.0": {
+   "ada_orang": true,
+   "box": [
+    0.17603,
+    0.50526,
+    0.94569,
+    0.91789
+   ]
+  },
+  "benchpress_correct_p2_left45_take01.mp4|15.0": {
+   "ada_orang": true,
+   "box": [
+    0.02809,
+    0.36,
+    0.94195,
+    1.0
+   ]
+  },
+  "benchpress_armsspread_p2_right45_take01.mp4|21.0": {
+   "ada_orang": true,
+   "box": [
+    0.07491,
+    0.33579,
+    1.0,
+    1.0
+   ]
+  },
+  "benchpress_headbacklift_p1_right45_take01.mp4|21.0": {
+   "ada_orang": true,
+   "box": [
+    0.03184,
+    0.33579,
+    0.88951,
+    1.0
+   ]
+  },
+  "squat_backbend_p2_front_take01.mp4|31.0": {
+   "ada_orang": true,
+   "box": [
+    0.17416,
+    0.22947,
+    0.83895,
+    0.90842
+   ]
+  },
+  "deadlift_armsspread_p2_right45_take01.mp4|3.0": {
+   "ada_orang": true,
+   "box": [
+    0.17041,
+    0.12421,
+    0.75655,
+    0.82632
+   ]
+  },
+  "squat_backbend_p1_right45_take01.mp4|19.0": {
+   "ada_orang": true,
+   "box": [
+    0.12172,
+    0.47474,
+    0.70225,
+    0.96316
+   ]
+  },
+  "deadlift_armsspread_p2_front_take01.mp4|5.0": {
+   "ada_orang": true,
+   "box": [
+    0.06929,
+    0.07895,
+    0.897,
+    0.81895
+   ]
+  },
+  "deadlift_armsspread_p1_left45_take01.mp4|23.0": {
+   "ada_orang": true,
+   "box": [
+    0.10112,
+    0.21895,
+    0.79588,
+    0.89368
+   ]
+  },
+  "squat_backbend_p3_front_take01.mp4|9.0": {
+   "ada_orang": true,
+   "box": [
+    0.10861,
+    0.60211,
+    0.86704,
+    0.99263
+   ]
+  },
+  "deadlift_backround_p3_front_take01.mp4|7.0": {
+   "ada_orang": true,
+   "box": [
+    0.24719,
+    0.28842,
+    0.72097,
+    0.91579
+   ]
+  },
+  "benchpress_armsspread_p3_left45_take01.mp4|7.0": {
+   "ada_orang": true,
+   "box": [
+    0.17041,
+    0.40316,
+    0.96067,
+    0.93263
+   ]
+  },
+  "deadlift_correct_p2_front_take01.mp4|9.0": {
+   "ada_orang": true,
+   "box": [
+    0.20037,
+    0.06526,
+    0.79963,
+    0.82316
+   ]
+  },
+  "benchpress_armsspread_p3_left45_take01.mp4|11.0": {
+   "ada_orang": true,
+   "box": [
+    0.20412,
+    0.48947,
+    0.9382,
+    0.95263
+   ]
+  },
+  "deadlift_backround_p2_right45_take01.mp4|29.0": {
+   "ada_orang": true,
+   "box": [
+    0.26966,
+    0.41474,
+    0.73408,
+    0.86632
+   ]
+  },
+  "squat_backbend_p1_front_take01.mp4|17.0": {
+   "ada_orang": true,
+   "box": [
+    0.14045,
+    0.46526,
+    0.81648,
+    0.94737
+   ]
+  },
+  "squat_correct_p2_left45_take01.mp4|17.0": {
+   "ada_orang": true,
+   "box": [
+    0.19476,
+    0.24842,
+    0.88202,
+    0.92105
+   ]
+  },
+  "squat_backbend_p3_left45_take01.mp4|9.0": {
+   "ada_orang": true,
+   "box": [
+    0.30712,
+    0.32316,
+    0.75094,
+    0.91579
+   ]
+  },
+  "squat_kneeinward_p1_left45_take01.mp4|1.0": {
+   "ada_orang": true,
+   "box": [
+    0.19476,
+    0.44737,
+    0.7603,
+    0.96
+   ]
+  },
+  "benchpress_correct_p3_right45_take01.mp4|19.0": {
+   "ada_orang": true,
+   "box": [
+    0.10861,
+    0.33368,
+    0.77154,
+    0.91579
+   ]
+  },
+  "benchpress_armsspread_p1_front_take01.mp4|26.99": {
+   "ada_orang": true,
+   "box": [
+    0.11985,
+    0.36,
+    0.92509,
+    0.92
+   ]
+  },
+  "squat_kneeinward_p2_right45_take01.mp4|17.0": {
+   "ada_orang": true,
+   "box": [
+    0.1161,
+    0.50947,
+    0.74719,
+    0.99684
+   ]
+  },
+  "deadlift_backround_p3_right45_take01.mp4|11.0": {
+   "ada_orang": true,
+   "box": [
+    0.29401,
+    0.28316,
+    0.7191,
+    0.91789
+   ]
+  },
+  "deadlift_backround_p1_left45_take01.mp4|3.0": {
+   "ada_orang": true,
+   "box": [
+    0.29401,
+    0.23895,
+    0.67978,
+    0.9
+   ]
+  },
+  "benchpress_correct_p1_front_take01.mp4|5.0": {
+   "ada_orang": true,
+   "box": [
+    0.14794,
+    0.35789,
+    0.85393,
+    0.98
+   ]
+  },
+  "benchpress_armsspread_p3_right45_take01.mp4|5.0": {
+   "ada_orang": true,
+   "box": [
+    0.0618,
+    0.37789,
+    0.8015,
+    0.96211
+   ]
+  },
+  "benchpress_armsspread_p2_front_take01.mp4|1.0": {
+   "ada_orang": true,
+   "box": [
+    0.05618,
+    0.47579,
+    0.84082,
+    1.0
+   ]
+  },
+  "deadlift_armsspread_p3_left45_take01.mp4|13.0": {
+   "ada_orang": true,
+   "box": [
+    0.18352,
+    0.26632,
+    0.73596,
+    0.83895
+   ]
+  },
+  "benchpress_correct_p2_right45_take01.mp4|7.0": {
+   "ada_orang": true,
+   "box": [
+    0.08801,
+    0.29789,
+    0.92322,
+    0.91789
+   ]
+  },
+  "squat_correct_p1_left45_take01.mp4|11.0": {
+   "ada_orang": true,
+   "box": [
+    0.25468,
+    0.28105,
+    0.80337,
+    0.91579
+   ]
+  },
+  "squat_kneeinward_p3_right45_take01.mp4|9.01": {
+   "ada_orang": true,
+   "box": [
+    0.16105,
+    0.21158,
+    0.72846,
+    0.84526
+   ]
+  },
+  "deadlift_correct_p2_front_take01.mp4|25.0": {
+   "ada_orang": true,
+   "box": [
+    0.20599,
+    0.14421,
+    0.77341,
+    0.84105
+   ]
+  },
+  "deadlift_backround_p1_left45_take01.mp4|13.0": {
+   "ada_orang": true,
+   "box": [
+    0.30337,
+    0.44526,
+    0.73034,
+    0.89053
+   ]
+  },
+  "benchpress_headbacklift_p1_right45_take01.mp4|9.0": {
+   "ada_orang": true,
+   "box": [
+    0.04682,
+    0.32316,
+    0.92322,
+    0.98316
+   ]
+  }
+ }
+}

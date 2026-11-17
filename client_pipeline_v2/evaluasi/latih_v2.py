@@ -21,7 +21,7 @@ REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 from src.features.build_dataset import META_COLUMNS  # noqa: E402
 
-UTAMA = REPO / "experimental_client_pipeline"
+UTAMA = REPO / "client_pipeline"
 SPLIT = UTAMA / "data" / "windowed_features" / "splits"
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parent / "models_baru"
 OUT.mkdir(parents=True, exist_ok=True)

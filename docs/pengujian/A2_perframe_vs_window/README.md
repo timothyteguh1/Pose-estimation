@@ -10,7 +10,7 @@ diubah. Layar juga mencetak jumlah pasangan change rate. Dihitung 5 Okt 2026.
 Model final (Method E, dibekukan 23 Sep 2026), 81 video, pembagian 70:30 per run (seed 42). Satu-satunya yang
 dibedakan adalah panjang window: 15 frame (0,5 detik) vs 1 frame.
 
-- **Window**: model produksi `experimental_client_pipeline/models/*_rf.pkl` (yang dimuat app), dinilai pada semua window
+- **Window**: model produksi `client_pipeline/models/*_rf.pkl` (yang dimuat app), dinilai pada semua window
   uji. Angkanya sama dengan A1.
 - **Per-frame**: `build_dataset` yang sama dengan `--window-sec 0.0333` dari data berlabel yang sama, RF sama (100 pohon,
   `min_samples_leaf` 4, balanced, seed 42), dinilai pada **semua frame uji**.

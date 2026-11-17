@@ -15,7 +15,7 @@ Skrip hanya membaca model dan data proyek; model dan data tidak berubah.
 
 | ID | Uji | Status | Folder |
 |---|---|---|---|
-| A1 | Metrik model | angka dari `experimental_client_pipeline/models/*_evaluation.json` | - |
+| A1 | Metrik model | angka dari `client_pipeline/models/*_evaluation.json` | - |
 | A2 | Sliding window vs per-frame (+ stabilitas) | selesai | `A2_perframe_vs_window/` |
 | A3 | Model 2 sudut diagonal vs 3 sudut | selesai | `A3_diagonal_vs_depan/` |
 | A4 | Konfigurasi final (Method E) | belum | - |

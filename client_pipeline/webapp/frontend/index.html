@@ -1059,7 +1059,7 @@ function drawOverlay(state) {
     ctx.strokeStyle = "#3cff3c";
     ctx.lineWidth = 2;
     for (const [a, b] of BODY_CONNECTIONS) {
-      if (lm[a][3] > 0.6 && lm[b][3] > 0.6) {
+      if (lm[a][3] >= 0.6 && lm[b][3] >= 0.6) {
         ctx.beginPath();
         ctx.moveTo(px(lm[a]), py(lm[a]));
         ctx.lineTo(px(lm[b]), py(lm[b]));
@@ -1068,7 +1068,7 @@ function drawOverlay(state) {
     }
     ctx.fillStyle = "#ff3c3c";
     for (const l of lm) {
-      if (l[3] > 0.6) {
+      if (l[3] >= 0.6) {
         ctx.beginPath();
         ctx.arc(px(l), py(l), 3, 0, 2 * Math.PI);
         ctx.fill();
@@ -1165,7 +1165,7 @@ async function processCurrentVideoFrame(mediapipeTimestampMs = null) {
         ctx.strokeStyle = "#3cff3c";
         ctx.lineWidth = 2;
         for (const [a, b] of BODY_CONNECTIONS) {
-          if (lm[a].visibility > 0.6 && lm[b].visibility > 0.6) {
+          if (lm[a].visibility >= 0.6 && lm[b].visibility >= 0.6) {
             ctx.beginPath();
             ctx.moveTo(px(lm[a]), py(lm[a]));
             ctx.lineTo(px(lm[b]), py(lm[b]));
@@ -1174,7 +1174,7 @@ async function processCurrentVideoFrame(mediapipeTimestampMs = null) {
         }
         ctx.fillStyle = "#ff3c3c";
         for (const l of lm) {
-          if (l.visibility > 0.6) {
+          if (l.visibility >= 0.6) {
             ctx.beginPath();
             ctx.arc(px(l), py(l), 3, 0, 2 * Math.PI);
             ctx.fill();
